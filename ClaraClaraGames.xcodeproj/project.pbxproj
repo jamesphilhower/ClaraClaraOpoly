@@ -1,0 +1,582 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3FB0BFB32A3D8C0E00173F66 /* ClaraClaraGamesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB0BFB22A3D8C0E00173F66 /* ClaraClaraGamesApp.swift */; };
+		3FB0BFB52A3D8C0E00173F66 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB0BFB42A3D8C0E00173F66 /* ContentView.swift */; };
+		3FB0BFB72A3D8C1100173F66 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3FB0BFB62A3D8C1100173F66 /* Assets.xcassets */; };
+		3FB0BFBA2A3D8C1100173F66 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3FB0BFB92A3D8C1100173F66 /* Preview Assets.xcassets */; };
+		3FB0BFC42A3D8C1100173F66 /* ClaraClaraGamesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB0BFC32A3D8C1100173F66 /* ClaraClaraGamesTests.swift */; };
+		3FB0BFCE2A3D8C1100173F66 /* ClaraClaraGamesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB0BFCD2A3D8C1100173F66 /* ClaraClaraGamesUITests.swift */; };
+		3FB0BFD02A3D8C1100173F66 /* ClaraClaraGamesUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB0BFCF2A3D8C1100173F66 /* ClaraClaraGamesUITestsLaunchTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3FB0BFC02A3D8C1100173F66 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3FB0BFA72A3D8C0E00173F66 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3FB0BFAE2A3D8C0E00173F66;
+			remoteInfo = ClaraClaraGames;
+		};
+		3FB0BFCA2A3D8C1100173F66 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3FB0BFA72A3D8C0E00173F66 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3FB0BFAE2A3D8C0E00173F66;
+			remoteInfo = ClaraClaraGames;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		3FB0BFAF2A3D8C0E00173F66 /* ClaraClaraGames.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClaraClaraGames.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3FB0BFB22A3D8C0E00173F66 /* ClaraClaraGamesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaraClaraGamesApp.swift; sourceTree = "<group>"; };
+		3FB0BFB42A3D8C0E00173F66 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		3FB0BFB62A3D8C1100173F66 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3FB0BFB92A3D8C1100173F66 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		3FB0BFBF2A3D8C1100173F66 /* ClaraClaraGamesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClaraClaraGamesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3FB0BFC32A3D8C1100173F66 /* ClaraClaraGamesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaraClaraGamesTests.swift; sourceTree = "<group>"; };
+		3FB0BFC92A3D8C1100173F66 /* ClaraClaraGamesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClaraClaraGamesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3FB0BFCD2A3D8C1100173F66 /* ClaraClaraGamesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaraClaraGamesUITests.swift; sourceTree = "<group>"; };
+		3FB0BFCF2A3D8C1100173F66 /* ClaraClaraGamesUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaraClaraGamesUITestsLaunchTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3FB0BFAC2A3D8C0E00173F66 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3FB0BFBC2A3D8C1100173F66 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3FB0BFC62A3D8C1100173F66 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3FB0BFA62A3D8C0E00173F66 = {
+			isa = PBXGroup;
+			children = (
+				3FB0BFB12A3D8C0E00173F66 /* ClaraClaraGames */,
+				3FB0BFC22A3D8C1100173F66 /* ClaraClaraGamesTests */,
+				3FB0BFCC2A3D8C1100173F66 /* ClaraClaraGamesUITests */,
+				3FB0BFB02A3D8C0E00173F66 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3FB0BFB02A3D8C0E00173F66 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3FB0BFAF2A3D8C0E00173F66 /* ClaraClaraGames.app */,
+				3FB0BFBF2A3D8C1100173F66 /* ClaraClaraGamesTests.xctest */,
+				3FB0BFC92A3D8C1100173F66 /* ClaraClaraGamesUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3FB0BFB12A3D8C0E00173F66 /* ClaraClaraGames */ = {
+			isa = PBXGroup;
+			children = (
+				3FB0BFB22A3D8C0E00173F66 /* ClaraClaraGamesApp.swift */,
+				3FB0BFB42A3D8C0E00173F66 /* ContentView.swift */,
+				3FB0BFB62A3D8C1100173F66 /* Assets.xcassets */,
+				3FB0BFB82A3D8C1100173F66 /* Preview Content */,
+			);
+			path = ClaraClaraGames;
+			sourceTree = "<group>";
+		};
+		3FB0BFB82A3D8C1100173F66 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				3FB0BFB92A3D8C1100173F66 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		3FB0BFC22A3D8C1100173F66 /* ClaraClaraGamesTests */ = {
+			isa = PBXGroup;
+			children = (
+				3FB0BFC32A3D8C1100173F66 /* ClaraClaraGamesTests.swift */,
+			);
+			path = ClaraClaraGamesTests;
+			sourceTree = "<group>";
+		};
+		3FB0BFCC2A3D8C1100173F66 /* ClaraClaraGamesUITests */ = {
+			isa = PBXGroup;
+			children = (
+				3FB0BFCD2A3D8C1100173F66 /* ClaraClaraGamesUITests.swift */,
+				3FB0BFCF2A3D8C1100173F66 /* ClaraClaraGamesUITestsLaunchTests.swift */,
+			);
+			path = ClaraClaraGamesUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3FB0BFAE2A3D8C0E00173F66 /* ClaraClaraGames */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3FB0BFD32A3D8C1100173F66 /* Build configuration list for PBXNativeTarget "ClaraClaraGames" */;
+			buildPhases = (
+				3FB0BFAB2A3D8C0E00173F66 /* Sources */,
+				3FB0BFAC2A3D8C0E00173F66 /* Frameworks */,
+				3FB0BFAD2A3D8C0E00173F66 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ClaraClaraGames;
+			productName = ClaraClaraGames;
+			productReference = 3FB0BFAF2A3D8C0E00173F66 /* ClaraClaraGames.app */;
+			productType = "com.apple.product-type.application";
+		};
+		3FB0BFBE2A3D8C1100173F66 /* ClaraClaraGamesTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3FB0BFD62A3D8C1100173F66 /* Build configuration list for PBXNativeTarget "ClaraClaraGamesTests" */;
+			buildPhases = (
+				3FB0BFBB2A3D8C1100173F66 /* Sources */,
+				3FB0BFBC2A3D8C1100173F66 /* Frameworks */,
+				3FB0BFBD2A3D8C1100173F66 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3FB0BFC12A3D8C1100173F66 /* PBXTargetDependency */,
+			);
+			name = ClaraClaraGamesTests;
+			productName = ClaraClaraGamesTests;
+			productReference = 3FB0BFBF2A3D8C1100173F66 /* ClaraClaraGamesTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		3FB0BFC82A3D8C1100173F66 /* ClaraClaraGamesUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3FB0BFD92A3D8C1100173F66 /* Build configuration list for PBXNativeTarget "ClaraClaraGamesUITests" */;
+			buildPhases = (
+				3FB0BFC52A3D8C1100173F66 /* Sources */,
+				3FB0BFC62A3D8C1100173F66 /* Frameworks */,
+				3FB0BFC72A3D8C1100173F66 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3FB0BFCB2A3D8C1100173F66 /* PBXTargetDependency */,
+			);
+			name = ClaraClaraGamesUITests;
+			productName = ClaraClaraGamesUITests;
+			productReference = 3FB0BFC92A3D8C1100173F66 /* ClaraClaraGamesUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3FB0BFA72A3D8C0E00173F66 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1430;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					3FB0BFAE2A3D8C0E00173F66 = {
+						CreatedOnToolsVersion = 14.3.1;
+					};
+					3FB0BFBE2A3D8C1100173F66 = {
+						CreatedOnToolsVersion = 14.3.1;
+						TestTargetID = 3FB0BFAE2A3D8C0E00173F66;
+					};
+					3FB0BFC82A3D8C1100173F66 = {
+						CreatedOnToolsVersion = 14.3.1;
+						TestTargetID = 3FB0BFAE2A3D8C0E00173F66;
+					};
+				};
+			};
+			buildConfigurationList = 3FB0BFAA2A3D8C0E00173F66 /* Build configuration list for PBXProject "ClaraClaraGames" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 3FB0BFA62A3D8C0E00173F66;
+			productRefGroup = 3FB0BFB02A3D8C0E00173F66 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3FB0BFAE2A3D8C0E00173F66 /* ClaraClaraGames */,
+				3FB0BFBE2A3D8C1100173F66 /* ClaraClaraGamesTests */,
+				3FB0BFC82A3D8C1100173F66 /* ClaraClaraGamesUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3FB0BFAD2A3D8C0E00173F66 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3FB0BFBA2A3D8C1100173F66 /* Preview Assets.xcassets in Resources */,
+				3FB0BFB72A3D8C1100173F66 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3FB0BFBD2A3D8C1100173F66 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3FB0BFC72A3D8C1100173F66 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3FB0BFAB2A3D8C0E00173F66 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3FB0BFB52A3D8C0E00173F66 /* ContentView.swift in Sources */,
+				3FB0BFB32A3D8C0E00173F66 /* ClaraClaraGamesApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3FB0BFBB2A3D8C1100173F66 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3FB0BFC42A3D8C1100173F66 /* ClaraClaraGamesTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3FB0BFC52A3D8C1100173F66 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3FB0BFD02A3D8C1100173F66 /* ClaraClaraGamesUITestsLaunchTests.swift in Sources */,
+				3FB0BFCE2A3D8C1100173F66 /* ClaraClaraGamesUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3FB0BFC12A3D8C1100173F66 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3FB0BFAE2A3D8C0E00173F66 /* ClaraClaraGames */;
+			targetProxy = 3FB0BFC02A3D8C1100173F66 /* PBXContainerItemProxy */;
+		};
+		3FB0BFCB2A3D8C1100173F66 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3FB0BFAE2A3D8C0E00173F66 /* ClaraClaraGames */;
+			targetProxy = 3FB0BFCA2A3D8C1100173F66 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		3FB0BFD12A3D8C1100173F66 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		3FB0BFD22A3D8C1100173F66 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		3FB0BFD42A3D8C1100173F66 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ClaraClaraGames/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = jimjam.ClaraClaraGames;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3FB0BFD52A3D8C1100173F66 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ClaraClaraGames/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = jimjam.ClaraClaraGames;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		3FB0BFD72A3D8C1100173F66 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = jimjam.ClaraClaraGamesTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ClaraClaraGames.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ClaraClaraGames";
+			};
+			name = Debug;
+		};
+		3FB0BFD82A3D8C1100173F66 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = jimjam.ClaraClaraGamesTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ClaraClaraGames.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ClaraClaraGames";
+			};
+			name = Release;
+		};
+		3FB0BFDA2A3D8C1100173F66 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = jimjam.ClaraClaraGamesUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = ClaraClaraGames;
+			};
+			name = Debug;
+		};
+		3FB0BFDB2A3D8C1100173F66 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = jimjam.ClaraClaraGamesUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = ClaraClaraGames;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3FB0BFAA2A3D8C0E00173F66 /* Build configuration list for PBXProject "ClaraClaraGames" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3FB0BFD12A3D8C1100173F66 /* Debug */,
+				3FB0BFD22A3D8C1100173F66 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3FB0BFD32A3D8C1100173F66 /* Build configuration list for PBXNativeTarget "ClaraClaraGames" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3FB0BFD42A3D8C1100173F66 /* Debug */,
+				3FB0BFD52A3D8C1100173F66 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3FB0BFD62A3D8C1100173F66 /* Build configuration list for PBXNativeTarget "ClaraClaraGamesTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3FB0BFD72A3D8C1100173F66 /* Debug */,
+				3FB0BFD82A3D8C1100173F66 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3FB0BFD92A3D8C1100173F66 /* Build configuration list for PBXNativeTarget "ClaraClaraGamesUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3FB0BFDA2A3D8C1100173F66 /* Debug */,
+				3FB0BFDB2A3D8C1100173F66 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3FB0BFA72A3D8C0E00173F66 /* Project object */;
+}
