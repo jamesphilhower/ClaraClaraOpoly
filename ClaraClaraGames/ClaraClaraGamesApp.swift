@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct ClaraClaraGamesApp: App {
+    
+    @StateObject private var diceAnimationData = DiceAnimationData()
+    @StateObject private var players = PlayersData()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView().environmentObject(diceAnimationData).environmentObject(players)
         }
     }
 }
