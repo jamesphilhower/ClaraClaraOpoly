@@ -8,6 +8,7 @@ struct BaseModalButtonView: View {
     var action: () -> Void
     var text: String
     
+    
     var body: some View {
         Button(action: {
             action()

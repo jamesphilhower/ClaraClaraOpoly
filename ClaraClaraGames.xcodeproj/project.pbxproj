@@ -25,6 +25,10 @@
 		3FB0BFED2A3DB10900173F66 /* Dice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB0BFEC2A3DB10900173F66 /* Dice.swift */; };
 		3FB0BFEF2A3EC0FD00173F66 /* DiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB0BFEE2A3EC0FD00173F66 /* DiceView.swift */; };
 		3FB0BFF12A3EC33500173F66 /* GameBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB0BFF02A3EC33500173F66 /* GameBoardView.swift */; };
+		3FB0BFF32A40276400173F66 /* ManagePropertiesModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB0BFF22A40276400173F66 /* ManagePropertiesModal.swift */; };
+		3FB0BFF52A4028B300173F66 /* PropertiesData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB0BFF42A4028B300173F66 /* PropertiesData.swift */; };
+		3FB0BFF72A4181B600173F66 /* Money.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB0BFF62A4181B600173F66 /* Money.swift */; };
+		3FB0BFF92A4196D400173F66 /* Icons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB0BFF82A4196D400173F66 /* Icons.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +70,10 @@
 		3FB0BFEC2A3DB10900173F66 /* Dice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dice.swift; sourceTree = "<group>"; };
 		3FB0BFEE2A3EC0FD00173F66 /* DiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceView.swift; sourceTree = "<group>"; };
 		3FB0BFF02A3EC33500173F66 /* GameBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameBoardView.swift; sourceTree = "<group>"; };
+		3FB0BFF22A40276400173F66 /* ManagePropertiesModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagePropertiesModal.swift; sourceTree = "<group>"; };
+		3FB0BFF42A4028B300173F66 /* PropertiesData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertiesData.swift; sourceTree = "<group>"; };
+		3FB0BFF62A4181B600173F66 /* Money.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Money.swift; sourceTree = "<group>"; };
+		3FB0BFF82A4196D400173F66 /* Icons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icons.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,11 +104,7 @@
 		3FB0BFA62A3D8C0E00173F66 = {
 			isa = PBXGroup;
 			children = (
-				3FB0BFF02A3EC33500173F66 /* GameBoardView.swift */,
-				3FB0BFEE2A3EC0FD00173F66 /* DiceView.swift */,
-				3FB0BFEC2A3DB10900173F66 /* Dice.swift */,
-				3FB0BFEA2A3DA5B900173F66 /* Property.swift */,
-				3FB0BFE82A3DA31B00173F66 /* TradeModalView.swift */,
+				3FB0BFF82A4196D400173F66 /* Icons.swift */,
 				3FB0BFB12A3D8C0E00173F66 /* ClaraClaraGames */,
 				3FB0BFC22A3D8C1100173F66 /* ClaraClaraGamesTests */,
 				3FB0BFCC2A3D8C1100173F66 /* ClaraClaraGamesUITests */,
@@ -121,8 +125,16 @@
 		3FB0BFB12A3D8C0E00173F66 /* ClaraClaraGames */ = {
 			isa = PBXGroup;
 			children = (
+				3FB0BFF02A3EC33500173F66 /* GameBoardView.swift */,
 				3FB0BFB22A3D8C0E00173F66 /* ClaraClaraGamesApp.swift */,
+				3FB0BFF22A40276400173F66 /* ManagePropertiesModal.swift */,
+				3FB0BFEE2A3EC0FD00173F66 /* DiceView.swift */,
+				3FB0BFF42A4028B300173F66 /* PropertiesData.swift */,
+				3FB0BFEC2A3DB10900173F66 /* Dice.swift */,
+				3FB0BFEA2A3DA5B900173F66 /* Property.swift */,
 				3FB0BFB42A3D8C0E00173F66 /* ContentView.swift */,
+				3FB0BFE82A3DA31B00173F66 /* TradeModalView.swift */,
+				3FB0BFF62A4181B600173F66 /* Money.swift */,
 				3FB0BFDE2A3D903200173F66 /* TurnModal.swift */,
 				3FB0BFE22A3D936E00173F66 /* GameplayFunctions.swift */,
 				3FB0BFE02A3D931A00173F66 /* SetupModal.swift */,
@@ -293,15 +305,19 @@
 				3FB0BFEB2A3DA5B900173F66 /* Property.swift in Sources */,
 				3FB0BFF12A3EC33500173F66 /* GameBoardView.swift in Sources */,
 				3FB0BFEF2A3EC0FD00173F66 /* DiceView.swift in Sources */,
+				3FB0BFF52A4028B300173F66 /* PropertiesData.swift in Sources */,
 				3FB0BFB52A3D8C0E00173F66 /* ContentView.swift in Sources */,
+				3FB0BFF92A4196D400173F66 /* Icons.swift in Sources */,
 				3FB0BFDD2A3D8EED00173F66 /* Player.swift in Sources */,
 				3FB0BFE92A3DA31B00173F66 /* TradeModalView.swift in Sources */,
 				3FB0BFE52A3D93B100173F66 /* BaseModal.swift in Sources */,
+				3FB0BFF32A40276400173F66 /* ManagePropertiesModal.swift in Sources */,
 				3FB0BFB32A3D8C0E00173F66 /* ClaraClaraGamesApp.swift in Sources */,
 				3FB0BFED2A3DB10900173F66 /* Dice.swift in Sources */,
 				3FB0BFE32A3D936E00173F66 /* GameplayFunctions.swift in Sources */,
 				3FB0BFDF2A3D903200173F66 /* TurnModal.swift in Sources */,
 				3FB0BFE72A3D95D300173F66 /* Turn.swift in Sources */,
+				3FB0BFF72A4181B600173F66 /* Money.swift in Sources */,
 				3FB0BFE12A3D931A00173F66 /* SetupModal.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

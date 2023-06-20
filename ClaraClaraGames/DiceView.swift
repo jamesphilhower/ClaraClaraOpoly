@@ -28,11 +28,21 @@ struct DieView: View {
     let color: Color
     
     var body: some View {
-        Text("\(number)")
-            .font(.system(size: 100, weight: .bold))
-            .frame(width: 120, height: 120)
-            .foregroundColor(.white)
-            .background(color)
-            .cornerRadius(10)
+//        Text("\(number)")
+//            .font(.system(size: 100, weight: .bold))
+//            .frame(width: 120, height: 120)
+//            .foregroundColor(.white)
+//            .background(color)
+//            .cornerRadius(10)
+   
+
+                Image(systemName: "die.face.\(number)")
+                    .font(.system(size: 100, weight: .bold))
+                    .frame(width: 120, height: 120)
+                    .foregroundColor(.white)
+                    .background(color)
+                    .cornerRadius(10)
+            
+
     }
 }

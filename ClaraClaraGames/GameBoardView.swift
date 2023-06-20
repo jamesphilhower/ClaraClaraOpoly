@@ -128,7 +128,7 @@ struct TraditionalGameBoardView: View {
                     GeometryReader { geometry in
                         VStack(spacing: 0) {
                             VStack(spacing: 0) {
-                                let playersOnLocation = playersData.players.filter { _ in Int.random(in: 1...3) >= 2}//$0.location == index }
+                                let playersOnLocation = playersData.players.filter {$0.location == index }
                                                        ForEach(playersOnLocation.indices, id: \.self) { playerIndex in
                                                            let  width = calculatePlayerSize(cellSize: max(cellSize.width, cellSize.height))
                                                             let height = calculatePlayerSize(cellSize: max(cellSize.width, cellSize.height))

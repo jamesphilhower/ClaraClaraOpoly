@@ -7,22 +7,19 @@ class DiceAnimationData: ObservableObject {
     @Published var diceColor: Color = .orange
     @Published var isTwoDice: Bool = true
     
-    init() {
-        print("what's up doc")
-    }
-    
     private var timer: Timer?
     
     let diceRangeStart = 1
     let diceRangeEnd = 6
     
+    @MainActor
     func startDiceAnimationWrapper(isTwoDice: Bool = true) async -> [Int] {
         print("before startDice")
         self.isTwoDice = isTwoDice
         let results = await startDiceAnimation()
         return results
     }
-    
+    /// Todo prevent from starting two dice rolls at the same time
     @MainActor
     func startDiceAnimation() async -> [Int] {
         print("Starting dice animation...")

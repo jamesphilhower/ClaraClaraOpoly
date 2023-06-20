@@ -103,3 +103,8 @@ func calculateRent(for property: Property) -> Int {
         fatalError("Invalid property type")
     }
 }
+
+func checkFunds(player: Player, price: Int) -> Bool {
+    // Implement logic to check if the given player has enough funds
+    return player.money >= price
+}

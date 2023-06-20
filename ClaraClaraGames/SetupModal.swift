@@ -7,7 +7,10 @@ struct SetupGameModalView: View {
     @Binding var gameBoard: String
     @Binding var playerNames: [String]
     @Binding var currentPlayerIndex: Int
+    @Binding var modalType: ModalType
     @EnvironmentObject var playersData: PlayersData
+    @EnvironmentObject var propertiesData: PropertiesData
+
     @State private var isAISelectionEnabled: [Bool] = [false, false, false, false]
     
     @State private var selectedGameBoard: String = "Traditional"
@@ -87,12 +90,12 @@ struct SetupGameModalView: View {
                     }
                 }
             }
+         
             
             Button(action:  {
                 // Create player objects and assign them to the players bound variable
                 playersData.players = createPlayers()
                 gameBoard = selectedGameBoard
-                print("button pressed")
                 Task {
 //                    print("button before task")
 //                    let firstPlayerIndex = await decideWhoGoesFirst(players: playersData.players)
@@ -100,11 +103,29 @@ struct SetupGameModalView: View {
 
                     //currentPlayerIndex = firstPlayerIndex
 
-                    isShowingModal = false
-                    print("button after")
-
+//                    isShowingModal = false
+                    isShowingModal = true
+                    let numPlayers = playersData.players.count
+                    print("players", numPlayers)
+                    for property in propertiesData.properties {
+                        let playerIndex = Int.random(in: 0..<numPlayers)
+                        let player = playersData.players[playerIndex]
+                        property.owner = player
+                        property.isMortgaged = Bool.random() && Bool.random() && Bool.random()
+                        if !property.isMortgaged {
+                            if let buildableProperty = property as? BuildableProperty {
+                                let count = Int.random(in: 0...4)
+                                if count <= 4 {
+                                    buildableProperty.numberHouses = count
+                                } else {
+                                    buildableProperty.numberHouses = 4
+                                    buildableProperty.hasHotel = true
+                                }
+                            }
+                        }
+                    }
+                    modalType = .playerTurn
                 }
-                print("button after task")
 
             }) {
                 Text("Start Game")
@@ -113,6 +134,41 @@ struct SetupGameModalView: View {
                     .padding()
                     .background(Color.blue)
                     .cornerRadius(10)
+            }.onAppear{
+                if isDevelopment {
+                    playersData.players = createPlayers()
+                    gameBoard = selectedGameBoard
+                    Task {
+                        //                    print("button before task")
+                        //                    let firstPlayerIndex = await decideWhoGoesFirst(players: playersData.players)
+                        currentPlayerIndex = 1
+                        
+                        //currentPlayerIndex = firstPlayerIndex
+                        
+                        //                    isShowingModal = false
+                        isShowingModal = true
+                        let numPlayers = playersData.players.count
+                        print("players", numPlayers)
+                        for property in propertiesData.properties {
+                            let playerIndex = Int.random(in: 0..<numPlayers)
+                            let player = playersData.players[playerIndex]
+                            property.owner = player
+                            property.isMortgaged = Bool.random() && Bool.random() && Bool.random()
+                            if !property.isMortgaged {
+                                if let buildableProperty = property as? BuildableProperty {
+                                    let count = Int.random(in: 0...4)
+                                    if count <= 4 {
+                                        buildableProperty.numberHouses = count
+                                    } else {
+                                        buildableProperty.numberHouses = 4
+                                        buildableProperty.hasHotel = true
+                                    }
+                                }
+                            }
+                        }
+                        modalType = .playerTurn
+                    }
+                }
             }
         }
         .padding()

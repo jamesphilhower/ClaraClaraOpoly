@@ -6,19 +6,23 @@ class PlayersData: ObservableObject {
 }
 
 
-class Player: Equatable {
+class Player: Identifiable, Equatable, ObservableObject, Hashable {
     static func == (lhs: Player, rhs: Player) -> Bool {
         return lhs.id == rhs.id
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
     
     let id: Int
     var name: String
-    var money: Int
-    var getOutOfJailCards: Int
+    @Published var money: Int
+    @Published var getOutOfJailCards: Int
     var consecutiveTurnsInJail: Int
-    var location: Int
-    var inJail: Bool
+    @Published var location: Int
+    @Published var inJail: Bool
     var isAI: Bool
+    @Published var ownsProperties: Bool
 
     var color: Color = .blue
     
@@ -29,9 +33,15 @@ class Player: Equatable {
         self.money = 500
         self.getOutOfJailCards = 0
         self.consecutiveTurnsInJail = 0
-        self.location = 2
+        self.location = 1
         self.inJail = false
+        self.ownsProperties = true //false
     }
+    
+    func hasFundsFor(_ price: Int) -> Bool {
+            // Implement logic to check if the player has enough funds
+            return money >= price
+        }
     
     // Function to handle paying to get out of jail
     func payToGetOutOfJail() {
