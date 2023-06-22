@@ -39,6 +39,8 @@ struct PlayerTurnModalView: View {
     @State var  currentPlayerAction: PlayerActionsType = .none
     @State private var showTurnPopup = true
     @State var hasRolled: Bool = false
+    @State var hideAll: Bool = false
+    @State var doublesInARow: Int = 0
     
     @EnvironmentObject private var diceAnimation: DiceAnimationData
     @EnvironmentObject private var playersData: PlayersData
@@ -86,10 +88,14 @@ struct PlayerTurnModalView: View {
                     // Implement roll action logic using the provided player instance
                     currentPlayerAction = .roll
                     hasRolled = true
-                    currentPlayer.consecutiveTurnsInJail += 1
-                    if currentPlayer.consecutiveTurnsInJail >= 3 {
-                        currentPlayer.goToJail()
+                    if currentPlayer.inJail {
+                        playersData.players[currentPlayerIndex].consecutiveTurnsInJail += 1
+                        if currentPlayer.consecutiveTurnsInJail >= 3 {
+                            playersData.players[currentPlayerIndex].goToJail()
+                            endTurnAndShowPopup()
+                        }
                     }
+                    
                 },
                 content: {
                     Text("Roll")
@@ -100,9 +106,9 @@ struct PlayerTurnModalView: View {
                 action: {
                     currentPlayerAction = .payToGetOutOfJail
                     // Reset consecutive jail turns and isPlayerInJail flag
-                    currentPlayer.consecutiveTurnsInJail = 0
-                    currentPlayer.inJail = false
-                    currentPlayer.payToGetOutOfJail()
+                    playersData.players[currentPlayerIndex].consecutiveTurnsInJail = 0
+                    playersData.players[currentPlayerIndex].inJail = false
+                    playersData.players[currentPlayerIndex].payToGetOutOfJail()
                 },
                 content: {
                     Text("Pay to Get Out of Jail")
@@ -112,17 +118,19 @@ struct PlayerTurnModalView: View {
                 isEnabled: currentPlayer.inJail && currentPlayer.getOutOfJailCards > 0,
                 action: {
                     currentPlayerAction = .useGetOutOfJailFreeCard
-                    currentPlayer.consecutiveTurnsInJail = 0
-                    currentPlayer.inJail = false
-                    currentPlayer.getOutOfJailCards -= 1
+                    playersData.players[currentPlayerIndex].consecutiveTurnsInJail = 0
+                    playersData.players[currentPlayerIndex].inJail = false
+                    playersData.players[currentPlayerIndex].getOutOfJailCards -= 1
                 },
                 content: {
                     Text("Use Get Out of Jail Free Card")
                 }
             ),
             "EndTurn": PlayerTurnButton(
-                isEnabled: currentPlayer.inJail && currentPlayer.consecutiveTurnsInJail < 3 && hasRolled,
+                isEnabled: (currentPlayer.inJail && currentPlayer.consecutiveTurnsInJail < 3 && hasRolled) || (!currentPlayer.inJail && hasRolled),
                 action: {
+                    hasRolled = false
+                    doublesInARow = 0
                     currentPlayerAction = .endTurn
                     endTurnAndShowPopup()
                 },
@@ -132,48 +140,106 @@ struct PlayerTurnModalView: View {
             )
         ]
         
-        
-        BaseModalView {
-            ZStack {
-                VStack {
-                    Text("Current Player: \(currentPlayer.name)")
+        if !hideAll {
+            BaseModalView {
+                ZStack {
+                    VStack {
+                        Text("Current Player: \(currentPlayer.name)")
+                        
+                        ForEach(buttons.filter { $0.value.isEnabled }, id: \.key) { key, button in
+                            button
+                        }
+                    }.disabled(currentPlayerAction != .none)
                     
-                    ForEach(buttons.filter { $0.value.isEnabled }, id: \.key) { key, button in
-                        button
-                    }
-                }.disabled(currentPlayerAction != .none)
-                
-                switch currentPlayerAction {
-                case .trade:
-                    // Implement trade action logic
-                    // using the provided player instance
-                    TradeModalView(currentPlayerAction: $currentPlayerAction, currentPlayer: currentPlayer)
-                    
-                case .manageProperties:
-                    // Implement manage properties action logic
-                    // using the provided player instance
-                    ManagePropertiesModal(currentPlayerAction: $currentPlayerAction, currentPlayer: currentPlayer)
-                    
-                case .roll:
-                    DiceView()
-                    
-                case .payToGetOutOfJail:
-                    DiceView()
-                    
-                case .useGetOutOfJailFreeCard:
-                    // Implement use get out of jail free card action logic
-                    DiceView()
+                    switch currentPlayerAction {
+                    case .trade:
+                        TradeModalView(currentPlayerAction: $currentPlayerAction, currentPlayer: $playersData.players[currentPlayerIndex])
+                    case .manageProperties:
+                        ManagePropertiesModal(currentPlayerAction: $currentPlayerAction, currentPlayer: currentPlayer)
+                    case .roll:
+                        VStack {
+                            Rectangle().foregroundColor(.pink).frame(width: 200, height: 200)
+                        }.onAppear {
+                            Task {
+                                hideAll = true
 
-                case .endTurn:
-                    // Implement end turn action logic
-                    // using the provided player instance
-                    Text("Player Ended Turn").onAppear{currentPlayerAction = .none}
-                    
-                case .none:
-                    EmptyView()
+                                let rolls = await diceAnimation.startDiceAnimationWrapper(isTwoDice: true)
+                                hasRolled = true
+                                let r1 = rolls[0]
+                                let r2 = rolls[1]
+                                if r1 == r2 {
+                                    print("DOUBLES")
+                                    hasRolled = false
+                                    doublesInARow += 1
+
+                                    if doublesInARow >= 3 {
+                                        playersData.players[currentPlayerIndex].goToJail()
+                                    }
+                                }
+                                
+                                for gameSpace in (0..<(r1+r2)) {
+                                    do {
+                                        if currentPlayer.location == 40 {
+                                            currentPlayer.location = 1
+                                        } else {
+                                            playersData.players[currentPlayerIndex].location += 1
+                                        }
+                                        
+                                        try  await Task.sleep(nanoseconds: 100_000_000)  // Delay for 1.5 seconds
+                                        playersData.roll += 1
+                                        try   await Task.sleep(nanoseconds: 200_000_000)  // Delay for 1.5 seconds
+
+                                        
+                                    }catch{
+                                        // todo make it jump to the right spot it should have gone by precalc
+                                        print("well isn't that great")
+                                    }
+                                }
+                               
+                                hideAll = false
+                            }
+                            
+                            currentPlayerAction = .none  // Set currentPlayerAction to .none
+                        }
+                    case .payToGetOutOfJail:
+                        
+                         Text("Not implemented")
+                             .onAppear {
+                                 Task {
+                                     do {
+                                         
+                                         try  await Task.sleep(nanoseconds: 1_000_000_000)  // Delay for 1.5 seconds
+                                         currentPlayerAction = .none
+                                     }catch{
+                                         print("well isn't that great")
+                                     }
+                                 }
+                             }
+                        
+                    case .useGetOutOfJailFreeCard:
+                       
+                        Text("Not implemented")
+                            .onAppear {
+                                Task {
+                                    do {
+                                        
+                                        try  await Task.sleep(nanoseconds: 1_000_000_000)  // Delay for 1.5 seconds
+                                        currentPlayerAction = .none
+                                    }catch{
+                                        print("well isn't that great")
+                                    }
+                                }
+                            }
+                        
+                    case .endTurn:
+                        // Implement end turn action logic
+                        // using the provided player instance
+                        Text("Player Ended Turn").onAppear{currentPlayerAction = .none}
+                        
+                    case .none:
+                        EmptyView()
+                    }
                 }
-                
-                
             }
         }
     }

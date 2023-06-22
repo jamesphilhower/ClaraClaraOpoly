@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3FAF57BD2A44B826006698B8 /* TradePropertyCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF57BC2A44B826006698B8 /* TradePropertyCard.swift */; };
 		3FB0BFB32A3D8C0E00173F66 /* ClaraClaraGamesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB0BFB22A3D8C0E00173F66 /* ClaraClaraGamesApp.swift */; };
 		3FB0BFB52A3D8C0E00173F66 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB0BFB42A3D8C0E00173F66 /* ContentView.swift */; };
 		3FB0BFB72A3D8C1100173F66 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3FB0BFB62A3D8C1100173F66 /* Assets.xcassets */; };
@@ -49,6 +50,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3FAF57BC2A44B826006698B8 /* TradePropertyCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradePropertyCard.swift; sourceTree = "<group>"; };
 		3FB0BFAF2A3D8C0E00173F66 /* ClaraClaraGames.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClaraClaraGames.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FB0BFB22A3D8C0E00173F66 /* ClaraClaraGamesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaraClaraGamesApp.swift; sourceTree = "<group>"; };
 		3FB0BFB42A3D8C0E00173F66 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 		3FB0BFA62A3D8C0E00173F66 = {
 			isa = PBXGroup;
 			children = (
+				3FAF57BC2A44B826006698B8 /* TradePropertyCard.swift */,
 				3FB0BFF82A4196D400173F66 /* Icons.swift */,
 				3FB0BFB12A3D8C0E00173F66 /* ClaraClaraGames */,
 				3FB0BFC22A3D8C1100173F66 /* ClaraClaraGamesTests */,
@@ -319,6 +322,7 @@
 				3FB0BFE72A3D95D300173F66 /* Turn.swift in Sources */,
 				3FB0BFF72A4181B600173F66 /* Money.swift in Sources */,
 				3FB0BFE12A3D931A00173F66 /* SetupModal.swift in Sources */,
+				3FAF57BD2A44B826006698B8 /* TradePropertyCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

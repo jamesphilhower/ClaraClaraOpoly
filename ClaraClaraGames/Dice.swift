@@ -49,11 +49,12 @@ class DiceAnimationData: ObservableObject {
         
         do {
             print("do dice")
-            try await Task.sleep(nanoseconds: 2_000_000_000) // Wait for 2 seconds
-            
+//            try await Task.sleep(nanoseconds: 2_000_000_000) // Wait for 2 seconds
+                        try await Task.sleep(nanoseconds: 500_000_000) // Wait for 2 seconds
+
             pauseDiceAnimation()
             
-            try await Task.sleep(nanoseconds: 4_000_000_000) // Wait for 4 seconds
+            try await Task.sleep(nanoseconds: 1_000_000_000) // Wait for 4 seconds
             
             stopDiceAnimation()
             

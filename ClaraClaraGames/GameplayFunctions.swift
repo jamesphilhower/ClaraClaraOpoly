@@ -18,7 +18,7 @@ func rollDie() -> Int {
 }
 
 func getLocationOfJailForGameBoard() -> Int {
-    return 20
+    return 21
 }
 
 

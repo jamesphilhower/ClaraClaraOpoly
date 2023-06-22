@@ -146,7 +146,7 @@ enum PropertyGroup {
 
 class Property: Identifiable, ObservableObject, Equatable {
     let name: String
-    let icon: (Image, CGFloat, CGFloat)
+    let icon: any View
     @Published var isMortgaged: Bool
     let mortgageValue: Int
     let unMortgageCost: Int
@@ -161,7 +161,7 @@ class Property: Identifiable, ObservableObject, Equatable {
         unMortgageCost: Int = 0,
         baseRent: Int = 0,
         siblings: [Property] = [],
-        icon: (Image, CGFloat, CGFloat)
+        icon: some View
     ) {
         self.name = name
         self.isMortgaged = isMortgaged
@@ -213,7 +213,7 @@ class Property: Identifiable, ObservableObject, Equatable {
 
     class Railroad: Property {
         init(name: String, isMortgaged: Bool = false, siblings: [Property] = [],
-             icon: (Image, CGFloat, CGFloat)) {
+             icon: some View) {
             super.init(
                 name: name,
                 isMortgaged: isMortgaged,
@@ -236,11 +236,13 @@ class BuildableProperty: Property {
     @Published var hasHotel: Bool
     let housingRates: [Int]
     let hotelRate: Int
+    let iconDimensions: (CGFloat, CGFloat)
+    let buildableIcon: Image
     
     init(
         name: String,
         isMortgaged: Bool = false,
-        icon: (Image, CGFloat, CGFloat),
+        icon:  (Image, CGFloat, CGFloat),
         mortgageValue: Int = 0,
         unMortgageCost: Int = 0,
         baseRent: Int = 0,
@@ -262,6 +264,8 @@ class BuildableProperty: Property {
         self.hotelPrice = hotelPrice
         self.sellHouseFor = sellHouseFor
         self.sellHotelFor = sellHotelFor
+        self.iconDimensions = (icon.1, icon.2)
+        self.buildableIcon = (icon.0)
         super.init(
             name: name,
             isMortgaged: isMortgaged,
@@ -269,7 +273,7 @@ class BuildableProperty: Property {
             unMortgageCost: unMortgageCost,
             baseRent: baseRent,
             siblings: siblings,
-            icon: icon
+            icon: icon.0
         )
     }
     func buyBuilding() {
@@ -317,7 +321,7 @@ class BuildableProperty: Property {
 
 class Utility: Property {
     init(name: String, siblings: [Property] = [],
-         icon: (Image, CGFloat, CGFloat)) {
+         icon: some View) {
             super.init(
                 name: name,
                 isMortgaged: false,

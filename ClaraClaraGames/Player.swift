@@ -1,8 +1,14 @@
 
 import SwiftUI
 
+struct Move {
+    let originalIndex: Int
+    let newIndex: Int
+}
 class PlayersData: ObservableObject {
     @Published var players: [Player] = []
+    @Published var roll: Int = 0
+    @Published var latestMove: Move = Move(originalIndex: 0, newIndex: 0)
 }
 
 

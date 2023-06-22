@@ -1,102 +1,43 @@
 import SwiftUI
 
-
-
-
-
-
-struct TradePropertyCard: View {
-    @ObservedObject var property: Property
-    @ObservedObject var currentPlayer: Player
-    var isSelected: Bool
-    var toggleSelection: () -> Void
-    
-    var body: some View {
-        VStack {
-            Text(property.name)
-                .font(.title)
-                .foregroundColor(.black)
-            
-            Text("Current Rent: \(calculateRent(for: property))")
-                .foregroundColor(.gray)
-            
-            Text("Mortgaged: \(property.isMortgaged ? "Yes" : "No")")
-                .foregroundColor(.gray)
-            
-            let propertyOwner = property.owner
-            let (unownedProperties, ownedProperties) = siblingsOwned(property: property, owner: propertyOwner!)
-            
-            if let railroadProperty = property as? Railroad {
-                HStack {
-                    Icons.trainEnd.0
-                        .foregroundColor(unownedProperties.contains("R1") ? .gray : .green)
-                    Icons.trainMid.0
-                        .foregroundColor(unownedProperties.contains("R2") ? .gray : .green)
-                    Icons.trainMid.0
-                        .foregroundColor(unownedProperties.contains("R3") ? .gray : .green)
-                    Icons.trainFront.0
-                        .foregroundColor(unownedProperties.contains("R4") ? .gray : .green)
-                }
-            }
-            
-            else if let buildableProperty = property as? BuildableProperty {
-                HStack {
-                    if unownedProperties.isEmpty {
-                        
-                        ForEach(0..<4) { index in
-                            if index < buildableProperty.numberHouses {
-                                Icons.house.0.foregroundColor(.green)
-                            } else {
-                                Icons.houseFill.0.foregroundColor(.gray)
-                            }
-                        }
-                        Icons.hotelFill.0.foregroundColor(buildableProperty.hasHotel ? .green : .gray)
-                    }
-                    else {
-                        CreateIcons(ownedProperties: ownedProperties, unownedProperties: unownedProperties)
-                    }
-                    
-                }
-            } else if let utilityProperty = property as? Utility{
-                HStack {
-                    Icons.plug.0.foregroundColor(unownedProperties.contains("U1") ? .gray : .green)
-                    Icons.outlet.0.foregroundColor(unownedProperties.contains("U2") ? .gray : .green)
-                }
-            }
-        }
-        .padding()
-        .background(Color.white)
-        .cornerRadius(10)
-        .shadow(color: property.isMortgaged ? Color.red : Color.white, radius: 5)
-        .onTapGesture {
-            toggleSelection()
-        }
-    }
-}
-
 struct CreateIcons: View {
     @EnvironmentObject var propertiesData: PropertiesData
-
+    
     let ownedProperties: [String]
     let unownedProperties: [String]
-
+    
     var body: some View {
         let combinedProperties = ownedProperties + unownedProperties
         let sortedProperties = combinedProperties.sorted()
-
+        
         return HStack {
             ForEach(sortedProperties, id: \.self) { propertyName in
                 let currentProperty = propertiesData.properties.first(where: { $0.name == propertyName }) as! BuildableProperty
-
                 
-                currentProperty.icon.0
+                currentProperty.buildableIcon
                     .foregroundColor(ownedProperties.contains(currentProperty.name) ? .green : .gray)
-                    .frame(width:  currentProperty.icon.2, height: currentProperty.icon.1)
+                    .frame(width:  currentProperty.iconDimensions.1, height: currentProperty.iconDimensions.0)
                     .aspectRatio(contentMode: .fit)
             }
         }
     }
+}
 
+enum CashOffer: Int, CaseIterable {
+    case offerCash = -1
+    case noCash = 0
+    case requestCash = 1
+    
+    var description: String {
+        switch self {
+        case .offerCash:
+            return "Offer Cash"
+        case .noCash:
+            return "No Cash"
+        case .requestCash:
+            return "Request Cash"
+        }
+    }
 }
 
 struct TradeModalView: View {
@@ -113,20 +54,19 @@ struct TradeModalView: View {
         }
     }
     
-    // Add your necessary properties and methods for trade handling
     @EnvironmentObject private var diceAnimation: DiceAnimationData
     @EnvironmentObject var propertiesData: PropertiesData
     @EnvironmentObject var playersData: PlayersData
     
-    //    @State private var selectedPlayer: Player?
-    @State private var tradeAmount: Int = 0
+    @State var cashAmount: Int = 0
     @State private var propertiesToEndWithOriginalPlayer: [Property] = []
     @State private var propertiesToEndWithSecondPlayer: [Property] = []
-    // this should be passed in I believe
     @State private var isShowingConfirmationView = false
-    
+    @State var isAmendment = false
+    @State var cashOffer: CashOffer = .noCash
+
     @Binding var currentPlayerAction: PlayerActionsType
-    @ObservedObject var currentPlayer: Player
+    @Binding var currentPlayer: Player
     
     @State private var selectedPlayer: Player? {
         didSet {
@@ -138,184 +78,221 @@ struct TradeModalView: View {
         }
     }
     
-    //    private func setInitialSelectedPlayer() {
-    //        if playersData.players.count == 2 {
-    //            let otherPlayers = playersData.players.filter { $0.id != currentPlayer.id }
-    //            selectedPlayer = otherPlayers.first
-    //        }
-    //    }
-    //
-    //    init(currentPlayerAction: Binding<PlayerActionsType>, currentPlayer: Player) {
-    //        self._currentPlayerAction = currentPlayerAction
-    //        self.currentPlayer = currentPlayer
-    //        setInitialSelectedPlayer()
-    //    }
-    
     var body: some View {
         
         
         if isShowingConfirmationView {
             TradeConfirmationView(
-                selectedPlayer: selectedPlayer,
-                currentPlayer: currentPlayer,
-                tradeAmount: $tradeAmount,
+                selectedPlayer: $selectedPlayer,
+                currentPlayer: $currentPlayer,
+                cashAmount: cashAmount,
                 propertiesToEndWithSecondPlayer: $propertiesToEndWithSecondPlayer,
-                propertiesToEndWithOriginalPlayer: $propertiesToEndWithOriginalPlayer
+                propertiesToEndWithOriginalPlayer: $propertiesToEndWithOriginalPlayer,
+                isShowingConfirmationView: $isShowingConfirmationView,
+                isAmendment: $isAmendment,
+                cashOffer: cashOffer
+                
             )
         } else {
             
-            ScrollView {
-                
-                VStack (spacing: 0) {
-                    // Display the selected properties
-                    Group {
-                        Text("Properties to Trade Away:")
-                        
-                        
-                        ScrollView(.horizontal) {
-                            if propertiesToEndWithSecondPlayer.isEmpty {
-                                Text("No properties selected").padding(.vertical)
-                                
-                            } else {
-                                
-                                HStack(spacing: 10) {
-                                    ForEach(propertiesToEndWithSecondPlayer) { property in
-                                        Text(property.name)
-                                    }
-                                }
-                                .padding()
-                            }
-                        }
-                    }
-                    
-                    Group {
-                        Text("Properties to Receive:")
-                        ScrollView(.horizontal) {
-                            if propertiesToEndWithOriginalPlayer.isEmpty {
-                                Text("No properties selected") .padding(.vertical)
-                            } else {
-                                
-                                HStack(spacing: 10) {
-                                    ForEach(propertiesToEndWithOriginalPlayer) { property in
-                                        Text(property.name)
-                                    }
-                                }
-                                .padding()
-                            }
-                        }
-                    }
-                    
-                    
+            VStack {
+                let otherPlayers = playersData.players.filter { $0.id != currentPlayer.id }
+                if otherPlayers.count > 2 {
                     HStack {
-                        Spacer()
-                        Button(action: {
-                            currentPlayerAction = .none
-                        }) {
-                            Image(systemName: "xmark.circle.fill")
-                                .font(.title)
-                                .foregroundColor(.white)
-                        }
-                        .padding()
-                    }
-                    
-                    Text("Make a Trade")
-                        .font(.title)
-                        .padding()
-                    
-                    // Add Toggle buttons for each player that isn't the current player
-                    let otherPlayers = playersData.players.filter { $0.id != currentPlayer.id }
-                    if otherPlayers.count > 2 {
-                        HStack {
-                            ForEach(otherPlayers, id: \.self) { player in
-                                Button(action: {
-                                    selectedPlayer = player
-                                }){
-                                    Text("\(player.name)")
-                                }
-                                .padding()
-                                .background(selectedPlayer == player ? Color.blue : Color.gray)
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
+                        ForEach(otherPlayers, id: \.self) { player in
+                            Button(action: {
+                                selectedPlayer = player
+                            }){
+                                Text("\(player.name)")
                             }
-                            
-                        }
-                    }
-                    else {Text("").onAppear{
-                        selectedPlayer = otherPlayers.first
-                    }
-                    }
-                    
-                    Text("Select Properties to Trade Away:")
-                    ScrollView(.horizontal) {
-                        HStack(spacing: 10) {
-                            
-                            ForEach(propertiesData.properties, id: \.id) { property in
-                                if property.owner == currentPlayer {
-                                    TradePropertyCard(
-                                        property: property,
-                                        currentPlayer: currentPlayer,
-                                        isSelected: isSelected(property: property, in: propertiesToEndWithSecondPlayer),
-                                        toggleSelection: { toggleSelection(for: property, in: &propertiesToEndWithSecondPlayer) }
-                                    )
-                                }
-                            }
+                            .padding()
+                            .background(selectedPlayer == player ? Color.blue : Color.gray)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
                         }
                         
-                        .padding()
-                    }
-                    
-                    Text("Select Properties to Receive:")
-                    ScrollView(.horizontal) {
-                        HStack(spacing: 10) {
-                            ForEach(propertiesData.properties, id: \.id) { property in
-                                if property.owner != nil && property.owner == selectedPlayer {
-                                    TradePropertyCard(
-                                        property: property,
-                                        currentPlayer: currentPlayer,
-                                        isSelected: isSelected(property: property, in: propertiesToEndWithOriginalPlayer),
-                                        toggleSelection: { toggleSelection(for: property, in: &propertiesToEndWithOriginalPlayer) }
-                                    )
-                                }
-                            }
-                        }
-                        .padding()
-                    }
-                    .onChange(of: selectedPlayer) { selected in
-                        print("selected", selected)
-                        // Reset the properties list when the selected player changes
-                        propertiesToEndWithOriginalPlayer = []
-                    }
-                    
-                    Group{
-                        // Offer Trade Button
-                        // Trade Amount Input
-                        Text("Enter Trade Amount:")
-                        // Add input boxes for trade amount
-                        
-                        
-                        Button("Offer Trade") {
-                            isShowingConfirmationView = true
-                        }
-                        .padding()
-                        
-                        // Cancel Button
-                        Button("Cancel") {
-                            print("TEMP")
-                        }
-                        .padding()
                     }
                 }
-            }.background(.white)
+                else {
+                    Text("").onAppear{
+                        selectedPlayer = otherPlayers.first
+                    }
+                }
+                
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        currentPlayerAction = .none
+                    }) {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.title)
+                            .foregroundColor(.black)
+                    }
+                    .padding()
+                }
+                
+                ScrollView(showsIndicators: false) {
+                    VStack (spacing: 0) {
+                        HStack {Text("Trading For:"); Spacer()}
+                        ScrollView(.horizontal) {
+                            HStack(spacing: 10) {
+                                ForEach(propertiesData.properties, id: \.id) { property in
+                                    if property.owner != nil && property.owner == selectedPlayer {
+                                        TradePropertyCard(
+                                            property: property,
+                                            currentPlayer: currentPlayer,
+                                            isSelected: isSelected(property: property, in: propertiesToEndWithOriginalPlayer),
+                                            isPurchasing: true,
+                                            toggleSelection: { toggleSelection(for: property, in: &propertiesToEndWithOriginalPlayer) }
+                                        )
+                                    }
+                                }
+                            }
+                            .padding(EdgeInsets(top : 10, leading: 5, bottom: 10, trailing: 10))
+                        }
+                        .onChange(of: selectedPlayer) { selected in
+                            // Reset the properties list when the selected player changes
+                            propertiesToEndWithOriginalPlayer = []
+                        }
+                        HStack {Text("Trading Away:"); Spacer()}
+                        ScrollView(.horizontal) {
+                            HStack(spacing: 10) {
+                                ForEach(propertiesData.properties, id: \.id) { property in
+                                    if property.owner == currentPlayer {
+                                        TradePropertyCard(
+                                            property: property,
+                                            currentPlayer: currentPlayer,
+                                            isSelected: isSelected(property: property, in: propertiesToEndWithSecondPlayer),
+                                            isPurchasing: false,
+                                            toggleSelection: { toggleSelection(for: property, in: &propertiesToEndWithSecondPlayer) }
+                                        )
+                                    }
+                                }
+                            }
+                            .padding(EdgeInsets(top : 10, leading: 5, bottom: 10, trailing: 10))
+                        }
+                        
+                        Group{
+                            Picker("Select Cash Direction", selection: $cashOffer) {
+                                ForEach(CashOffer.allCases, id: \.self) { option in
+                                    Text(option.description).tag(option)
+                                }
+                            }.pickerStyle(.segmented)
+                            
+                            TextField("Enter Cash", value: $cashAmount, formatter: NumberFormatter())
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .padding()
+                                .disabled(cashOffer == .noCash)
+                                .frame(width: 150) // Adjust the width as needed
+                                .onChange(of: cashOffer) { newCashOffer in
+                                    if newCashOffer == .offerCash {
+                                        cashAmount = max(0, min(cashAmount, currentPlayer.money))
+                                    } else if newCashOffer == .requestCash {
+                                        cashAmount = max(0, min(cashAmount, selectedPlayer?.money ?? 0))
+                                    }
+                                }
+                            
+                            
+                            let bills = calculateBills(for: cashAmount)
+                            let zeroBill = calculateBills(for: 0)
+                            Group {
+                                HStack(alignment: .center) {
+                                    Image(systemName: "cart").frame(height: 50)
+                                    ScrollView(.horizontal) {
+                                        HStack {
+                                            BillsView(bills: cashOffer == .requestCash ? bills : zeroBill)
+                                            
+                                            if propertiesToEndWithOriginalPlayer.isEmpty && (cashOffer != .requestCash || (cashOffer == .requestCash && cashAmount == 0 )){
+                                                Text("No selections") .padding(.vertical)
+                                            } else {
+                                                
+                                                HStack(spacing: 10) {
+                                                    ForEach(propertiesToEndWithOriginalPlayer) { property in
+                                                        Text(property.name)
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }.frame(minHeight: 100)
+                            }
+                            
+                            Group {
+                                HStack(alignment: .center) {
+                                    Image(systemName: "shippingbox.and.arrow.backward").frame(height: 50)
+                                    ScrollView(.horizontal) {
+                                        HStack {
+                                            
+                                            BillsView(bills: cashOffer == .offerCash ? bills : zeroBill)
+                                            
+                                            if propertiesToEndWithSecondPlayer.isEmpty && (cashOffer != .offerCash || (cashOffer == .offerCash && cashAmount == 0 )) {
+                                                Text("No selections").padding(.vertical)
+                                                
+                                            } else {
+                                                
+                                                ForEach(propertiesToEndWithSecondPlayer) { property in
+                                                    Text(property.name)
+                                                }
+                                            }
+                                        }
+                                    }
+                                }.frame(minHeight: 100)
+                            }
+                            
+                            HStack {
+                                Image(systemName: "signature")
+                                Button("Offer Trade") {
+                                    isShowingConfirmationView = true
+                                }
+                                
+                            }
+                        }
+                    }
+                    
+                }.background(.white)
+            }
         }
     }
 }
 
 struct TradeConfirmationView: View {
-    var selectedPlayer: Player?
-    var currentPlayer: Player
-    @Binding var tradeAmount: Int
+    @Binding var selectedPlayer: Player?
+    @Binding var currentPlayer: Player
+    var cashAmount: Int
     @Binding var propertiesToEndWithSecondPlayer: [Property]
     @Binding var propertiesToEndWithOriginalPlayer: [Property]
+    @Binding var isShowingConfirmationView: Bool
+    @Binding var isAmendment: Bool
+    var cashOffer: CashOffer
+    @EnvironmentObject var propertiesData: PropertiesData
+    
+    func swapOwners() {
+        // Swap owners of properties with the other player
+        for property in propertiesToEndWithSecondPlayer {
+            if let curProp = propertiesData.properties.first(where: { $0.id == property.id }) {
+                print("Before swap: \(curProp.name), owner: \(curProp.owner?.name ?? "")")
+                curProp.owner = selectedPlayer
+                print("After swap: \(curProp.name), owner: \(curProp.owner?.name ?? "")")
+            }
+        }
+        for property in propertiesToEndWithOriginalPlayer {
+            if let curProp = propertiesData.properties.first(where: { $0.id == property.id }) {
+                print("Before swap: \(curProp.name), owner: \(curProp.owner?.name ?? "")")
+                curProp.owner = currentPlayer
+                print("After swap: \(curProp.name), owner: \(curProp.owner?.name ?? "")")
+            }
+        }
+        
+        if cashOffer != .noCash {
+            if let selectedPlayer = selectedPlayer {
+                currentPlayer.money += cashAmount
+                selectedPlayer.money -= cashAmount
+                print("Current player money: \(currentPlayer.money)")
+                print("Selected player money: \(selectedPlayer.money)")
+            }
+        }
+    }
+
     
     var body: some View {
         VStack {
@@ -323,25 +300,28 @@ struct TradeConfirmationView: View {
                 .font(.title)
                 .padding()
             
-            // Display selected trade details
-            
             // Accept Trade Button
             Button("Accept") {
                 // Implement logic for accepting the trade
+                swapOwners()
+                isShowingConfirmationView = false
             }
             .padding()
             
             // Offer Amendment Button
             Button("Offer Amendment") {
                 // Implement logic for offering an amendment to the trade
+                isAmendment = !isAmendment
+                isShowingConfirmationView = false
             }
             .padding()
             
             // Reject Trade Button
             Button("Reject") {
                 // Implement logic for rejecting the trade
+                isShowingConfirmationView = false
             }
             .padding()
-        }
+        }.background(.white)
     }
 }
