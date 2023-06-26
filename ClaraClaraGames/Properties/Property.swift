@@ -31,7 +31,6 @@ class AddPropsToTrade {
     var icon = "cart.badge.plus"
 }
 
-
 class AddPropsToDropFromTrade {
     var icon = "trash"
 }
@@ -58,28 +57,23 @@ enum PropertyGroup {
     case green
     case darkBlue
     
-    // screwdriver wrench.adjustable hammer
-    //  poweroutlet.type.g poweroutlet.type.a  batteryblock (any bolt)
-    // tent house.lodge house.and.flag house building building.2
-    // wifi  antenna.radiowaves cellularbars wifi.router simcard personalhotspot
-
     var iconName: String {
         switch self {
-        // Side 1
+            // Side 1
         case .brown:
             // scooter bicycle
             return "house.fill"
         case .lightBlue:
             // cablecar tram.fill.tunnel bus
             return "house.fill"
-        // Side 2
+            // Side 2
         case .pink:
             // graudationcap backpack text.book.closed
             return "house.fill"
         case .orange:
             // magazine newspaper radio
             return "house.fill"
-        // Side 3
+            // Side 3
         case .red:
             // cross
             // syringe allergens facemask
@@ -88,7 +82,7 @@ enum PropertyGroup {
             // airplane
             // airplane.departure airplane airplane.arrival
             return "house.fill"
-        // Side 4
+            // Side 4
         case .green:
             // antenna.radiowaves
             // cloud wifi cellularbars
@@ -122,28 +116,6 @@ enum PropertyGroup {
     }
 }
 
-
-//let propertyGroups: [PropertyGroup: [BuildableProperty]] = [
-//    .lightBlue: lightBlueGroup,
-//    .pink: pinkGroup,
-//    .orange: orangeGroup,
-//    // Add other property groups here...
-//]
-//
-//// Assign the icons to the properties
-//for (group, properties) in propertyGroups {
-//    let iconName = group.iconName
-//    for property in properties {
-//        property.iconName = iconName
-//    }
-//}
-
-//// Combine all the properties into the final array
-//let properties = lightBlueGroup + pinkGroup + orangeGroup + buildables
-//propertiesData.properties = properties
-
-
-
 class Property: Identifiable, ObservableObject, Equatable {
     let name: String
     let icon: any View
@@ -171,60 +143,60 @@ class Property: Identifiable, ObservableObject, Equatable {
         self.siblings = siblings
         self.icon = icon
     }
-        
-        static func ==(lhs: Property, rhs: Property) -> Bool {
-            return lhs.name == rhs.name &&
-            lhs.isMortgaged == rhs.isMortgaged &&
-            lhs.mortgageValue == rhs.mortgageValue &&
-            lhs.unMortgageCost == rhs.unMortgageCost &&
-            lhs.owner == rhs.owner &&
-            lhs.baseRent == rhs.baseRent &&
-            lhs.siblings == rhs.siblings
-        }
-        
-        func unMortgage() throws {
-            guard let owner = owner else {
-                throw PropertyError.noOwner
-            }
-            
-            guard owner.money >= unMortgageCost else {
-                throw PropertyError.insufficientFunds
-            }
-            
-            owner.money -= unMortgageCost
-            isMortgaged = false
-        }
-        
-        func mortgage() throws {
-            guard let owner = owner else {
-                throw PropertyError.noOwner
-            }
-            
-            if isMortgaged {
-                throw PropertyError.alreadyMortgaged
-            }
-            
-            let mortgageAmount = mortgageValue
-            owner.money += mortgageAmount
-            isMortgaged = true
-        }
+    
+    static func ==(lhs: Property, rhs: Property) -> Bool {
+        return lhs.name == rhs.name &&
+        lhs.isMortgaged == rhs.isMortgaged &&
+        lhs.mortgageValue == rhs.mortgageValue &&
+        lhs.unMortgageCost == rhs.unMortgageCost &&
+        lhs.owner == rhs.owner &&
+        lhs.baseRent == rhs.baseRent &&
+        lhs.siblings == rhs.siblings
     }
+    
+    func unMortgage() throws {
+        guard let owner = owner else {
+            throw PropertyError.noOwner
+        }
+        
+        guard owner.money >= unMortgageCost else {
+            throw PropertyError.insufficientFunds
+        }
+        
+        owner.money -= unMortgageCost
+        isMortgaged = false
+    }
+    
+    func mortgage() throws {
+        guard let owner = owner else {
+            throw PropertyError.noOwner
+        }
+        
+        if isMortgaged {
+            throw PropertyError.alreadyMortgaged
+        }
+        
+        let mortgageAmount = mortgageValue
+        owner.money += mortgageAmount
+        isMortgaged = true
+    }
+}
 
 
-    class Railroad: Property {
-        init(name: String, isMortgaged: Bool = false, siblings: [Property] = [],
-             icon: some View) {
-            super.init(
-                name: name,
-                isMortgaged: isMortgaged,
-                mortgageValue: 0,
-                unMortgageCost: 0,
-                baseRent: 25,
-                siblings: siblings,
-                icon: icon
-            )
-        }
+class Railroad: Property {
+    init(name: String, isMortgaged: Bool = false, siblings: [Property] = [],
+         icon: some View) {
+        super.init(
+            name: name,
+            isMortgaged: isMortgaged,
+            mortgageValue: 0,
+            unMortgageCost: 0,
+            baseRent: 25,
+            siblings: siblings,
+            icon: icon
+        )
     }
+}
 
 
 class BuildableProperty: Property {
@@ -297,7 +269,7 @@ class BuildableProperty: Property {
         
         owner.money -= (numberHouses < 4 ? housePrice : hotelPrice)
     }
-
+    
     func sellBuilding() {
         guard let owner = owner else {
             return
@@ -322,17 +294,18 @@ class BuildableProperty: Property {
 class Utility: Property {
     init(name: String, siblings: [Property] = [],
          icon: some View) {
-            super.init(
-                name: name,
-                isMortgaged: false,
-                mortgageValue: 0,
-                unMortgageCost: 0,
-                baseRent: 0, // Set the appropriate default value
-                siblings: siblings,
-                icon: icon
-            )
-        }
+        super.init(
+            name: name,
+            isMortgaged: false,
+            mortgageValue: 0,
+            unMortgageCost: 0,
+            baseRent: 0, // Set the appropriate default value
+            siblings: siblings,
+            icon: icon
+        )
+    }
 }
+
 func assignSiblings(to arrays: [[Property]]) -> [Property] {
     var flatList: [Property] = []
     
@@ -342,14 +315,13 @@ func assignSiblings(to arrays: [[Property]]) -> [Property] {
             flatList.append(property)
         }
     }
-    
     return flatList
 }
 
 func siblingsOwned(property: Property, owner: Player) -> (unownedProperties: [String], ownedProperties: [String]) {
     var unownedProperties: [String] = []
     var ownedProperties: [String] = [property.name]
-
+    
     for sibling in property.siblings {
         if sibling.owner == nil {
             unownedProperties.append(sibling.name)
@@ -359,6 +331,6 @@ func siblingsOwned(property: Property, owner: Player) -> (unownedProperties: [St
             unownedProperties.append(sibling.name)
         }
     }
-
+    
     return (unownedProperties, ownedProperties)
 }

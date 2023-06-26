@@ -87,14 +87,14 @@ struct PlayerTurnModalView: View {
                 action: {
                     // Implement roll action logic using the provided player instance
                     currentPlayerAction = .roll
-                    hasRolled = true
-                    if currentPlayer.inJail {
-                        playersData.players[currentPlayerIndex].consecutiveTurnsInJail += 1
-                        if currentPlayer.consecutiveTurnsInJail >= 3 {
-                            playersData.players[currentPlayerIndex].goToJail()
-                            endTurnAndShowPopup()
-                        }
-                    }
+//                    hasRolled = true
+//                    if currentPlayer.inJail {
+//                        playersData.players[currentPlayerIndex].consecutiveTurnsInJail += 1
+//                        if currentPlayer.consecutiveTurnsInJail >= 3 {
+//                            playersData.players[currentPlayerIndex].goToJail()
+//                            endTurnAndShowPopup()
+//                        }
+//                    }
                     
                 },
                 content: {
@@ -141,7 +141,7 @@ struct PlayerTurnModalView: View {
         ]
         
         if !hideAll {
-            BaseModalView {
+//            BaseModalView {
                 ZStack {
                     VStack {
                         Text("Current Player: \(currentPlayer.name)")
@@ -158,7 +158,7 @@ struct PlayerTurnModalView: View {
                         ManagePropertiesModal(currentPlayerAction: $currentPlayerAction, currentPlayer: currentPlayer)
                     case .roll:
                         VStack {
-                            Rectangle().foregroundColor(.pink).frame(width: 200, height: 200)
+                            Rectangle().foregroundColor(.pink).frame(width: 0, height: 0)
                         }.onAppear {
                             Task {
                                 hideAll = true
@@ -177,17 +177,17 @@ struct PlayerTurnModalView: View {
                                     }
                                 }
                                 
-                                for gameSpace in (0..<(r1+r2)) {
+                                for _ in (0..<(r1+r2)) {
                                     do {
                                         if currentPlayer.location == 40 {
                                             currentPlayer.location = 1
                                         } else {
-                                            playersData.players[currentPlayerIndex].location += 1
+                                            currentPlayer.location += 1
                                         }
                                         
-                                        try  await Task.sleep(nanoseconds: 100_000_000)  // Delay for 1.5 seconds
+//                                        try  await Task.sleep(nanoseconds: 100_000_000)  // Delay for 1.5 seconds
                                         playersData.roll += 1
-                                        try   await Task.sleep(nanoseconds: 200_000_000)  // Delay for 1.5 seconds
+                                        try   await Task.sleep(nanoseconds: 300_000_000)  // Delay for 1.5 seconds
 
                                         
                                     }catch{
@@ -241,7 +241,7 @@ struct PlayerTurnModalView: View {
                     }
                 }
             }
-        }
+//        }
     }
 }
 

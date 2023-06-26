@@ -26,10 +26,7 @@ struct GameView: View {
     @State private var inJail: Bool = false
     
     @State private var modalType: ModalType = .none
-    
-    // Dice rolling animation
-    @EnvironmentObject private var diceAnimationData: DiceAnimationData
-    
+        
     // Check if a game is already in progress
     func gameInProgress() -> Bool {
         if playersCount == 0 {
@@ -112,14 +109,13 @@ struct GameView: View {
     var body: some View {
         
         VStack {
-            Text("Header Placeholder")
-                .font(.title)
-                .padding()
-            
-            
             ZStack {
+                WoodGrainBackground(numberOfPanels: 20, maxRotation: 2.0, maxRandomness: 10)
+                           .edgesIgnoringSafeArea(.all)
+                           
                 VStack {
                     GameBoardView(selectedGameBoard: gameBoard)
+                    
                     if !isShowingModal {
                         switch modalType {
                         case .setupGame:
@@ -142,40 +138,41 @@ struct GameView: View {
                             Text("No modal to display")
                         }
                     }
-                }
-                if isShowingModal {
-                    switch modalType {
-                    case .setupGame:
-                        SetupGameModalView(
-                            isShowingModal: $isShowingModal,
-                            playersCount: $playersCount,
-                            gameBoard: $gameBoard,
-                            playerNames: $playerNames,
-                            currentPlayerIndex: $currentPlayerIndex,
-                            modalType: $modalType
-                        )
-                        
-                    case .playerTurn:
-                        PlayerTurnModalView(
-                            isShowingModal: $isShowingModal,
-                            currentPlayerIndex: $currentPlayerIndex,
-                            modalType: $modalType
-                        )
-                        
-                    case .none:
-                        EmptyView()
+                    Spacer(minLength: 10)
+
+                    
+                    BillsView(bills: calculateBills(for: 1287))
+                    
+                    Spacer(minLength: 50)
+                    
+                    if isShowingModal {
+                        switch modalType {
+                        case .setupGame:
+                            SetupGameModalView(
+                                isShowingModal: $isShowingModal,
+                                playersCount: $playersCount,
+                                gameBoard: $gameBoard,
+                                playerNames: $playerNames,
+                                currentPlayerIndex: $currentPlayerIndex,
+                                modalType: $modalType
+                            )
+                            
+                        case .playerTurn:
+                            PlayerTurnModalView(
+                                isShowingModal: $isShowingModal,
+                                currentPlayerIndex: $currentPlayerIndex,
+                                modalType: $modalType
+                            )
+                            
+                        case .none:
+                            EmptyView()
+                        }
                     }
+                    
                 }
+                            
                 
-                // todo change isFlashing
-                if diceAnimationData.isFlashing { // Display the dice view with cycling numbers during flashing animation
-                    DiceView()
-                        .frame(width: 100, height: 100)
-                        .background(.green)
-                        .padding()
-                }
-                
-            }
+            }.frame(height: .infinity)
             
         }
         .onAppear {

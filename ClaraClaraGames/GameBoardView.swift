@@ -1,5 +1,62 @@
 import SwiftUI
 
+struct gameCard {
+    let text: String
+    let action: () -> Void
+}
+
+struct GameCardBaseView: View {
+    
+    let cardColor: Color
+    var body: some View {
+        Rectangle().frame(width: 80, height:40).rotationEffect(.degrees(45)).foregroundColor(cardColor)
+    }
+}
+
+struct CardGroupBaseView: View {
+    
+    let text: String
+    var cardColor: Color
+    let iconName: String
+    var drawPile: [gameCard]
+    var discardPile: [gameCard]
+        
+    var body: some View {
+        GameCardBaseView(cardColor: cardColor)
+    }
+}
+
+
+func generateRandomView() -> some View {
+    let rotationProbabilities: [Double] = [0.4, 0.3, 0.2, 0.1] // Probabilities for different rotation values
+    let shadowProbabilities: [Double] = [0.4, 0.3, 0.2, 0.1] // Probabilities for different shadow radii
+    
+    let randomRotationIndex = weightedRandomIndex(probabilities: rotationProbabilities)
+    let randomShadowIndex = weightedRandomIndex(probabilities: shadowProbabilities)
+    
+    return Rectangle()
+        .foregroundColor(.orange)
+        .frame(width: 80, height: 40)
+        .rotationEffect(.degrees(Double(randomRotationIndex * 5)))
+        .shadow(radius: Double(randomShadowIndex))
+}
+
+func weightedRandomIndex(probabilities: [Double]) -> Int {
+    let sum = probabilities.reduce(0, +)
+    let randomValue = Double.random(in: 0..<sum)
+    var cumulativeProbability = 0.0
+    
+    for (index, probability) in probabilities.enumerated() {
+        cumulativeProbability += probability
+        if randomValue < cumulativeProbability {
+            return index
+        }
+    }
+    
+    return probabilities.count - 1
+}
+
+
 struct GameBoardView: View {
     var selectedGameBoard: String
     @EnvironmentObject private var playersData: PlayersData
@@ -8,69 +65,194 @@ struct GameBoardView: View {
     @State private var originalIndex: Int = 0
     @State private var newIndex: Int = 0
     
-    
-    func getCirclePosition() -> CGPoint {
-        guard let center = cellCenters[originalIndex] else {
-            return .zero
-        }
-        return center
-    }
-    
-    func moveCircle(from originalIndex: Int, to newIndex: Int) {
-        guard let originalCenter = cellCenters[originalIndex], let newCenter = cellCenters[newIndex] else {
-            return
-        }
-        withAnimation {
-            print("Moving circle from \(originalCenter) to \(newCenter)")
-            
-            // Update the originalIndex and newIndex
-            self.originalIndex = originalIndex
-            self.newIndex = newIndex
-        }
-    }
-    
-    
     var body: some View {
-        VStack {
-            Text("Game Board Placeholder")
-                .font(.title)
-                .padding()
-            
-            GeometryReader { geometry in
-                if selectedGameBoard == "Traditional" {
-                    TraditionalGameBoardView(geometry: geometry, cellCenters: $cellCenters).overlay(
+        GeometryReader { geometry in
+            if selectedGameBoard == "Traditional" {
+                TraditionalGameBoardView(geometry: geometry, cellCenters: $cellCenters)
+                    .overlay(
                         ForEach(playersData.players, id: \.self){ player in
                             
                             let index = player.location
                             let x = cellCenters[index]!.x
                             let y = cellCenters[index]!.y
-
+                            
                             Circle().frame(width: 14, height: 14).position(x: x, y: y).foregroundColor(.blue).animation(.linear(duration: 0.3))
-                    }
+                        }
+                        
                     )
-                } else if selectedGameBoard == "InfinityGameBoardView" {
-                    InfinityGameBoardView()
-                } else if selectedGameBoard == "ShootsAndLadders" {
-                    ShootsAndLaddersGameBoardView()
-                }
-            } .onChange(of: playersData.roll, perform: { _ in
-                // Trigger the regeneration of the board when the player's position changes
-            }).onReceive(playersData.objectWillChange) { _ in
-                regenerateBoard.toggle()
+                    .overlay(DiceView())
+                    .shadow(radius: 1)
+                    .cornerRadius(3)
+            } else if selectedGameBoard == "InfinityGameBoardView" {
+                InfinityGameBoardView()
+            } else if selectedGameBoard == "ShootsAndLadders" {
+                ShootsAndLaddersGameBoardView()
             }
         }
-    }
-    private func dumpCellCenters() {
-        let sortedCellCenters = cellCenters.sorted(by: { $0.key < $1.key })
-        for (index, center) in sortedCellCenters {
-            print("Cell \(index): \(center)")
-        }
+        
     }
 }
 
-var curTopLeft: CGPoint = CGPoint(x: 0, y: 0)
-var curBottomRight: CGPoint = CGPoint(x: 0, y: 0)
+import SwiftUI
 
+struct SkylineView: View {
+    let scaleFactor: CGFloat
+    @State var moveDown = 0
+    
+    func getRandomColor()->Color{
+        let colors: [Color] = [
+            //            .black,
+            .gray,
+        ]
+        return colors.randomElement()!
+    }
+    var body: some View {
+        GeometryReader { geometry in
+            ZStack {
+                VStack(spacing: -60) {
+                    HStack(spacing: 20) {
+                        ForEach(0..<6) { _a in
+                            let buildingSize = CGSize(width: CGFloat.random(in: 60...100) * scaleFactor, height: CGFloat.random(in: 160...200))
+                            let randomBuildingImage = getRandomBuildingImage()
+                            
+                            Image(systemName: randomBuildingImage)
+                                .resizable()
+                                .offset(x: CGFloat.random(in: 10...20), y: CGFloat.random(in: 10...20))
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: buildingSize.width, height: buildingSize.height)
+                                .foregroundColor(getRandomColor())
+                        }
+                    }
+                    
+                    HStack(spacing: 20) {
+                        ForEach(0..<6) { _ in
+                            let buildingSize = CGSize(width: CGFloat.random(in: 60...100) * scaleFactor, height: CGFloat.random(in: 160...200))
+                            let randomBuildingImage = getRandomBuildingImage()
+                            
+                            Image(systemName: randomBuildingImage)
+                                .resizable()
+                                .offset(x: CGFloat.random(in: 10...20),y: CGFloat.random(in: 10...20))
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: buildingSize.width, height: buildingSize.height)
+                                .foregroundColor(getRandomColor())
+                        }
+                    }
+                    
+                    HStack(spacing: 20) {
+                        ForEach(0..<6) { _ in
+                            let buildingSize = CGSize(width: CGFloat.random(in: 60...100) * scaleFactor, height: CGFloat.random(in: 160...200))
+                            let randomBuildingImage = getRandomBuildingImage()
+                            
+                            Image(systemName: randomBuildingImage)
+                                .resizable()
+                                .offset(x: CGFloat.random(in: 10...20), y: CGFloat.random(in: 10...20))
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: buildingSize.width, height: buildingSize.height)
+                                .foregroundColor(getRandomColor())
+                        }
+                    }
+                }.frame(maxWidth: geometry.size.width, maxHeight: geometry.size.height).clipped()
+                
+                    
+                    VStack {
+                        
+                        Text("Clara").font(.system(size: 90)).fontWeight(.heavy).foregroundColor(.black).offset(x: 0)//.shadow(color: .black, radius: 10, x: 10, y: 10)
+                        Text("Clara").font(.system(size: 80)).fontWeight(.bold).foregroundColor(.black)//.shadow(color: .black, radius: 10, x: 10, y: 10)
+                        Text("Opoly").font(.system(size: 70)).fontWeight(.semibold).foregroundColor(.black).offset(x: 45)//.shadow(color: .black, radius: 10, x: 10, y: 10)
+                        
+                    }
+                
+                
+                
+                ZStack {
+                    Rectangle().foregroundColor(.orange).frame(width: 80, height:40).shadow(radius: 1)
+                    Rectangle().foregroundColor(.orange).frame(width: 80, height:40).rotationEffect(.degrees(46)).shadow(radius: 2)
+                    Rectangle().foregroundColor(.orange).frame(width: 80, height:40).rotationEffect(.degrees(47)).shadow(radius: 1)
+                    Rectangle().foregroundColor(.orange).frame(width: 80, height:40).rotationEffect(.degrees(43)).shadow(radius: 2)
+                    Rectangle().foregroundColor(.orange).frame(width: 80, height:40).rotationEffect(.degrees(48)).shadow(radius: 3)
+                    Rectangle().foregroundColor(.orange).frame(width: 80, height:40).rotationEffect(.degrees(47)).shadow(radius: 1)
+                }.position(x: 0.80 * geometry.size.width , y: 0.3 * geometry.size.height  )
+                
+                Group {
+                    Rectangle().foregroundColor(.yellow).frame(width: 80, height:40).rotationEffect(.degrees(41)).shadow(radius: 1)
+                    Rectangle().foregroundColor(.yellow).frame(width: 80, height:40).rotationEffect(.degrees(47)).shadow(radius: 2)
+                    Rectangle().foregroundColor(.yellow).frame(width: 80, height:40).rotationEffect(.degrees(42)).shadow(radius: 3)
+                    Rectangle().foregroundColor(.yellow).frame(width: 80, height:40).rotationEffect(.degrees(41)).shadow(radius: 1)
+                    Rectangle().foregroundColor(.yellow).frame(width: 80, height:40).rotationEffect(.degrees(44)).shadow(radius: 1)
+                    Rectangle().foregroundColor(.yellow).frame(width: 80, height:40).rotationEffect(.degrees(42)).shadow(radius: 1)
+                }.position(x: 0.2*geometry.size.width , y: 0.75 * geometry.size.height  )
+                
+                
+            }
+        }
+    }
+    
+    func getRandomBuildingImage() -> String {
+        let buildingImages = [
+            "building.fill",
+            "building",
+            "building.2.fill",
+            "building.columns",
+        ]
+        
+        return buildingImages.randomElement() ?? "building.2.fill"
+    }
+}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}
+
+private struct SizeKey: PreferenceKey {
+    static let defaultValue: CGSize = .zero
+    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
+        value = nextValue()
+    }
+}
+
+extension View {
+    func captureSize(in binding: Binding<CGSize>) -> some View {
+        overlay(GeometryReader { proxy in
+            Color.clear.preference(key: SizeKey.self, value: proxy.size)
+        })
+            .onPreferenceChange(SizeKey.self) { size in binding.wrappedValue = size }
+    }
+}
+
+struct Rotated<Rotated: View>: View {
+    var view: Rotated
+    var angle: Angle
+
+    init(_ view: Rotated, angle: Angle = .degrees(-90)) {
+        self.view = view
+        self.angle = angle
+    }
+
+    @State private var size: CGSize = .zero
+
+    var body: some View {
+        // Rotate the frame, and compute the smallest integral frame that contains it
+        let newFrame = CGRect(origin: .zero, size: size)
+            .offsetBy(dx: -size.width/2, dy: -size.height/2)
+            .applying(.init(rotationAngle: CGFloat(angle.radians)))
+            .integral
+
+        return view
+            .fixedSize()                    // Don't change the view's ideal frame
+            .captureSize(in: $size)         // Capture the size of the view's ideal frame
+            .rotationEffect(angle)          // Rotate the view
+            .frame(width: newFrame.width,   // And apply the new frame
+                   height: newFrame.height)
+    }
+}
+
+extension View {
+    func rotated(_ angle: Angle = .degrees(-90)) -> some View {
+        Rotated(self, angle: angle)
+    }
+}
 
 struct TraditionalGameBoardView: View {
     
@@ -81,158 +263,161 @@ struct TraditionalGameBoardView: View {
     @Binding  var cellCenters: [Int: CGPoint]
     
     func generateCenters()->[Int: CGPoint]{
-            
-            let coordBase = geometry.frame(in: .global)
-            
-            let verticalSize: CGSize = calculateNonCornerCellSize(geometry, horizontal: false)
-            let horizontalSize: CGSize = calculateNonCornerCellSize(geometry, horizontal: true)
-            let cornerSize: CGSize = calculateCornerCellSize(geometry)
         
-            print("Vertical", verticalSize)
-            print("Hori", horizontalSize)
-            print("corner", cornerSize)
-
-                var cellCenters: [Int: CGPoint] = [:] // Dictionary to store the centers of the cell views
-
-            func incrementBottomRight(_ increment: CGSize){
-                if vertical {
-                    curBottomRight.y += increment.height
-
-                }
-                else {
-                    curBottomRight.x += increment.width
-                }
+        let coordBase = geometry.frame(in: .global)
+        let verticalSize: CGSize = calculateNonCornerCellSize(geometry, horizontal: false)
+        let horizontalSize: CGSize = calculateNonCornerCellSize(geometry, horizontal: true)
+        let cornerSize: CGSize = calculateCornerCellSize(geometry)
+        
+        var cellCenters: [Int: CGPoint] = [:] // Dictionary to store the centers of the cell views
+        
+        func incrementBottomRight(_ increment: CGSize){
+            if vertical {
+                curBottomRight.y += increment.height
             }
-        
-            func resetTopLeft(){
-                if vertical {
-                    curTopLeft.y = curBottomRight.y
-                } else {
-                    curTopLeft.x = curBottomRight.x
-                }
+            else {
+                curBottomRight.x += increment.width
             }
+        }
         
-            func addMidpoint(){
-                let midPoint: CGPoint = CGPoint(x: (curTopLeft.x + curBottomRight.x) / 2, y: (curTopLeft.y + curBottomRight.y) / 2)
-                cellCenters[index] = midPoint
+        func resetTopLeft(){
+            if vertical {
+                curTopLeft.y = curBottomRight.y
+            } else {
+                curTopLeft.x = curBottomRight.x
             }
+        }
         
-            // Top row
-            var index: Int = 21
-            var vertical: Bool = false
-            var curTopLeft = CGPoint(x: 10, y: 0)
-            var curBottomRight = CGPoint(x: 10 + cornerSize.width , y: cornerSize.height)
+        func addMidpoint(){
+            let midPoint: CGPoint = CGPoint(x: (curTopLeft.x + curBottomRight.x) / 2, y: (curTopLeft.y + curBottomRight.y) / 2)
+            cellCenters[index] = midPoint
+        }
+        
+        // Top row
+        var index: Int = 21
+        var vertical: Bool = false
+        var curTopLeft = CGPoint(x: 10, y: 0)
+        var curBottomRight = CGPoint(x: 10 + cornerSize.width , y: cornerSize.height)
+        addMidpoint()
+        resetTopLeft()
+        for loopIndex in (22..<31) {
+            index = loopIndex
+            incrementBottomRight(horizontalSize)
             addMidpoint()
             resetTopLeft()
-            for loopIndex in (22..<31) {
-                index = loopIndex
-                incrementBottomRight(horizontalSize)
-                addMidpoint()
-                resetTopLeft()
-            }
-            index = 31
-            incrementBottomRight(cornerSize)
-            addMidpoint()
+        }
+        index = 31
+        incrementBottomRight(cornerSize)
+        addMidpoint()
         
-            // Left Column
-            curTopLeft.x = 10 + coordBase.minX
-            curTopLeft.y = cornerSize.height //+ coordBase.minY
-            curBottomRight.x = 10 + cornerSize.width
-            vertical = true
-            for loopIndex in (12..<21).reversed(){
-                index = loopIndex
-                incrementBottomRight(verticalSize)
-                addMidpoint()
-                resetTopLeft()
-            }
-            index = 11
-            incrementBottomRight(cornerSize)
+        // Left Column
+        curTopLeft.x = 10 + coordBase.minX
+        curTopLeft.y = cornerSize.height //+ coordBase.minY
+        curBottomRight.x = 10 + cornerSize.width
+        vertical = true
+        for loopIndex in (12..<21).reversed(){
+            index = loopIndex
+            incrementBottomRight(verticalSize)
             addMidpoint()
-            //Right Column
-            curTopLeft.x = geometry.frame(in: .global).maxX - 10 - cornerSize.width
-            curTopLeft.y = cornerSize.height // move down height of corner
-            curBottomRight.x = geometry.frame(in: .global).maxX - 10 // move to right side minus padding
-            curBottomRight.y = cornerSize.height
-            for loopIndex in (32..<41){
-                index = loopIndex
-                incrementBottomRight(verticalSize)
-                addMidpoint()
-                resetTopLeft()
-            }
-            // Bottom Row
-            // Bottom Right
-            index = 1
-            incrementBottomRight(cornerSize)
+            resetTopLeft()
+        }
+        index = 11
+        incrementBottomRight(cornerSize)
+        addMidpoint()
+        //Right Column
+        curTopLeft.x = geometry.frame(in: .global).maxX - 10 - cornerSize.width
+        curTopLeft.y = cornerSize.height // move down height of corner
+        curBottomRight.x = geometry.frame(in: .global).maxX - 10 // move to right side minus padding
+        curBottomRight.y = cornerSize.height
+        for loopIndex in (32..<41){
+            index = loopIndex
+            incrementBottomRight(verticalSize)
             addMidpoint()
-            vertical = false
-            curTopLeft.x = 10 + cornerSize.width + coordBase.minX
-            curBottomRight.x = 10 + cornerSize.width + coordBase.minX
-
+            resetTopLeft()
+        }
+        // Bottom Row
+        // Bottom Right
+        index = 1
+        incrementBottomRight(cornerSize)
+        addMidpoint()
+        vertical = false
+        curTopLeft.x = 10 + cornerSize.width + coordBase.minX
+        curBottomRight.x = 10 + cornerSize.width + coordBase.minX
+        
         for loopIndex in (2..<11).reversed() {
             index = loopIndex
             incrementBottomRight(horizontalSize)
             addMidpoint()
             resetTopLeft()
         }
-
-
         return cellCenters
     }
-
-                         
-                         
+    
     var body: some View {
-        let coordBase = geometry.frame(in: .global)
-//        var curTopLeft = CGPoint(x: coordBase.minX, y: coordBase.minY)
-//        var curBottomRight = CGPoint(x: coordBase.maxX, y: coordBase.maxY)
-//
-        
         let cornerSize: CGSize = calculateCornerCellSize(geometry)
         let verticalSize: CGSize = calculateNonCornerCellSize(geometry, horizontal: false)
         let horizontalSize: CGSize = calculateNonCornerCellSize(geometry, horizontal: true)
-        var curTopLeft = CGPoint(x: coordBase.minX + 10, y: coordBase.minY + 10)
-        var curBottomRight = CGPoint(x: cornerSize.width + 10, y: cornerSize.height + 10)
         
         VStack(spacing: 0) {
             /// Top Row
             HStack(spacing: 0) {
-                CellView(index: 21 , cellCenters: $cellCenters,cellSize: cornerSize, vertical: false)
-                ForEach(22..<31) { index in
-                    CellView(index: index , cellCenters: $cellCenters,cellSize: horizontalSize, vertical: false)
+                CellView(index: 21 , cellSize: cornerSize, vertical: false)
+                ForEach(Array(22..<31).reversed(), id: \.self) { index in
+                    CellView(index: index , cellSize: horizontalSize, vertical: false)
                 }
-                CellView(index: 31 , cellCenters: $cellCenters,cellSize: cornerSize, vertical: false)
+                CellView(index: 31 , cellSize: cornerSize, vertical: false)
             }
-            
-            
+            .rotated(.degrees(180))
+
             
             HStack {
                 /// left column
-                VStack(spacing: 0) {
+                HStack(spacing: 0) {
+                    
                     ForEach(Array((12..<21).reversed()), id: \.self) { index in
-                        CellView(index: index , cellCenters: $cellCenters,cellSize: verticalSize, vertical: true)
+                        CellView(index: index , cellSize: verticalSize, vertical: true)
                     }
                 }
-                .padding(.leading, 10)// Add leading padding to the left
+                .rotated(.degrees(90))
+                
                 /// Center Opening
                 Spacer()
+                    .frame(width: verticalSize.height * 9, height: verticalSize.height * 9)
+                    .background(Color("Board"))
+                    .overlay(SkylineView(scaleFactor: 1))
                 /// Right column
-                VStack(spacing: 0) {
-                    ForEach(Array(32..<41), id: \.self) { index in
-                        CellView(index: index , cellCenters: $cellCenters,cellSize: verticalSize, vertical: true)
+                
+                HStack(spacing: 0) {
+                    
+                    ForEach(Array(32..<41).reversed(), id: \.self) { index in
+                        CellView(index: index , cellSize: verticalSize, vertical: true)
                     }
-                }.padding(.trailing, 10) // Add trailing padding to the right VStack
-            }
+                }
+                .rotated(.degrees(-90))
+
+            } // Add trailing padding to the right VStack
+
             /// Bottom Row
             HStack(spacing: 0) {
-                CellView(index: 11 , cellCenters: $cellCenters,cellSize: cornerSize, vertical: false)
+                CellView(index: 11 , cellSize: cornerSize, vertical: false)
                 ForEach(Array((2..<11).reversed()), id: \.self) { index in
-                    CellView(index: index , cellCenters: $cellCenters,cellSize: horizontalSize, vertical: false)
+                    CellView(index: index , cellSize: horizontalSize, vertical: false)
                 }
-                CellView(index: 1 , cellCenters: $cellCenters,cellSize: cornerSize, vertical: false)
+                CellView(index: 1 , cellSize: cornerSize, vertical: false)
             }
-        }.onAppear(){
+        }
+        .drawingGroup() // Improve performance when using many rectangles
+        .onAppear(){
             cellCenters = generateCenters()
         }
+        .cornerRadius(5)
+
+
+        .border(Color.black.opacity(0.5), width: 2)
+        .shadow(color: Color.black.opacity(0.5), radius: 5, x: 0, y: 2) // Add shadow to the ZStack
+
+        .padding(.horizontal, 10)
+
     }
     
     func calculateNonCornerCellSize(_ geometry: GeometryProxy, horizontal: Bool) -> CGSize {
@@ -267,249 +452,51 @@ struct TraditionalGameBoardView: View {
         let height = width
         return CGSize(width: width, height: height)
     }
-    
-}
-
-
-struct CellView: View {
-    @EnvironmentObject var playersData: PlayersData
-    
-    let index: Int
-    @Binding var cellCenters:  [Int: CGPoint]
-    let cellSize: CGSize
-    let vertical: Bool
-    
-    var body: some View {
-
-        Rectangle()
-            .fill(Color.gray)
-            .frame(width: cellSize.width, height: cellSize.height)
-            .overlay(
-                GeometryReader { geometry in
-                    VStack(spacing: 0) {
-                        VStack(spacing: 0) {
-                            let playersOnLocation = playersData.players.filter {$0.location == index }
-                            ForEach(playersOnLocation.indices, id: \.self) { playerIndex in
-                                let  width = calculatePlayerSize(cellSize: max(cellSize.width, cellSize.height))
-                                let height = calculatePlayerSize(cellSize: max(cellSize.width, cellSize.height))
-                                let offset = calculatePlayerOffset(
-                                    playerIndex,
-                                    totalPlayers: playersOnLocation.count,
-                                    playerSize: width, cellWidth: cellSize.width, cellHeight : cellSize.height)
-                                
-                                
-                                Circle()
-                                    .fill(playersData.players[playerIndex].color)
-                                    .frame(width: width, height: height)
-                                    .offset(x: offset.width, y: offset.height)
-                                
-                            }
-                        }
-                        .frame(width: geometry.size.width, height: geometry.size.height)
-                    }
-                }
-            )
-            .overlay(
-                Text("\(index)")
-                    .foregroundColor(.white)
-                    .font(.caption)
-            )
-            .onAppear {
-                // assume starting point is correct
-                // store prev and then use it for the midpoint
-//                print("before botRight \(curBottomRight) topLeft \(curTopLeft)")
-//                if vertical {
-//                    curBottomRight.y += cellSize.height
-//                } else {
-//                    curBottomRight.x += cellSize.width
-//                }
-//
-//
-//                print("midpoint \(index): \((curTopLeft.x + curBottomRight.x) / 2), \((curTopLeft.y + curBottomRight.y) / 2)")
-//                self.cellCenters[index] = CGPoint(x: ((curTopLeft.x + curBottomRight.x) / 2).rounded(.towardZero) , y: ((curTopLeft.y + curBottomRight.y) / 2).rounded(.towardZero))
-//                if vertical {
-//                    curTopLeft.y = curBottomRight.y
-//                } else {
-//                    curTopLeft.x = curBottomRight.x
-//
-//                }
-                
-                
-            }
-    }
-    
-    // Calculate the player size based on the number of players
-    private func calculatePlayerSize(cellSize: CGFloat) -> CGFloat {
-        let playerSize = cellSize * 0.25 * 0.7
-        return playerSize
-    }
-    
-    private func calculatePlayerOffset(_ playerIndex: Int, totalPlayers: Int, playerSize: CGFloat, cellWidth: CGFloat, cellHeight: CGFloat) -> CGSize {
-        let rowCapacity = 2 // Maximum number of players in a row
-        var xOffset:CGFloat = 0
-        var yOffset:CGFloat = 0
-        if totalPlayers == 1{
-            return CGSize(width: xOffset, height: yOffset)
-            
-        }
-        
-        let rowIndex = playerIndex / rowCapacity
-        let colIndex = playerIndex % rowCapacity
-        
-        if totalPlayers == 2 {
-            let spacing = 0.2 * ( cellHeight == cellWidth ? cellHeight * 0.7 : min(cellHeight, cellWidth) )
-            if colIndex == 1 {
-                // undo VStack
-                yOffset -= playerSize
-                // shift right of center
-                xOffset += spacing
-            } else {
-                // shift left of center
-                xOffset -= spacing
-            }
-            if rowIndex == 0 {
-                // shift vertically down
-                yOffset += spacing
-            }
-        } else if totalPlayers == 3 {
-            let spacing = 0.2 * ( cellHeight == cellWidth ? cellHeight * 0.7 : min(cellHeight, cellWidth) )
-            if colIndex == 1 {
-                // undo VStack
-                yOffset -= playerSize
-                // shift right of center
-                xOffset += spacing
-            } else {
-                // shift left of center
-                xOffset -= spacing
-            }
-        }
-        
-        else if totalPlayers == 4 {
-            let verticalSpacing = 0.2 * ( cellHeight == cellWidth ? cellHeight * 0.7 : min(cellHeight, cellWidth) )
-            let horizontalSpacing = 0.2 * ( cellHeight == cellWidth ? cellHeight * 0.7 : min(cellHeight, cellWidth) )
-            if colIndex == 1 {
-                // undo VStack
-                yOffset -= playerSize
-                // shift right of center
-                xOffset += horizontalSpacing
-            } else {
-                // shift left of center
-                xOffset -= horizontalSpacing
-            }
-            yOffset += playerSize / 2
-            
-        }
-        
-        
-        return CGSize(width: xOffset, height: yOffset)
-    }
-    
 }
 
 
 
+let monopolyColors: [Int: Color] = [
+    1: .red,
+    2: .brown,
+    3: .white,
+    4: .brown,
+    5: .white,
+    6: .black,
+    7: .cyan,
+    8: .white,
+    9: .cyan,
+    10: .cyan,
+    11: .orange,
+    12: .pink,
+    13: .yellow,
+    14: .pink,
+    15: .pink,
+    16: .black,
+    17: .orange,
+    18: .white,
+    19: .orange,
+    20: .orange,
+    21: .red,
+    22: .red,
+    23: .white,
+    24: .red,
+    25: .red,
+    26: .black,
+    27: .yellow,
+    28: .yellow,
+    29: .yellow,
+    30: .yellow,
+    31: .blue,
+    32: .green,
+    33: .green,
+    34: .white,
+    35: .green,
+    36: .black,
+    37: .white,
+    38: .blue,
+    39: .white,
+    40: .blue
+]
 
 
-
-
-struct InfinityGameBoardView: View {
-    @State private var overlapDistance: CGFloat = 0
-    
-    var body: some View {
-        GeometryReader { geometry in
-            let radius = min(geometry.size.width, geometry.size.height) / 2
-            let overlap = calculateVerticalDistance(radius: radius, angle: 60)
-            let distance = (radius - overlap) * 2
-            
-            VStack(spacing: -distance) {
-                InfinityView(radius: radius)
-                    .rotationEffect(.degrees(0))
-                
-                InfinityView(radius: radius)
-                    .rotationEffect(.degrees(180))
-            }
-            .frame(maxWidth: .infinity)
-            .onAppear {
-                overlapDistance = distance
-            }
-        }
-    }
-    
-    func calculateVerticalDistance(radius: CGFloat, angle: CGFloat) -> CGFloat {
-        let halfAngle = angle / 2.0
-        let verticalDistance = radius * cos(halfAngle * .pi / 180.0)
-        return verticalDistance
-    }
-}
-
-struct InfinityView: View {
-    let numberOfPieces = 20
-    let radius: CGFloat
-    var body: some View {
-        GeometryReader { geometry in
-            ZStack {
-                ForEach(0..<numberOfPieces) { index in
-                    ZStack {
-                        Pie(radius: radius, startAngle: angle(for: index), endAngle: angle(for: index+1))
-                            .fill(color(for: index))
-                        Text("\(index + 1)")
-                            .foregroundColor(.white)
-                            .font(.system(size: 16, weight: .bold))
-                            .position(getTextPosition(index: index, in: geometry))
-                    }
-                }
-            }
-        }
-    }
-    
-    private func angle(for index: Int) -> Angle {
-        let anglePerPiece = 360.0 / Double(numberOfPieces)
-        return Angle(degrees: Double(index) * anglePerPiece)
-    }
-    
-    private func color(for index: Int) -> Color {
-        let hue = Double(index) / Double(numberOfPieces)
-        return Color(hue: hue, saturation: 1.0, brightness: 1.0)
-    }
-    
-    private func getTextPosition(index: Int, in geometry: GeometryProxy) -> CGPoint {
-        let anglePerPiece = 360.0 / Double(numberOfPieces)
-        let midAngle = angle(for: index).degrees + (anglePerPiece / 2.0)
-        let radius = min(geometry.size.width, geometry.size.height) / 2.0
-        
-        let x = cos(midAngle * .pi / 180.0) * (radius - 20) + geometry.size.width / 2.0
-        let y = sin(midAngle * .pi / 180.0) * (radius - 20) + geometry.size.height / 2.0
-        
-        return CGPoint(x: x, y: y)
-    }
-}
-
-
-struct Pie: Shape {
-    let radius: CGFloat
-    let startAngle: Angle
-    let endAngle: Angle
-    
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        
-        let center = CGPoint(x: rect.midX, y: rect.midY)
-        //        let radius = min(rect.width, rect.height) / 2
-        
-        path.move(to: center)
-        path.addArc(center: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: false)
-        path.addArc(center: center, radius: radius/2, startAngle: endAngle, endAngle: startAngle, clockwise: true)
-        path.closeSubpath()
-        
-        return path
-    }
-}
-
-
-
-struct ShootsAndLaddersGameBoardView: View {
-    
-    var body: some View {
-        Text("Shoots and Ladders Game Board Placeholder")
-    }
-}

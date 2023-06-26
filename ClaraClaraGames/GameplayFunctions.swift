@@ -17,11 +17,6 @@ func rollDie() -> Int {
     return Int.random(in: 1...6)
 }
 
-func getLocationOfJailForGameBoard() -> Int {
-    return 21
-}
-
-
 func loadGameData() {
     // Retrieve the saved game data object from the device storage
     if let savedData = UserDefaults.standard.data(forKey: "SavedGameData") {
@@ -102,9 +97,4 @@ func calculateRent(for property: Property) -> Int {
     default:
         fatalError("Invalid property type")
     }
-}
-
-func checkFunds(player: Player, price: Int) -> Bool {
-    // Implement logic to check if the given player has enough funds
-    return player.money >= price
 }

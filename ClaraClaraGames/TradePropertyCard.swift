@@ -28,7 +28,7 @@ struct TradePropertyCard: View {
             let propertyOwner = property.owner
             let (unownedProperties, ownedProperties) = siblingsOwned(property: property, owner: propertyOwner!)
             
-            if let railroadProperty = property as? Railroad {
+            if let _ = property as? Railroad {
                 HStack {
                     Icons.trainEnd
                         .foregroundColor(unownedProperties.contains("R1") ? .gray : .green)
@@ -57,14 +57,12 @@ struct TradePropertyCard: View {
                         } else {
                             Icons.hotel.foregroundColor(.gray)
                         }
-                        
                     }
                     else {
-                        CreateIcons(ownedProperties: ownedProperties, unownedProperties: unownedProperties)
+                        PropertiesInSetIconView(ownedProperties: ownedProperties, unownedProperties: unownedProperties)
                     }
-                    
                 }
-            } else if let utilityProperty = property as? Utility{
+            } else if let _ = property as? Utility{
                 HStack {
                     Icons.plug.foregroundColor(unownedProperties.contains("U1") ? .gray : .green)
                     Icons.outlet.foregroundColor(unownedProperties.contains("U2") ? .gray : .green)

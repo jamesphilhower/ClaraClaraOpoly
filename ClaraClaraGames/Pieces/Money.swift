@@ -1,7 +1,5 @@
 import SwiftUI
 
-
-
 enum BillType: Int, CustomStringConvertible {
     case one = 1
     case five = 5
@@ -101,7 +99,6 @@ struct BillBaseView: View {
 
     }
 }
-
 
 struct BillsView_Previews: PreviewProvider {
     static var previews: some View {

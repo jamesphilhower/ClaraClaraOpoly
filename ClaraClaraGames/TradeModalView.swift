@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct CreateIcons: View {
+struct PropertiesInSetIconView: View {
     @EnvironmentObject var propertiesData: PropertiesData
     
     let ownedProperties: [String]
