@@ -95,8 +95,6 @@ struct BillBaseView: View {
             .frame(width: 50)
             .rotationEffect(Angle(degrees: 90))
             .frame(width: 32)
-        
-
     }
 }
 

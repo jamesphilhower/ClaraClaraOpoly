@@ -47,6 +47,7 @@ class Player: Identifiable, Equatable, ObservableObject, Hashable {
     func moveForward(){
         self.location += 1
     }
+
     func hasFundsFor(_ price: Int) -> Bool {
             // Implement logic to check if the player has enough funds
             return money >= price
@@ -69,6 +70,49 @@ class Player: Identifiable, Equatable, ObservableObject, Hashable {
     func goToJail() {
         self.inJail = true
         self.location = 21
+    }
+
+    func movePlayerToProperty(propertyName: String) {
+        while (self.location.name != propertyName){
+            moveForward()
+        }
+    }
+
+    func moveToNearest(propertyGroup: String) {
+        let propertyName = ""
+        movePlayerToProperty(propertyName)
+    }
+
+    func pay(){
+        
+    }
+
+    func goBankrupt(){
+        
+    }
+
+    func payBank(){
+
+    }
+
+    func payPlayer(){
+
+    }
+
+    func payOtherPlayers(){
+        
+    }
+
+    func moveBackwards(){
+
+    }
+
+    func getMoneyFromBank(){
+
+    } 
+
+    func buyProperty(){
+        
     }
 }
 

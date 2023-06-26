@@ -56,44 +56,7 @@ enum PropertyGroup {
     case yellow
     case green
     case darkBlue
-    
-    var iconName: String {
-        switch self {
-            // Side 1
-        case .brown:
-            // scooter bicycle
-            return "house.fill"
-        case .lightBlue:
-            // cablecar tram.fill.tunnel bus
-            return "house.fill"
-            // Side 2
-        case .pink:
-            // graudationcap backpack text.book.closed
-            return "house.fill"
-        case .orange:
-            // magazine newspaper radio
-            return "house.fill"
-            // Side 3
-        case .red:
-            // cross
-            // syringe allergens facemask
-            return "house.fill"
-        case .yellow:
-            // airplane
-            // airplane.departure airplane airplane.arrival
-            return "house.fill"
-            // Side 4
-        case .green:
-            // antenna.radiowaves
-            // cloud wifi cellularbars
-            return "house.fill"
-        case .darkBlue:
-            //
-            // crown building.columns
-            return "house.fill"
-        }
-    }
-    
+
     var color: Color {
         switch self {
         case .brown:
@@ -118,7 +81,7 @@ enum PropertyGroup {
 
 class Property: Identifiable, ObservableObject, Equatable {
     let name: String
-    let icon: any View
+    let iconName: String
     @Published var isMortgaged: Bool
     let mortgageValue: Int
     let unMortgageCost: Int
@@ -133,7 +96,7 @@ class Property: Identifiable, ObservableObject, Equatable {
         unMortgageCost: Int = 0,
         baseRent: Int = 0,
         siblings: [Property] = [],
-        icon: some View
+        iconName: String
     ) {
         self.name = name
         self.isMortgaged = isMortgaged
@@ -141,7 +104,7 @@ class Property: Identifiable, ObservableObject, Equatable {
         self.unMortgageCost = unMortgageCost
         self.baseRent = baseRent
         self.siblings = siblings
-        self.icon = icon
+        self.iconName = iconName
     }
     
     static func ==(lhs: Property, rhs: Property) -> Bool {
@@ -185,7 +148,7 @@ class Property: Identifiable, ObservableObject, Equatable {
 
 class Railroad: Property {
     init(name: String, isMortgaged: Bool = false, siblings: [Property] = [],
-         icon: some View) {
+         iconName: String) {
         super.init(
             name: name,
             isMortgaged: isMortgaged,
@@ -193,7 +156,114 @@ class Railroad: Property {
             unMortgageCost: 0,
             baseRent: 25,
             siblings: siblings,
-            icon: icon
+            iconName: iconName
+        )
+    }
+}
+
+class NonPropertySpace: Identifiable, ObservableObject, Equatable {
+
+    let name: String
+    let iconName: String
+    let onLand: () -> Void
+    
+    init(
+        name: String,
+        iconName: String
+    ) {
+        self.name = name
+        self.iconName = iconName
+    }
+
+  static func ==(lhs: Property, rhs: Property) -> Bool {
+        return lhs.name == rhs.name
+    }
+}
+
+class Start: NonPropertySpace {
+    init() {
+        super.init(
+            name: "Start",
+            iconName: "flag.checkered",
+            onLand: collectFromBank,
+            params: 200
+        )
+    }
+}
+
+class CommunityChest: NonPropertySpace {
+    init() {
+        super.init(
+            name: "Community Chest",
+            iconName: "chart.xyaxis.line",
+            onLand: draw,
+            params: "chest"
+        )
+    }
+}
+
+class Chance: NonPropertySpace {
+    init() {
+        super.init(
+            name: "Travel Agent",
+            iconName: "ticket",
+            onLand: draw,
+            params: "chance"
+        )
+    }
+}
+
+class Jail: NonPropertySpace {
+    init() {
+        super.init(
+            name: "Jail",
+            iconName: "tablecells",
+            onLand: nil,
+            params: nil
+        )
+    }
+}
+
+class GoToJail: NonPropertySpace {
+    init() {
+        super.init(
+            name: "Chance",
+            iconName: "hand.raised",
+            onLand: goToJail,
+            params: nil
+        )
+    }
+}
+
+class FreeParking: NonPropertySpace {
+    init() {
+        super.init(
+            name: "Park",
+            iconName: "tree",
+            onLand: handleFreeParking,
+            params: nil
+        )
+    }
+}
+
+class LuxuryTax: NonPropertySpace {
+    init() {
+        super.init(
+            name: "Out of Policy Claim",
+            iconName: "list.bullet.clipboard",
+            onLand: payFee,
+            params: 75
+        )
+    }
+}
+
+class IncomeTax: NonPropertySpace {
+    init() {
+        super.init(
+            name: "Data Corruption",
+            iconName: "externaldrive.badge.xmark",
+            onLand: handleIncomeTax,
+            params: nil
         )
     }
 }
@@ -208,13 +278,12 @@ class BuildableProperty: Property {
     @Published var hasHotel: Bool
     let housingRates: [Int]
     let hotelRate: Int
-    let iconDimensions: (CGFloat, CGFloat)
-    let buildableIcon: Image
+    let iconName: String
     
     init(
         name: String,
         isMortgaged: Bool = false,
-        icon:  (Image, CGFloat, CGFloat),
+        iconName: String,
         mortgageValue: Int = 0,
         unMortgageCost: Int = 0,
         baseRent: Int = 0,
@@ -236,8 +305,6 @@ class BuildableProperty: Property {
         self.hotelPrice = hotelPrice
         self.sellHouseFor = sellHouseFor
         self.sellHotelFor = sellHotelFor
-        self.iconDimensions = (icon.1, icon.2)
-        self.buildableIcon = (icon.0)
         super.init(
             name: name,
             isMortgaged: isMortgaged,
@@ -245,7 +312,7 @@ class BuildableProperty: Property {
             unMortgageCost: unMortgageCost,
             baseRent: baseRent,
             siblings: siblings,
-            icon: icon.0
+            iconName: iconName
         )
     }
     func buyBuilding() {
@@ -293,7 +360,7 @@ class BuildableProperty: Property {
 
 class Utility: Property {
     init(name: String, siblings: [Property] = [],
-         icon: some View) {
+         iconName: String) {
         super.init(
             name: name,
             isMortgaged: false,
@@ -301,22 +368,29 @@ class Utility: Property {
             unMortgageCost: 0,
             baseRent: 0, // Set the appropriate default value
             siblings: siblings,
-            icon: icon
+            iconName: iconName
         )
     }
 }
 
-func assignSiblings(to arrays: [[Property]]) -> [Property] {
+func assignSiblings(to properties: [Any]) -> [Property] {
     var flatList: [Property] = []
     
-    for array in arrays {
-        for property in array {
-            property.siblings = array.filter { $0 !== property }
+    for property in properties {
+        // Check if the item is of type Property
+        if let property = property as? Property {
+            // Filter the properties to find siblings with the same group
+            property.siblings = properties.compactMap { $0 as? Property }
+                .filter { $0.group == property.group && $0 !== property }
+            
+            // Append the property to the flat list
             flatList.append(property)
         }
     }
+    
     return flatList
 }
+
 
 func siblingsOwned(property: Property, owner: Player) -> (unownedProperties: [String], ownedProperties: [String]) {
     var unownedProperties: [String] = []
