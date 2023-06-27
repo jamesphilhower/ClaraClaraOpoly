@@ -19,8 +19,7 @@ struct ClaraClaraGamesApp: App {
     @StateObject private var diceAnimationData = DiceAnimationData()
     @StateObject private var players = PlayersData()
     @StateObject private var properties = PropertiesData()
-    
-   
+    @StateObject private var cards = CardsData()
 
     
     var body: some Scene {
@@ -28,6 +27,7 @@ struct ClaraClaraGamesApp: App {
             ContentView()
                 .environmentObject(diceAnimationData)
                 .environmentObject(players)
+                .environmentObject(cards)
                 .environmentObject(properties)
         }
     }

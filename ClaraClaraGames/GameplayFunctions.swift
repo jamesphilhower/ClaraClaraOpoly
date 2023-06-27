@@ -74,11 +74,11 @@ func calculateRent(for property: Property) -> Int {
     }
     
     switch property {
-    case let utility as Utility:
+    case _ as Utility:
         let ownedUtilitiesCount = property.siblings.reduce(0) { result, property in
             return result + (property.owner == property.owner ? 1 : 0)
         }
-        return  utility.baseRent * ownedUtilitiesCount == 1 ? 4 : 10
+        return ownedUtilitiesCount == 1 ? 4 : 10
         
     case _ as Railroad:
         let ownedRailroadsCount = property.siblings.reduce(0) { result, property in

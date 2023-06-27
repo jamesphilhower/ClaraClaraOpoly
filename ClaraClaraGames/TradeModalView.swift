@@ -14,9 +14,9 @@ struct PropertiesInSetIconView: View {
             ForEach(sortedProperties, id: \.self) { propertyName in
                 let currentProperty = propertiesData.properties.first(where: { $0.name == propertyName }) as! BuildableProperty
                 
-                currentProperty.buildableIcon
+                Image(systemName: currentProperty.iconName)
                     .foregroundColor(ownedProperties.contains(currentProperty.name) ? .green : .gray)
-                    .frame(width:  currentProperty.iconDimensions.1, height: currentProperty.iconDimensions.0)
+                    .frame(width:  40, height: 40)
                     .aspectRatio(contentMode: .fit)
             }
         }

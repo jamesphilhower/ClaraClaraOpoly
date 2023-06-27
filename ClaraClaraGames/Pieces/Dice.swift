@@ -14,7 +14,6 @@ class DiceAnimationData: ObservableObject {
     
     @MainActor
     func startDiceAnimationWrapper(isTwoDice: Bool = true) async -> [Int] {
-        print("before startDice")
         self.isTwoDice = isTwoDice
         let results = await startDiceAnimation()
         return results
@@ -22,8 +21,6 @@ class DiceAnimationData: ObservableObject {
     /// Todo prevent from starting two dice rolls at the same time
     @MainActor
     func startDiceAnimation() async -> [Int] {
-        print("Starting dice animation...")
-        
         isFlashing = true
         timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] timer in
             guard let self = self else {
@@ -48,7 +45,6 @@ class DiceAnimationData: ObservableObject {
                           blue: Double.random(in: 0...1))
         
         do {
-            print("do dice")
 //            try await Task.sleep(nanoseconds: 2_000_000_000) // Wait for 2 seconds
                         try await Task.sleep(nanoseconds: 500_000_000) // Wait for 2 seconds
 
@@ -63,20 +59,16 @@ class DiceAnimationData: ObservableObject {
             print("An error occurred: \(error)")
         }
         
-        print("Dice animation completed. Results: \(flashingNumbers)")
         return flashingNumbers
     }
     
     func pauseDiceAnimation() {
-        print("Pausing dice animation...")
         
         timer?.invalidate()
         timer = nil
     }
     
-    func stopDiceAnimation() {
-        print("Stopping dice animation...")
-        
+    func stopDiceAnimation() {        
         isFlashing = false
     }
 }

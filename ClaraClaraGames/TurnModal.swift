@@ -44,7 +44,8 @@ struct PlayerTurnModalView: View {
     
     @EnvironmentObject private var diceAnimation: DiceAnimationData
     @EnvironmentObject private var playersData: PlayersData
-    
+    @EnvironmentObject private var cards: CardsData
+
     func endTurnAndShowPopup() {
         
         // Move to the next player's turn
@@ -177,26 +178,22 @@ struct PlayerTurnModalView: View {
                                     }
                                 }
                                 
-                                for _ in (0..<(r1+r2)) {
-                                    do {
-                                        if currentPlayer.location == 40 {
-                                            currentPlayer.location = 1
-                                        } else {
-                                            currentPlayer.location += 1
-                                        }
-                                        
-//                                        try  await Task.sleep(nanoseconds: 100_000_000)  // Delay for 1.5 seconds
-                                        playersData.roll += 1
-                                        try   await Task.sleep(nanoseconds: 300_000_000)  // Delay for 1.5 seconds
 
-                                        
-                                    }catch{
-                                        // todo make it jump to the right spot it should have gone by precalc
-                                        print("well isn't that great")
-                                    }
+                                await currentPlayer.move(spaces: r1 + r2)
+
+                                print("done moving, now gonna wait a sec")
+                                do {
+                                    try  await Task.sleep(nanoseconds: 1_000_000_000)
+                                }catch{
+                                    print("oopsie tehre")
+
                                 }
+                                
+                                await currentPlayer.executeCards()
+
                                
                                 hideAll = false
+
                             }
                             
                             currentPlayerAction = .none  // Set currentPlayerAction to .none

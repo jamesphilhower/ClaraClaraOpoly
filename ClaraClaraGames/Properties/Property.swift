@@ -9,30 +9,8 @@ enum PropertyError: Error {
     case alreadyMortgaged
 }
 
-class Start {
-    var icon = "flag.checkered"
-}
-
-class Jail {
-    var icon = "tablecells"
-    var icon2 = "hand.raised"
-}
-
-class FreeParking {
-    var icon = "tree"
-}
-
 class PositiveCard {
     var icon = "gift"
-}
-
-
-class AddPropsToTrade {
-    var icon = "cart.badge.plus"
-}
-
-class AddPropsToDropFromTrade {
-    var icon = "trash"
 }
 
 class InsufficientMoney {
@@ -43,68 +21,52 @@ class getOutOfJail {
     var icon = "giftcard"
 }
 
-class confirmTrade {
-    var icon = "signature"
-}
-
-enum PropertyGroup {
-    case brown
-    case lightBlue
-    case pink
-    case orange
-    case red
-    case yellow
-    case green
-    case darkBlue
-
-    var color: Color {
-        switch self {
-        case .brown:
-            return .brown
-        case .lightBlue:
-            return .blue
-        case .pink:
-            return .pink
-        case .orange:
-            return .orange
-        case .red:
-            return .red
-        case .yellow:
-            return .yellow
-        case .green:
-            return .green
-        case .darkBlue:
-            return .blue
-        }
+class BoardSpace {
+    let name: String
+    let iconName: String
+    let color: Color
+    let group: String
+    
+    init(name: String, iconName: String, color: Color, group: String = "NonProperty")
+    {
+        self.name = name
+        self.iconName = iconName
+        self.color = color
+        self.group = group
     }
 }
 
-class Property: Identifiable, ObservableObject, Equatable {
-    let name: String
-    let iconName: String
+class Property: BoardSpace, Identifiable, ObservableObject, Equatable {
     @Published var isMortgaged: Bool
     let mortgageValue: Int
     let unMortgageCost: Int
+    let purchasePrice: Int
     @Published var owner: Player?
     let baseRent: Int
-    @Published var siblings: [Property]
+    @Published var siblings: [Property] = []
     
     init(
         name: String,
+        purchasePrice: Int,
+        group: String,
         isMortgaged: Bool = false,
         mortgageValue: Int = 0,
         unMortgageCost: Int = 0,
         baseRent: Int = 0,
-        siblings: [Property] = [],
-        iconName: String
+        iconName: String,
+        color: Color
     ) {
-        self.name = name
+        self.purchasePrice = purchasePrice
         self.isMortgaged = isMortgaged
         self.mortgageValue = mortgageValue
         self.unMortgageCost = unMortgageCost
         self.baseRent = baseRent
-        self.siblings = siblings
-        self.iconName = iconName
+        super.init(
+            name: name,
+            iconName: iconName,
+            color: color,
+            group: group
+        )
     }
     
     static func ==(lhs: Property, rhs: Property) -> Bool {
@@ -147,36 +109,37 @@ class Property: Identifiable, ObservableObject, Equatable {
 
 
 class Railroad: Property {
-    init(name: String, isMortgaged: Bool = false, siblings: [Property] = [],
+    init(name: String, isMortgaged: Bool = false,
          iconName: String) {
         super.init(
             name: name,
+            purchasePrice: 200,
+            group: "rr",
             isMortgaged: isMortgaged,
             mortgageValue: 0,
             unMortgageCost: 0,
             baseRent: 25,
-            siblings: siblings,
-            iconName: iconName
+            iconName: iconName,
+            color: .black
         )
     }
 }
 
-class NonPropertySpace: Identifiable, ObservableObject, Equatable {
-
-    let name: String
-    let iconName: String
-    let onLand: () -> Void
+class NonPropertySpace: BoardSpace {
+    let onLand: (Player)async -> Void
     
     init(
         name: String,
-        iconName: String
+        iconName: String,
+        onLand: @escaping (Player)async -> Void,
+        color: Color
     ) {
-        self.name = name
-        self.iconName = iconName
-    }
-
-  static func ==(lhs: Property, rhs: Property) -> Bool {
-        return lhs.name == rhs.name
+        self.onLand = onLand
+        super.init(
+            name: name,
+            iconName: iconName,
+            color: color
+        )
     }
 }
 
@@ -185,8 +148,10 @@ class Start: NonPropertySpace {
         super.init(
             name: "Start",
             iconName: "flag.checkered",
-            onLand: collectFromBank,
-            params: 200
+            onLand: { player in
+                 player.collectFromBank(200)
+            },
+            color: .red
         )
     }
 }
@@ -196,8 +161,10 @@ class CommunityChest: NonPropertySpace {
         super.init(
             name: "Community Chest",
             iconName: "chart.xyaxis.line",
-            onLand: draw,
-            params: "chest"
+            onLand: { player in
+                await player.draw("chest")
+            },
+            color: .mint
         )
     }
 }
@@ -207,19 +174,22 @@ class Chance: NonPropertySpace {
         super.init(
             name: "Travel Agent",
             iconName: "ticket",
-            onLand: draw,
-            params: "chance"
+            onLand: { player in
+                await player.draw("chance")
+            },
+            color: .mint
         )
     }
 }
 
+func doNothing(_ player: Player) {}
 class Jail: NonPropertySpace {
     init() {
         super.init(
             name: "Jail",
             iconName: "tablecells",
-            onLand: nil,
-            params: nil
+            onLand: doNothing,
+            color: .blue
         )
     }
 }
@@ -229,8 +199,10 @@ class GoToJail: NonPropertySpace {
         super.init(
             name: "Chance",
             iconName: "hand.raised",
-            onLand: goToJail,
-            params: nil
+            onLand: { player in
+                player.goToJail()
+            },
+            color: .blue
         )
     }
 }
@@ -240,8 +212,10 @@ class FreeParking: NonPropertySpace {
         super.init(
             name: "Park",
             iconName: "tree",
-            onLand: handleFreeParking,
-            params: nil
+            onLand: { player in
+                player.handleFreeParking()
+            },
+            color: .green
         )
     }
 }
@@ -251,8 +225,10 @@ class LuxuryTax: NonPropertySpace {
         super.init(
             name: "Out of Policy Claim",
             iconName: "list.bullet.clipboard",
-            onLand: payFee,
-            params: 75
+            onLand: { player in
+                player.payFee(75)
+            },
+            color: .red
         )
     }
 }
@@ -262,8 +238,10 @@ class IncomeTax: NonPropertySpace {
         super.init(
             name: "Data Corruption",
             iconName: "externaldrive.badge.xmark",
-            onLand: handleIncomeTax,
-            params: nil
+            onLand: { player in
+                player.handleIncomeTax()
+            },
+            color: .red
         )
     }
 }
@@ -278,16 +256,16 @@ class BuildableProperty: Property {
     @Published var hasHotel: Bool
     let housingRates: [Int]
     let hotelRate: Int
-    let iconName: String
     
     init(
         name: String,
+        purchasePrice: Int,
+        group: String,
         isMortgaged: Bool = false,
         iconName: String,
         mortgageValue: Int = 0,
         unMortgageCost: Int = 0,
         baseRent: Int = 0,
-        siblings: [Property] = [],
         numberHouses: Int = 0,
         hasHotel: Bool = false,
         housingRates: [Int] = [],
@@ -295,7 +273,8 @@ class BuildableProperty: Property {
         housePrice: Int = 0,
         hotelPrice: Int = 0,
         sellHouseFor: Int = 0,
-        sellHotelFor: Int = 0
+        sellHotelFor: Int = 0,
+        color: Color
     ) {
         self.numberHouses = numberHouses
         self.hasHotel = hasHotel
@@ -307,12 +286,14 @@ class BuildableProperty: Property {
         self.sellHotelFor = sellHotelFor
         super.init(
             name: name,
+            purchasePrice: purchasePrice,
+            group: group,
             isMortgaged: isMortgaged,
             mortgageValue: mortgageValue,
             unMortgageCost: unMortgageCost,
             baseRent: baseRent,
-            siblings: siblings,
-            iconName: iconName
+            iconName: iconName,
+            color: color
         )
     }
     func buyBuilding() {
@@ -359,36 +340,43 @@ class BuildableProperty: Property {
 }
 
 class Utility: Property {
-    init(name: String, siblings: [Property] = [],
+    init(name: String,
          iconName: String) {
         super.init(
             name: name,
+            purchasePrice: 150,
+            group: "utilities",
             isMortgaged: false,
             mortgageValue: 0,
             unMortgageCost: 0,
             baseRent: 0, // Set the appropriate default value
-            siblings: siblings,
-            iconName: iconName
+            iconName: iconName,
+            color: .gray
         )
     }
 }
 
-func assignSiblings(to properties: [Any]) -> [Property] {
-    var flatList: [Property] = []
-    
-    for property in properties {
+func assignSiblings(to spaces: [Any]) -> ([BoardSpace], [Property]) {
+    var spaceResult: [BoardSpace] = []
+    var properties: [Property] = []
+
+    for space in spaces {
+        print("What")
         // Check if the item is of type Property
-        if let property = property as? Property {
+        if let property = space as? Property {
             // Filter the properties to find siblings with the same group
-            property.siblings = properties.compactMap { $0 as? Property }
+            property.siblings = spaces.compactMap { $0 as? Property }
                 .filter { $0.group == property.group && $0 !== property }
             
             // Append the property to the flat list
-            flatList.append(property)
+            properties.append(property)
+        }
+        if let space = space as? BoardSpace {
+            spaceResult.append(space)
         }
     }
     
-    return flatList
+    return (spaceResult, properties)
 }
 
 

@@ -23,29 +23,26 @@ enum BillType: Int, CustomStringConvertible {
     }
 }
 
-
 func getBillColor(for value: Int) -> Color {
-        switch value {
-        case 500:
-            return .black
-        case 100:
-            return .blue
-        case 50:
-            return .green
-        case 20:
-            return .red
-        case 10:
-            return .purple
-        case 5:
-            return .orange
-        case 1:
-            return .gray
-        default:
-            return .gray
-        }
+    switch value {
+    case 500:
+        return .black
+    case 100:
+        return .blue
+    case 50:
+        return .green
+    case 20:
+        return .red
+    case 10:
+        return .purple
+    case 5:
+        return .orange
+    case 1:
+        return .gray
+    default:
+        return .gray
     }
-
-
+}
 
 struct BillsView: View {
     let bills: [String: Int]
@@ -58,21 +55,20 @@ struct BillsView: View {
                 let billCount = count
                 let color = getBillColor(for: billValue.rawValue)
                 let fontSize: CGFloat = (billValue == .hundred || billValue == .fiveHundred) ? 19 : 20
-
+                
                 ZStack {
                     ForEach(0..<billCount, id: \.self) { index in
                         BillBaseView(color: color, value: billValue, fontSize: fontSize)
                             .offset(x: CGFloat(index * 4), y: CGFloat(index * 4))
                     }
                 }.padding(EdgeInsets(top: 0, leading: 0, bottom: CGFloat(billCount * 4), trailing: CGFloat(billCount * 4)))
-
+                
             }
         }
         .frame(maxWidth: .infinity)
         .padding()
     }
 }
-
 
 struct BillBaseView: View {
     let color: Color
