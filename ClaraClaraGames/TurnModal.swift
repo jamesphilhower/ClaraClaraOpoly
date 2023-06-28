@@ -4,18 +4,31 @@ struct PlayerTurnButton<Content: View>: View {
     let isEnabled: Bool
     let action: () -> Void
     let content: Content
+    let iconName: String
     
-    init(isEnabled: Bool, action: @escaping () -> Void, @ViewBuilder content: () -> Content) {
+    init(isEnabled: Bool, action: @escaping () -> Void, @ViewBuilder content: () -> Content, iconName: String) {
         self.isEnabled = isEnabled
         self.action = action
         self.content = content()
+        self.iconName = iconName
     }
     
     var body: some View {
         Button(action: action) {
-            content
+            VStack(spacing: 4) {
+                Image(systemName: iconName)
+                    .font(.system(size: 32))
+                    .frame(height: 40)
+                    .padding(8)
+                    .foregroundColor(.black)
+                    .frame(width: 50)
+                    .background(
+                        Circle()
+                            .fill(.white.opacity(0.75))
+                    )
+                content.foregroundColor(.black).font(.system(size: 10))
+            }
         }
-        .padding()
         .disabled(!isEnabled)
     }
 }
@@ -72,7 +85,8 @@ struct PlayerTurnModalView: View {
                 },
                 content: {
                     Text("Roll")
-                }
+                },
+                iconName: "dice"
             ),
             PlayerTurnButton(
                 isEnabled: true,
@@ -81,7 +95,8 @@ struct PlayerTurnModalView: View {
                 },
                 content: {
                     Text("Trade")
-                }
+                },
+                iconName: "arrow.up.arrow.down"
             ),
             PlayerTurnButton(
                 isEnabled: currentPlayer.ownsProperties,
@@ -89,32 +104,31 @@ struct PlayerTurnModalView: View {
                     currentPlayerAction = .manageProperties
                 },
                 content: {
-                    Text("Manage Properties")
-                }
+                    Text("Manage\nProperties")
+                },
+                iconName: "gear"
             ),
             PlayerTurnButton(
                 isEnabled: currentPlayer.inJail,
                 action: {
                     currentPlayerAction = .payToGetOutOfJail
-                    playersData.players[currentPlayerIndex].consecutiveTurnsInJail = 0
-                    playersData.players[currentPlayerIndex].inJail = false
-                    playersData.players[currentPlayerIndex].payToGetOutOfJail()
+                    currentPlayer.payToGetOutOfJail()
                 },
                 content: {
                     Text("Pay to Get Out of Jail")
-                }
+                },
+                iconName: "dollarsign"
             ),
             PlayerTurnButton(
                 isEnabled: currentPlayer.inJail && currentPlayer.getOutOfJailCards > 0,
                 action: {
                     currentPlayerAction = .useGetOutOfJailFreeCard
-                    playersData.players[currentPlayerIndex].consecutiveTurnsInJail = 0
-                    playersData.players[currentPlayerIndex].inJail = false
-                    playersData.players[currentPlayerIndex].getOutOfJailCards -= 1
+                    currentPlayer.useGetOutOfJailFreeCard()
                 },
                 content: {
                     Text("Use Get Out of Jail Free Card")
-                }
+                },
+                iconName: "gift"
             ),
             PlayerTurnButton(
                 isEnabled: (currentPlayer.inJail && currentPlayer.consecutiveTurnsInJail < 3 && hasRolled) || (!currentPlayer.inJail && hasRolled),
@@ -126,24 +140,22 @@ struct PlayerTurnModalView: View {
                 },
                 content: {
                     Text("End Turn")
-                }
+                },
+                iconName: "arrow.clockwise"
             )
         ]
 
         
         if !hideAll {
 //            BaseModalView {
-                ZStack {
-                    VStack(spacing:-20) {
-                        Text("Current Player: \(currentPlayer.name)")
-                        
+            ZStack(alignment: .top) {
+                HStack(alignment: .top, spacing:20) {
                         ForEach(buttons.indices) { index in
                             if buttons[index].isEnabled {
                                 buttons[index]
                             }
                         }
-                        
-                    }.disabled(currentPlayerAction != .none)
+                }.frame(height: 180).disabled(currentPlayerAction != .none)
                     
                     switch currentPlayerAction {
                     case .trade:

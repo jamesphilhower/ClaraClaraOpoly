@@ -6,7 +6,7 @@ enum PropertyError: Error {
     case alreadyMortgaged
 }
 
-class Property: BoardSpace, Identifiable, ObservableObject, Equatable {
+class Property: BoardSpace, Identifiable, Equatable {
     @Published var isMortgaged: Bool
     @Published var owner: Player?
     @Published var siblings: [Property] = []

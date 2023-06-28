@@ -2,7 +2,8 @@ import SwiftUI
 
 
 struct TraditionalGameBoardView: View {
-    
+    @EnvironmentObject var propertiesData: PropertiesData
+
     let boardSize: CGFloat = 11 // Total number of cells on the board
     let horizontalSpaceRatio: CGFloat = 0.7 // Ratio of width for horizontal spaces
     let verticalSpaceRatio: CGFloat = 0.7 // Ratio of height for vertical spaces
@@ -25,11 +26,11 @@ struct TraditionalGameBoardView: View {
         VStack {
             HStack( spacing: 0) {
                 
-                CellView(index: 30 , cellSize: cornerSize, vertical: false)
+                CellView(property: propertiesData.spaces[30], cellSize: cornerSize, index: 30)
                 ForEach(Array(topRowRange).reversed(), id: \.self) { index in
-                    CellView(index: index , cellSize: horizontalSize, vertical: false)
+                    CellView(property: propertiesData.spaces[index], cellSize: horizontalSize, index: index)
                 }
-                CellView(index: 20 , cellSize: cornerSize, vertical: false)
+                CellView(property: propertiesData.spaces[20], cellSize: cornerSize, index: 20)
             }.zIndex(1)
             BillsView(bills: calculateBills(for: 1357)).offset(y: -35).zIndex(0)
             Spacer()
@@ -41,7 +42,7 @@ struct TraditionalGameBoardView: View {
         VStack {
             HStack(spacing: 0) {
                 ForEach(Array(leftColumnRange).reversed(), id: \.self) { index in
-                    CellView(index: index , cellSize: verticalSize, vertical: true)
+                    CellView(property: propertiesData.spaces[index], cellSize: verticalSize, index: index)
                 }
             }.zIndex(1)
             BillsView(bills: calculateBills(for: 1356)).offset(y: -35).zIndex(0)
@@ -54,7 +55,7 @@ struct TraditionalGameBoardView: View {
         VStack{
             HStack(spacing: 0) {
                 ForEach(Array(rightColumnRange).reversed(), id: \.self) { index in
-                    CellView(index: index , cellSize: verticalSize, vertical: true)
+                    CellView(property: propertiesData.spaces[index], cellSize: verticalSize, index: index)
                 }
             }.zIndex(1)
             BillsView(bills: calculateBills(for: 0)).offset(y: -35).zIndex(0)
@@ -66,11 +67,11 @@ struct TraditionalGameBoardView: View {
         let bottomRowHStack =
         VStack{
             HStack(spacing: 0) {
-                CellView(index: 10, cellSize: cornerSize, vertical: false)
+                CellView(property: propertiesData.spaces[10], cellSize: cornerSize, index: 10)
                 ForEach(Array(bottomRowRange).reversed(), id: \.self) { index in
-                    CellView(index: index , cellSize: horizontalSize, vertical: false)
+                    CellView(property: propertiesData.spaces[index], cellSize: horizontalSize, index: index)
                 }
-                CellView(index: 0, cellSize: cornerSize, vertical: false)
+                CellView(property: propertiesData.spaces[0], cellSize: cornerSize, index: 0)
             }.zIndex(1)
             BillsView(bills: calculateBills(for: 1398)).offset(y: -35).zIndex(0)
             Spacer()
@@ -86,7 +87,7 @@ struct TraditionalGameBoardView: View {
                 Spacer()
                     .frame(width: verticalSize.height * 9, height: verticalSize.height * 9)
                     .background(Color("Board"))
-                    .overlay(SkyLineView())
+                    .overlay(GameNameView())
                     .overlay(CardsView(rotationAngle: rotationAngle))
                 rightColumnHStack
             }

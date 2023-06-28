@@ -32,7 +32,7 @@ struct GameView: View {
     }
     
     func setupNewGame() {
-        playersCount = 4
+        playersCount = 2
         isShowingModal = true
         modalType = .setupGame
     }
@@ -49,31 +49,31 @@ struct GameView: View {
             
             VStack {
                 Spacer(minLength: 10)
-                
-                ScrollView(.horizontal) {
-                    HStack(spacing: 0) {
-                        ForEach(propertiesData.properties.reduce(into: [:]) { result, property in
-                            result[property.group, default: []].append(property)
-                        }.sorted(by: { $0.key < $1.key }), id: \.key) { group, groupProperties in
-                            let playerOwnedProperties = groupProperties.filter { property in
-                                property.owner == players.players[safe: players.currentPlayerIndex]
-                            }
-                            
-                            ZStack {
-                                ForEach(playerOwnedProperties.indices, id: \.self) { index in
-                                    let property = playerOwnedProperties[index]
-                                    PropertyCardView(property: property)
-                                        .offset(x: CGFloat(index * 4), y: CGFloat(index * 4))
-                                        
-                                }
-                            }
-                            .onTapGesture {
-                                tappedGroup = group
-                            }
-                            .padding(EdgeInsets(top: 0, leading: 0, bottom: CGFloat(playerOwnedProperties.count * 4), trailing: CGFloat(playerOwnedProperties.count * 4)))
-                        }
-                    }
-                }
+//                
+//                ScrollView(.horizontal) {
+//                    HStack(spacing: 0) {
+//                        ForEach(propertiesData.properties.reduce(into: [:]) { result, property in
+//                            result[property.group, default: []].append(property)
+//                        }.sorted(by: { $0.key < $1.key }), id: \.key) { group, groupProperties in
+//                            let playerOwnedProperties = groupProperties.filter { property in
+//                                property.owner == players.players[safe: players.currentPlayerIndex]
+//                            }
+//                            
+//                            ZStack {
+//                                ForEach(playerOwnedProperties.indices, id: \.self) { index in
+//                                    let property = playerOwnedProperties[index]
+//                                    PropertyCardView(property: property)
+//                                        .offset(x: CGFloat(index * 4), y: CGFloat(index * 4))
+//                                        
+//                                }
+//                            }
+//                            .onTapGesture {
+//                                tappedGroup = group
+//                            }
+//                            .padding(EdgeInsets(top: 0, leading: 0, bottom: CGFloat(playerOwnedProperties.count * 4), trailing: CGFloat(playerOwnedProperties.count * 4)))
+//                        }
+//                    }
+//                }
 //                .frame(minWidth: UIScreen.main.bounds.width, alignment: .leading)
 
                 if isShowingModal {

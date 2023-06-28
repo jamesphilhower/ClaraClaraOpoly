@@ -63,7 +63,7 @@ class Jail: NonPropertySpace {
     init() {
         super.init(
             name: "Jail",
-            iconName: "tablecells",
+            iconName: "ivfluid.bag",
             onLand: doNothing,
             color: .blue
         )

@@ -2,6 +2,7 @@ import SwiftUI
 
 class PropertiesData: ObservableObject {
     @Published var properties: [Property] = []
+    @Published var homeTransactions: Int = 0
     var spaces: [BoardSpace] = []
     
     private func assignSiblingsAndSplitSpaceTypes(_ spaces: [Any]) -> ([BoardSpace], [Property]) {

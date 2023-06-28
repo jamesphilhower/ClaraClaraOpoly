@@ -12,7 +12,13 @@ struct GameBoardView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack {
-                Text("James is the king of the world").font(.title)
+                if playersData.currentPlayerIndex != -1{
+                    Text("It's \(playersData.players[safe: playersData.currentPlayerIndex]?.name ?? "")'s Turn").font(.title).foregroundColor(.black)
+                        .background(RoundedRectangle(cornerRadius: 15).frame(width: UIScreen.main.bounds.width * 0.8, height: 30).foregroundColor(.white.opacity(0.75)))
+                } else {
+                    Text("Welcome!").font(.title).foregroundColor(.black).background (RoundedRectangle(cornerRadius: 15).frame(width: UIScreen.main.bounds.width * 0.8, height: 30).foregroundColor(.white.opacity(0.75)))
+                }
+               
                 if selectedGameBoard == "Traditional" {
                     TraditionalGameBoardView(geometry: geometry, cellCenters: $cellCenters, rotationAngle: $rotationAngle)
                     // 30 is used to offset the money so you can see the whole bill
@@ -47,7 +53,7 @@ struct GameBoardView: View {
                             // 40 from 30 used in offset for money bills (this file, above) and 10 for padding (in TraditionalGameBoardView)
                             PlayerTokensView(playersData: playersData, cellCenters: $cellCenters).offset(y: 40)
                         )
-                        .overlay(DiceView())
+                        .overlay(DiceView().offset(y: -100))
                         .shadow(radius: 1)
                         .cornerRadius(3)
                 } else if selectedGameBoard == "InfinityGameBoardView" {

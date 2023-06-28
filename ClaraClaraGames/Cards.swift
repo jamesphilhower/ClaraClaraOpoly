@@ -1,6 +1,5 @@
 import SwiftUI
 
-
 struct gameCard: Equatable {
     let text: String
     let action: (Player)async -> Void
@@ -36,11 +35,8 @@ struct CardGroupBaseView: View {
         }
     }
     
-    
     func buildRectangleStack(color: Color, degrees: [Double], iconName: String) -> some View {
         ZStack {
-            
-            
             ForEach(degrees.indices, id: \.self) { index in
                 withAnimation(.default) {
                     ZStack {
@@ -79,8 +75,9 @@ struct CardGroupBaseView: View {
                 
                     if isFlipped {
                         Text(drawPile[drawIndex].text)
-                            .font(.body)
+                            .font(.custom("AmericanTypewriter", size: 16))
                             .lineLimit(nil) // Allow unlimited lines
+                            .frame(width: geometry.size.width * 0.7)
                             .foregroundColor(.white)
                             .scaleEffect(x: -1)
                             .zIndex(1)

@@ -3,9 +3,9 @@ import SwiftUI
 struct CellView: View {
     @EnvironmentObject var propertiesData: PropertiesData
     
-    let index: Int
+    @ObservedObject var property: BoardSpace
     var cellSize: CGSize
-    let vertical: Bool
+    var index: Int
     
     var body: some View {
         ZStack{
@@ -13,20 +13,36 @@ struct CellView: View {
                 .fill(Color("Board"))
                 .frame(width:  min( cellSize.width, cellSize.height), height:  max( cellSize.width, cellSize.height))
             
-            if let property = propertiesData.spaces[safe: index] as? Property {
+            if let property = property as? Property {
                 
-                if ![10, 20, 30, 0].contains(index) {
+                if cellSize.width != cellSize.height {
                     Rectangle().fill(property.color).frame(width: min( cellSize.width, cellSize.height), height: 15)
+                        .overlay(
+                            Group {
+                                if let buildableProperty = property as? BuildableProperty {
+                                    HStack(spacing: -3){
+                                        if buildableProperty.hasHotel {
+                                            Image(systemName: "house.lodge.fill").font(.system(size: 12)).foregroundColor(.white)
+                                        } else {
+                                            ForEach(0..<buildableProperty.numberHouses, id: \.self) { _ in
+                                                Image(systemName: "house.fill").font(.system(size: 8)).foregroundColor(.white)}
+                                        }
+                                        
+                                    }
+                                }
+                            }
+                        )
                         .offset(y: ( max( cellSize.width, cellSize.height) - 15) / -2)
+
                 }
             }
             
-            if let space = propertiesData.spaces[safe: index] as? Property {
+            if let space = property as? Property {
                 Image(systemName: space.iconName)
                     .frame(width: min(cellSize.width, cellSize.height), height: max(cellSize.width, cellSize.height))
                     .foregroundColor(space.color)
                     .offset(y: cellSize.height * 0.15)
-            } else if let space = propertiesData.spaces[safe: index] as? NonPropertySpace {
+            } else if let space = property as? NonPropertySpace {
                 let width = cellSize.width == cellSize.height ? cellSize.width : min(cellSize.width, cellSize.height)
                 Image(systemName: space.iconName)
                     .frame(width: width, height: max(cellSize.width, cellSize.height))
@@ -46,6 +62,7 @@ struct CellView: View {
             }
         )
         .border(Color.gray.opacity(0.5), width: 0.4)
+
     }
     
     
@@ -53,7 +70,7 @@ struct CellView: View {
         switch index {
             
         case 10:
-            return .degrees(0)
+            return .degrees(45)
         case 20:
             return .degrees(-45)
         case 30:

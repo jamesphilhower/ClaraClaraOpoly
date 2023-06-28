@@ -1,7 +1,7 @@
 import SwiftUI
 
 
-class BoardSpace {
+class BoardSpace: ObservableObject {
     let name: String
     let iconName: String
     let color: Color
