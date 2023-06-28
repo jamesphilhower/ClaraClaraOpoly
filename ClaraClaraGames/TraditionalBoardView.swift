@@ -22,9 +22,7 @@ struct TraditionalGameBoardView: View {
         let bottomRowRange = 1..<10
         
         let topRowHStack =
-        ZStack(alignment: .top){
-            BillsView(bills: calculateBills(for: 1349)).offset(y: 10)
-            
+        VStack {
             HStack( spacing: 0) {
                 
                 CellView(index: 30 , cellSize: cornerSize, vertical: false)
@@ -32,51 +30,55 @@ struct TraditionalGameBoardView: View {
                     CellView(index: index , cellSize: horizontalSize, vertical: false)
                 }
                 CellView(index: 20 , cellSize: cornerSize, vertical: false)
-            }
+            }.zIndex(1)
+            BillsView(bills: calculateBills(for: 1357)).offset(y: -35).zIndex(0)
+            Spacer()
         }
+        .frame(height: 150)
         .rotated(.degrees(180))
         
         let leftColumnHStack =
-        
-        ZStack(alignment: .top){
-            BillsView(bills: calculateBills(for: 1349)).offset(y: 10)
-            
-            
+        VStack {
             HStack(spacing: 0) {
                 ForEach(Array(leftColumnRange).reversed(), id: \.self) { index in
                     CellView(index: index , cellSize: verticalSize, vertical: true)
                 }
-            }
+            }.zIndex(1)
+            BillsView(bills: calculateBills(for: 1356)).offset(y: -35).zIndex(0)
+            Spacer()
         }
+        .frame(height: 150)
         .rotated(.degrees(90))
         
         let rightColumnHStack =
-        ZStack(alignment: .top){
-            BillsView(bills: calculateBills(for: 1349)).offset(y: 10)
-            
+        VStack{
             HStack(spacing: 0) {
                 ForEach(Array(rightColumnRange).reversed(), id: \.self) { index in
                     CellView(index: index , cellSize: verticalSize, vertical: true)
                 }
-            }
+            }.zIndex(1)
+            BillsView(bills: calculateBills(for: 0)).offset(y: -35).zIndex(0)
+            Spacer()
         }
+        .frame(height: 150)
         .rotated(.degrees(-90))
         
         let bottomRowHStack =
-        ZStack(alignment: .top){
-            BillsView(bills: calculateBills(for: 1349)).offset(y: 10)
-            
+        VStack{
             HStack(spacing: 0) {
                 CellView(index: 10, cellSize: cornerSize, vertical: false)
                 ForEach(Array(bottomRowRange).reversed(), id: \.self) { index in
                     CellView(index: index , cellSize: horizontalSize, vertical: false)
                 }
                 CellView(index: 0, cellSize: cornerSize, vertical: false)
-            }
+            }.zIndex(1)
+            BillsView(bills: calculateBills(for: 1398)).offset(y: -35).zIndex(0)
+            Spacer()
+            
         }
+        .frame(height: 150)
         
-        
-        VStack(spacing: 0) {
+        VStack(alignment: .center, spacing: -1) {
             topRowHStack
             
             HStack {
@@ -110,12 +112,11 @@ struct TraditionalGameBoardView: View {
         )
         // Todo make this angle the same as above
         .rotated(.degrees(-rotationAngle))
-        .padding(.horizontal, 10)
+//        .padding(.horizontal, 10)
         
     }
     
     private func calculateNonCornerCellSize(_ geometry: GeometryProxy, horizontal: Bool) -> CGSize {
-        let padding = 10
         let availableWidth = geometry.size.width
         let availableHeight = geometry.size.height
         let minSide = min(availableWidth, availableHeight) - CGFloat(2 * padding)
@@ -135,7 +136,6 @@ struct TraditionalGameBoardView: View {
     }
     
     private func calculateCornerCellSize(_ geometry: GeometryProxy) -> CGSize{
-        let padding = 10
         let availableWidth = geometry.size.width
         let availableHeight = geometry.size.height
         let minSide = min(availableWidth, availableHeight) - CGFloat(2 * padding)
@@ -147,10 +147,11 @@ struct TraditionalGameBoardView: View {
         return CGSize(width: width, height: height)
     }
     
+    private let padding: CGFloat = 10
     // Todo we need the centers to be saved and not recalculated from the beginning
     private func generateCenters(rotationAngle: Int)->[Int: CGPoint]{
         
-        let coordBase = geometry.frame(in: .global)
+        let coordBase = geometry.frame(in: .local)
         let verticalSize: CGSize = calculateNonCornerCellSize(geometry, horizontal: false)
         let horizontalSize: CGSize = calculateNonCornerCellSize(geometry, horizontal: true)
         let cornerSize: CGSize = calculateCornerCellSize(geometry)
@@ -182,8 +183,8 @@ struct TraditionalGameBoardView: View {
         // Top row
         var index: Int = 20
         var vertical: Bool = false
-        var curTopLeft = CGPoint(x: 10, y: 0)
-        var curBottomRight = CGPoint(x: 10 + cornerSize.width , y: cornerSize.height)
+        var curTopLeft = CGPoint(x: padding, y: 0)
+        var curBottomRight = CGPoint(x: padding + cornerSize.width , y: cornerSize.height)
         addMidpoint()
         resetTopLeft()
         for loopIndex in (21..<30) {
@@ -197,9 +198,9 @@ struct TraditionalGameBoardView: View {
         addMidpoint()
         
         // Left Column
-        curTopLeft.x = 10 + coordBase.minX
+        curTopLeft.x = padding + coordBase.minX
         curTopLeft.y = cornerSize.height //+ coordBase.minY
-        curBottomRight.x = 10 + cornerSize.width
+        curBottomRight.x = padding + cornerSize.width
         vertical = true
         for loopIndex in (11..<20).reversed(){
             index = loopIndex
@@ -211,9 +212,9 @@ struct TraditionalGameBoardView: View {
         incrementBottomRight(cornerSize)
         addMidpoint()
         //Right Column
-        curTopLeft.x = geometry.frame(in: .global).maxX - 10 - cornerSize.width
+        curTopLeft.x = geometry.frame(in: .global).maxX - padding - cornerSize.width
         curTopLeft.y = cornerSize.height // move down height of corner
-        curBottomRight.x = geometry.frame(in: .global).maxX - 10 // move to right side minus padding
+        curBottomRight.x = geometry.frame(in: .global).maxX - padding // move to right side minus padding
         curBottomRight.y = cornerSize.height
         for loopIndex in (31..<40){
             index = loopIndex
@@ -227,8 +228,8 @@ struct TraditionalGameBoardView: View {
         incrementBottomRight(cornerSize)
         addMidpoint()
         vertical = false
-        curTopLeft.x = 10 + cornerSize.width + coordBase.minX
-        curBottomRight.x = 10 + cornerSize.width + coordBase.minX
+        curTopLeft.x = padding + cornerSize.width + coordBase.minX
+        curBottomRight.x = padding + cornerSize.width + coordBase.minX
         
         for loopIndex in (1..<10).reversed() {
             index = loopIndex

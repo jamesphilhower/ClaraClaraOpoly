@@ -185,8 +185,7 @@ struct PlayerTurnModalView: View {
                                 
                                 await currentPlayer.handleLandingOnSpace(roll: r1 + r2)
 
-//
-//                                //await currentPlayer.executeCards()
+                                //await currentPlayer.executeCards()
                                 print("waiting to force draw a card")
                                 do {
                                     try  await Task.sleep(nanoseconds: 1500_000_000)
