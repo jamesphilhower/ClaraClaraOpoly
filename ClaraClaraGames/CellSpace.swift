@@ -1,27 +1,5 @@
 import SwiftUI
 
-func imageRotationAngle(for index: Int)-> Angle {
-    switch index {
-        
-    case 10:
-        return .degrees(45)
-    case 20:
-        return .degrees(45)
-    case 30:
-        return .degrees(-45)
-    case 0:
-        return .degrees(0)
-    default:
-        return .degrees(0)
-    }
-}
-
-extension Array {
-    subscript(safe index: Index) -> Element? {
-        return indices.contains(index) ? self[index] : nil
-    }
-}
-
 struct CellView: View {
     @EnvironmentObject var propertiesData: PropertiesData
     
@@ -70,6 +48,23 @@ struct CellView: View {
         .border(Color.gray.opacity(0.5), width: 0.4)
     }
     
+    
+    private func imageRotationAngle(for index: Int)-> Angle {
+        switch index {
+            
+        case 10:
+            return .degrees(0)
+        case 20:
+            return .degrees(-45)
+        case 30:
+            return .degrees(45)
+        case 0:
+            return .degrees(0)
+        default:
+            return .degrees(0)
+        }
+    }
+
     
     // todo will probably deprecate this... shouldn't have spent forever on it
     struct PlayersOnLocation: View {

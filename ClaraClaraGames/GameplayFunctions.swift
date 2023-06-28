@@ -1,25 +1,8 @@
 import SwiftUI
 
-struct DiceRollResult {
-    var diceRoll1: Int
-    var diceRoll2: Int
-    var diceTotal: Int
-}
-
-func rollDice() -> DiceRollResult {
-    let diceRoll1 = rollDie()
-    let diceRoll2 = rollDie()
-    let diceTotal = diceRoll1 + diceRoll2
-    return DiceRollResult(diceRoll1: diceRoll1, diceRoll2: diceRoll2, diceTotal: diceTotal)
-}
-
-func rollDie() -> Int {
-    return Int.random(in: 1...6)
-}
-
 func loadGameData() {
     // Retrieve the saved game data object from the device storage
-    if let savedData = UserDefaults.standard.data(forKey: "SavedGameData") {
+    if let _ = UserDefaults.standard.data(forKey: "SavedGameData") {
 //            do {
 //                // Decode the saved game data object
 //                let decoder = JSONDecoder()

@@ -52,6 +52,14 @@ extension View {
     }
 }
 
+extension View {
+    func card(_ color: Color) -> some View {
+        self
+            .foregroundColor(color)
+            .frame(width: 80, height: 40)
+            .shadow(radius: 5)
+    }
+}
 
 extension View {
     func rotated(_ angle: Angle = .degrees(-90)) -> some View {

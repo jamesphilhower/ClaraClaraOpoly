@@ -1,10 +1,3 @@
-//
-//  Icons.swift
-//  ClaraClaraGames
-//
-//  Created by James Philhower on 6/20/23.
-//
-
 import SwiftUI
 
 struct Icons {

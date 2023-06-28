@@ -11,14 +11,27 @@
 		3FAF57BF2A44BBFE006698B8 /* ShootsAndLaddersBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF57BE2A44BBFE006698B8 /* ShootsAndLaddersBoard.swift */; };
 		3FAF57C12A44BC2B006698B8 /* InfinityGameBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF57C02A44BC2B006698B8 /* InfinityGameBoard.swift */; };
 		3FAF57CD2A44DBBB006698B8 /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF57CC2A44DBBB006698B8 /* Background.swift */; };
-		3FAF57CF2A44EE52006698B8 /* BoardSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF57CE2A44EE52006698B8 /* BoardSpace.swift */; };
-		3FAF57D12A45EAE2006698B8 /* CardsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF57D02A45EAE2006698B8 /* CardsData.swift */; };
+		3FAF57CF2A44EE52006698B8 /* CellSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF57CE2A44EE52006698B8 /* CellSpace.swift */; };
 		3FAF57D32A4940A1006698B8 /* Cards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF57D22A4940A1006698B8 /* Cards.swift */; };
 		3FAF57D52A494112006698B8 /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF57D42A494112006698B8 /* ViewExtensions.swift */; };
-		3FAF57D72A494133006698B8 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF57D62A494133006698B8 /* Helpers.swift */; };
 		3FAF57D92A49416B006698B8 /* SkyLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF57D82A49416B006698B8 /* SkyLineView.swift */; };
 		3FAF57DB2A4941BD006698B8 /* TraditionalBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF57DA2A4941BD006698B8 /* TraditionalBoardView.swift */; };
 		3FAF57DD2A4A5EE7006698B8 /* PropertyCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF57DC2A4A5EE7006698B8 /* PropertyCard.swift */; };
+		3FAF57DF2A4A9371006698B8 /* CardsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF57DE2A4A9371006698B8 /* CardsData.swift */; };
+		3FAF57E12A4A9407006698B8 /* PlayersData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF57E02A4A9407006698B8 /* PlayersData.swift */; };
+		3FAF57E32A4A9724006698B8 /* MoneyUnderBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF57E22A4A9724006698B8 /* MoneyUnderBoardView.swift */; };
+		3FAF57E52A4A9875006698B8 /* Player+Movement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF57E42A4A9875006698B8 /* Player+Movement.swift */; };
+		3FAF57E72A4A98CD006698B8 /* Player+Jail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF57E62A4A98CD006698B8 /* Player+Jail.swift */; };
+		3FAF57E92A4A9924006698B8 /* Player+Money.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF57E82A4A9924006698B8 /* Player+Money.swift */; };
+		3FAF57EB2A4A9A31006698B8 /* Player+Development.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF57EA2A4A9A31006698B8 /* Player+Development.swift */; };
+		3FAF57ED2A4A9B42006698B8 /* Player+ProtocolConformance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF57EC2A4A9B42006698B8 /* Player+ProtocolConformance.swift */; };
+		3FAF57F12A4A9CAE006698B8 /* PlayerTokensView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF57F02A4A9CAE006698B8 /* PlayerTokensView.swift */; };
+		3FAF57F32A4A9F8F006698B8 /* BuildableProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF57F22A4A9F8F006698B8 /* BuildableProperty.swift */; };
+		3FAF57F52A4A9F9C006698B8 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF57F42A4A9F9C006698B8 /* Utility.swift */; };
+		3FAF57F72A4AA080006698B8 /* NonPropertySpaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF57F62A4AA080006698B8 /* NonPropertySpaces.swift */; };
+		3FAF57F92A4AA098006698B8 /* BoardSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF57F82A4AA098006698B8 /* BoardSpace.swift */; };
+		3FAF57FB2A4AA16A006698B8 /* Railroad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF57FA2A4AA16A006698B8 /* Railroad.swift */; };
+		3FAF57FD2A4AA50A006698B8 /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FAF57FC2A4AA50A006698B8 /* ArrayExtensions.swift */; };
 		3FB0BFB32A3D8C0E00173F66 /* ClaraClaraGamesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB0BFB22A3D8C0E00173F66 /* ClaraClaraGamesApp.swift */; };
 		3FB0BFB52A3D8C0E00173F66 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB0BFB42A3D8C0E00173F66 /* ContentView.swift */; };
 		3FB0BFB72A3D8C1100173F66 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3FB0BFB62A3D8C1100173F66 /* Assets.xcassets */; };
@@ -65,14 +78,27 @@
 		3FAF57BE2A44BBFE006698B8 /* ShootsAndLaddersBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShootsAndLaddersBoard.swift; sourceTree = "<group>"; };
 		3FAF57C02A44BC2B006698B8 /* InfinityGameBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfinityGameBoard.swift; sourceTree = "<group>"; };
 		3FAF57CC2A44DBBB006698B8 /* Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
-		3FAF57CE2A44EE52006698B8 /* BoardSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardSpace.swift; sourceTree = "<group>"; };
-		3FAF57D02A45EAE2006698B8 /* CardsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsData.swift; sourceTree = "<group>"; };
+		3FAF57CE2A44EE52006698B8 /* CellSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellSpace.swift; sourceTree = "<group>"; };
 		3FAF57D22A4940A1006698B8 /* Cards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cards.swift; sourceTree = "<group>"; };
 		3FAF57D42A494112006698B8 /* ViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
-		3FAF57D62A494133006698B8 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		3FAF57D82A49416B006698B8 /* SkyLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkyLineView.swift; sourceTree = "<group>"; };
 		3FAF57DA2A4941BD006698B8 /* TraditionalBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraditionalBoardView.swift; sourceTree = "<group>"; };
 		3FAF57DC2A4A5EE7006698B8 /* PropertyCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyCard.swift; sourceTree = "<group>"; };
+		3FAF57DE2A4A9371006698B8 /* CardsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsData.swift; sourceTree = "<group>"; };
+		3FAF57E02A4A9407006698B8 /* PlayersData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayersData.swift; sourceTree = "<group>"; };
+		3FAF57E22A4A9724006698B8 /* MoneyUnderBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyUnderBoardView.swift; sourceTree = "<group>"; };
+		3FAF57E42A4A9875006698B8 /* Player+Movement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Player+Movement.swift"; sourceTree = "<group>"; };
+		3FAF57E62A4A98CD006698B8 /* Player+Jail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Player+Jail.swift"; sourceTree = "<group>"; };
+		3FAF57E82A4A9924006698B8 /* Player+Money.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Player+Money.swift"; sourceTree = "<group>"; };
+		3FAF57EA2A4A9A31006698B8 /* Player+Development.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Player+Development.swift"; sourceTree = "<group>"; };
+		3FAF57EC2A4A9B42006698B8 /* Player+ProtocolConformance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Player+ProtocolConformance.swift"; sourceTree = "<group>"; };
+		3FAF57F02A4A9CAE006698B8 /* PlayerTokensView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerTokensView.swift; sourceTree = "<group>"; };
+		3FAF57F22A4A9F8F006698B8 /* BuildableProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildableProperty.swift; sourceTree = "<group>"; };
+		3FAF57F42A4A9F9C006698B8 /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
+		3FAF57F62A4AA080006698B8 /* NonPropertySpaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonPropertySpaces.swift; sourceTree = "<group>"; };
+		3FAF57F82A4AA098006698B8 /* BoardSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardSpace.swift; sourceTree = "<group>"; };
+		3FAF57FA2A4AA16A006698B8 /* Railroad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Railroad.swift; sourceTree = "<group>"; };
+		3FAF57FC2A4AA50A006698B8 /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		3FB0BFAF2A3D8C0E00173F66 /* ClaraClaraGames.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClaraClaraGames.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FB0BFB22A3D8C0E00173F66 /* ClaraClaraGamesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaraClaraGamesApp.swift; sourceTree = "<group>"; };
 		3FB0BFB42A3D8C0E00173F66 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -128,9 +154,9 @@
 		3FAF57C22A44C068006698B8 /* Pieces */ = {
 			isa = PBXGroup;
 			children = (
-				3FAF57D02A45EAE2006698B8 /* CardsData.swift */,
+				3FAF57F02A4A9CAE006698B8 /* PlayerTokensView.swift */,
 				3FB0BFEE2A3EC0FD00173F66 /* DiceView.swift */,
-				3FAF57D22A4940A1006698B8 /* Cards.swift */,
+				3FAF57DC2A4A5EE7006698B8 /* PropertyCard.swift */,
 				3FB0BFEC2A3DB10900173F66 /* Dice.swift */,
 				3FB0BFF62A4181B600173F66 /* Money.swift */,
 			);
@@ -140,12 +166,9 @@
 		3FAF57C32A44C076006698B8 /* GameBoard */ = {
 			isa = PBXGroup;
 			children = (
+				3FAF57EF2A4A9C08006698B8 /* CharacterSpaces */,
+				3FAF57EE2A4A9BE5006698B8 /* NonSpaces */,
 				3FB0BFF02A3EC33500173F66 /* GameBoardView.swift */,
-				3FAF57DA2A4941BD006698B8 /* TraditionalBoardView.swift */,
-				3FAF57D82A49416B006698B8 /* SkyLineView.swift */,
-				3FAF57CE2A44EE52006698B8 /* BoardSpace.swift */,
-				3FAF57C02A44BC2B006698B8 /* InfinityGameBoard.swift */,
-				3FAF57BE2A44BBFE006698B8 /* ShootsAndLaddersBoard.swift */,
 			);
 			name = GameBoard;
 			sourceTree = "<group>";
@@ -153,9 +176,13 @@
 		3FAF57C42A44C096006698B8 /* Properties */ = {
 			isa = PBXGroup;
 			children = (
-				3FB0BFF42A4028B300173F66 /* PropertiesData.swift */,
+				3FAF57F82A4AA098006698B8 /* BoardSpace.swift */,
 				3FB0BFEA2A3DA5B900173F66 /* Property.swift */,
-				3FAF57DC2A4A5EE7006698B8 /* PropertyCard.swift */,
+				3FB0BFF42A4028B300173F66 /* PropertiesData.swift */,
+				3FAF57F62A4AA080006698B8 /* NonPropertySpaces.swift */,
+				3FAF57F22A4A9F8F006698B8 /* BuildableProperty.swift */,
+				3FAF57FA2A4AA16A006698B8 /* Railroad.swift */,
+				3FAF57F42A4A9F9C006698B8 /* Utility.swift */,
 			);
 			path = Properties;
 			sourceTree = "<group>";
@@ -186,6 +213,12 @@
 			isa = PBXGroup;
 			children = (
 				3FB0BFDC2A3D8EED00173F66 /* Player.swift */,
+				3FAF57E02A4A9407006698B8 /* PlayersData.swift */,
+				3FAF57EC2A4A9B42006698B8 /* Player+ProtocolConformance.swift */,
+				3FAF57EA2A4A9A31006698B8 /* Player+Development.swift */,
+				3FAF57E82A4A9924006698B8 /* Player+Money.swift */,
+				3FAF57E62A4A98CD006698B8 /* Player+Jail.swift */,
+				3FAF57E42A4A9875006698B8 /* Player+Movement.swift */,
 			);
 			name = Player;
 			sourceTree = "<group>";
@@ -199,11 +232,40 @@
 			name = GamePlay;
 			sourceTree = "<group>";
 		};
+		3FAF57EE2A4A9BE5006698B8 /* NonSpaces */ = {
+			isa = PBXGroup;
+			children = (
+				3FAF57D82A49416B006698B8 /* SkyLineView.swift */,
+				3FAF57E22A4A9724006698B8 /* MoneyUnderBoardView.swift */,
+			);
+			name = NonSpaces;
+			sourceTree = "<group>";
+		};
+		3FAF57EF2A4A9C08006698B8 /* CharacterSpaces */ = {
+			isa = PBXGroup;
+			children = (
+				3FAF57DA2A4941BD006698B8 /* TraditionalBoardView.swift */,
+				3FAF57C02A44BC2B006698B8 /* InfinityGameBoard.swift */,
+				3FAF57BE2A44BBFE006698B8 /* ShootsAndLaddersBoard.swift */,
+				3FAF57CE2A44EE52006698B8 /* CellSpace.swift */,
+			);
+			name = CharacterSpaces;
+			sourceTree = "<group>";
+		};
+		3FAF57FE2A4AA69B006698B8 /* Cards */ = {
+			isa = PBXGroup;
+			children = (
+				3FAF57DE2A4A9371006698B8 /* CardsData.swift */,
+				3FAF57D22A4940A1006698B8 /* Cards.swift */,
+			);
+			name = Cards;
+			sourceTree = "<group>";
+		};
 		3FB0BFA62A3D8C0E00173F66 = {
 			isa = PBXGroup;
 			children = (
 				3FAF57D42A494112006698B8 /* ViewExtensions.swift */,
-				3FAF57D62A494133006698B8 /* Helpers.swift */,
+				3FAF57FC2A4AA50A006698B8 /* ArrayExtensions.swift */,
 				3FB0BFF82A4196D400173F66 /* Icons.swift */,
 				3FAF57CC2A44DBBB006698B8 /* Background.swift */,
 				3FB0BFB12A3D8C0E00173F66 /* ClaraClaraGames */,
@@ -226,6 +288,7 @@
 		3FB0BFB12A3D8C0E00173F66 /* ClaraClaraGames */ = {
 			isa = PBXGroup;
 			children = (
+				3FAF57FE2A4AA69B006698B8 /* Cards */,
 				3FAF57C72A44C165006698B8 /* Player */,
 				3FAF57C62A44C0FD006698B8 /* Main */,
 				3FAF57C42A44C096006698B8 /* Properties */,
@@ -395,11 +458,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FB0BFEB2A3DA5B900173F66 /* Property.swift in Sources */,
-				3FAF57CF2A44EE52006698B8 /* BoardSpace.swift in Sources */,
+				3FAF57CF2A44EE52006698B8 /* CellSpace.swift in Sources */,
 				3FAF57D92A49416B006698B8 /* SkyLineView.swift in Sources */,
 				3FAF57DB2A4941BD006698B8 /* TraditionalBoardView.swift in Sources */,
+				3FAF57F72A4AA080006698B8 /* NonPropertySpaces.swift in Sources */,
 				3FB0BFF12A3EC33500173F66 /* GameBoardView.swift in Sources */,
+				3FAF57E92A4A9924006698B8 /* Player+Money.swift in Sources */,
+				3FAF57F52A4A9F9C006698B8 /* Utility.swift in Sources */,
 				3FAF57D32A4940A1006698B8 /* Cards.swift in Sources */,
+				3FAF57E12A4A9407006698B8 /* PlayersData.swift in Sources */,
+				3FAF57ED2A4A9B42006698B8 /* Player+ProtocolConformance.swift in Sources */,
 				3FAF57C12A44BC2B006698B8 /* InfinityGameBoard.swift in Sources */,
 				3FB0BFEF2A3EC0FD00173F66 /* DiceView.swift in Sources */,
 				3FB0BFF52A4028B300173F66 /* PropertiesData.swift in Sources */,
@@ -407,22 +475,30 @@
 				3FB0BFF92A4196D400173F66 /* Icons.swift in Sources */,
 				3FB0BFDD2A3D8EED00173F66 /* Player.swift in Sources */,
 				3FAF57CD2A44DBBB006698B8 /* Background.swift in Sources */,
+				3FAF57DF2A4A9371006698B8 /* CardsData.swift in Sources */,
 				3FB0BFE92A3DA31B00173F66 /* TradeModalView.swift in Sources */,
 				3FAF57DD2A4A5EE7006698B8 /* PropertyCard.swift in Sources */,
 				3FB0BFE52A3D93B100173F66 /* BaseModal.swift in Sources */,
 				3FB0BFF32A40276400173F66 /* ManagePropertiesModal.swift in Sources */,
+				3FAF57E52A4A9875006698B8 /* Player+Movement.swift in Sources */,
+				3FAF57F32A4A9F8F006698B8 /* BuildableProperty.swift in Sources */,
 				3FB0BFB32A3D8C0E00173F66 /* ClaraClaraGamesApp.swift in Sources */,
 				3FB0BFED2A3DB10900173F66 /* Dice.swift in Sources */,
 				3FB0BFE32A3D936E00173F66 /* GameplayFunctions.swift in Sources */,
+				3FAF57F12A4A9CAE006698B8 /* PlayerTokensView.swift in Sources */,
 				3FB0BFDF2A3D903200173F66 /* TurnModal.swift in Sources */,
 				3FAF57D52A494112006698B8 /* ViewExtensions.swift in Sources */,
-				3FAF57D12A45EAE2006698B8 /* CardsData.swift in Sources */,
+				3FAF57E32A4A9724006698B8 /* MoneyUnderBoardView.swift in Sources */,
+				3FAF57EB2A4A9A31006698B8 /* Player+Development.swift in Sources */,
 				3FB0BFE72A3D95D300173F66 /* Turn.swift in Sources */,
 				3FAF57BF2A44BBFE006698B8 /* ShootsAndLaddersBoard.swift in Sources */,
+				3FAF57E72A4A98CD006698B8 /* Player+Jail.swift in Sources */,
+				3FAF57FB2A4AA16A006698B8 /* Railroad.swift in Sources */,
+				3FAF57FD2A4AA50A006698B8 /* ArrayExtensions.swift in Sources */,
 				3FB0BFF72A4181B600173F66 /* Money.swift in Sources */,
-				3FAF57D72A494133006698B8 /* Helpers.swift in Sources */,
 				3FB0BFE12A3D931A00173F66 /* SetupModal.swift in Sources */,
 				3FAF57BD2A44B826006698B8 /* TradePropertyCard.swift in Sources */,
+				3FAF57F92A4AA098006698B8 /* BoardSpace.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

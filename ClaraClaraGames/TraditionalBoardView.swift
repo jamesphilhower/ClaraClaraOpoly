@@ -7,75 +7,114 @@ struct TraditionalGameBoardView: View {
     let horizontalSpaceRatio: CGFloat = 0.7 // Ratio of width for horizontal spaces
     let verticalSpaceRatio: CGFloat = 0.7 // Ratio of height for vertical spaces
     let geometry: GeometryProxy
-    @Binding  var cellCenters: [Int: CGPoint]
+    
+    @Binding   var cellCenters: [Int: CGPoint]
+    @Binding var rotationAngle: Double
     
     var body: some View {
         let cornerSize: CGSize = calculateCornerCellSize(geometry)
         let verticalSize: CGSize = calculateNonCornerCellSize(geometry, horizontal: false)
         let horizontalSize: CGSize = calculateNonCornerCellSize(geometry, horizontal: true)
         
-        VStack(spacing: 0) {
-            /// Top Row
-            HStack(spacing: 0) {
-                CellView(index: 20 , cellSize: cornerSize, vertical: false)
-                ForEach(Array(21..<30).reversed(), id: \.self) { index in
+        let topRowRange = 21..<30
+        let leftColumnRange = 11..<20
+        let rightColumnRange = 31..<40
+        let bottomRowRange = 1..<10
+        
+        let topRowHStack =
+        ZStack(alignment: .top){
+            BillsView(bills: calculateBills(for: 1349)).offset(y: 10)
+            
+            HStack( spacing: 0) {
+                
+                CellView(index: 30 , cellSize: cornerSize, vertical: false)
+                ForEach(Array(topRowRange).reversed(), id: \.self) { index in
                     CellView(index: index , cellSize: horizontalSize, vertical: false)
                 }
-                CellView(index: 30 , cellSize: cornerSize, vertical: false)
+                CellView(index: 20 , cellSize: cornerSize, vertical: false)
             }
-            .rotated(.degrees(180))
+        }
+        .rotated(.degrees(180))
+        
+        let leftColumnHStack =
+        
+        ZStack(alignment: .top){
+            BillsView(bills: calculateBills(for: 1349)).offset(y: 10)
             
             
-            HStack {
-                /// left column
-                HStack(spacing: 0) {
-                    
-                    ForEach(Array((11..<20).reversed()), id: \.self) { index in
-                        CellView(index: index , cellSize: verticalSize, vertical: true)
-                    }
+            HStack(spacing: 0) {
+                ForEach(Array(leftColumnRange).reversed(), id: \.self) { index in
+                    CellView(index: index , cellSize: verticalSize, vertical: true)
                 }
-                .rotated(.degrees(90))
-                
-                /// Center Opening
-                Spacer()
-                    .frame(width: verticalSize.height * 9, height: verticalSize.height * 9)
-                    .background(Color("Board"))
-                    .overlay(SkyLineView())
-                    .overlay(CardsView())
-                /// Right column
-                
-                HStack(spacing: 0) {
-                    
-                    ForEach(Array(31..<40).reversed(), id: \.self) { index in
-                        CellView(index: index , cellSize: verticalSize, vertical: true)
-                    }
-                }
-                .rotated(.degrees(-90))
-                
-            } // Add trailing padding to the right VStack
+            }
+        }
+        .rotated(.degrees(90))
+        
+        let rightColumnHStack =
+        ZStack(alignment: .top){
+            BillsView(bills: calculateBills(for: 1349)).offset(y: 10)
             
-            /// Bottom Row
+            HStack(spacing: 0) {
+                ForEach(Array(rightColumnRange).reversed(), id: \.self) { index in
+                    CellView(index: index , cellSize: verticalSize, vertical: true)
+                }
+            }
+        }
+        .rotated(.degrees(-90))
+        
+        let bottomRowHStack =
+        ZStack(alignment: .top){
+            BillsView(bills: calculateBills(for: 1349)).offset(y: 10)
+            
             HStack(spacing: 0) {
                 CellView(index: 10, cellSize: cornerSize, vertical: false)
-                ForEach(Array((1..<10).reversed()), id: \.self) { index in
+                ForEach(Array(bottomRowRange).reversed(), id: \.self) { index in
                     CellView(index: index , cellSize: horizontalSize, vertical: false)
                 }
                 CellView(index: 0, cellSize: cornerSize, vertical: false)
             }
         }
+        
+        
+        VStack(spacing: 0) {
+            topRowHStack
+            
+            HStack {
+                leftColumnHStack
+                Spacer()
+                    .frame(width: verticalSize.height * 9, height: verticalSize.height * 9)
+                    .background(Color("Board"))
+                    .overlay(SkyLineView())
+                    .overlay(CardsView(rotationAngle: rotationAngle))
+                rightColumnHStack
+            }
+            
+            bottomRowHStack
+        }
         .drawingGroup()
         .onAppear(){
-            cellCenters = generateCenters(rotationAngle: 180)
+            // Todo make this angle the same as below
+            // Todo make this angle a global so it changes automatically with turns
+            cellCenters = generateCenters(rotationAngle: Int(-rotationAngle))
         }
-        .cornerRadius(5)
-        .border(Color.black.opacity(0.5), width: 2)
-        .shadow(color: Color.black.opacity(0.5), radius: 5, x: 0, y: 2)
-        .rotated(.degrees(180))
+        .onChange(of: rotationAngle){ ang in
+            print(ang)
+            cellCenters = generateCenters(rotationAngle: Int(-rotationAngle))
+        }
+        .overlay(
+            RoundedRectangle(cornerRadius: 10)
+                .fill(.clear)
+                .frame(width: geometry.size.width - 18, height: geometry.size.width - 18)
+                .border(Color.black.opacity(0.5), width: 2)
+                .shadow(color: Color.black.opacity(0.5), radius: 5, x: 0, y: 2)
+        )
+        // Todo make this angle the same as above
+        .rotated(.degrees(-rotationAngle))
         .padding(.horizontal, 10)
         
     }
     
-    func calculateNonCornerCellSize(_ geometry: GeometryProxy, horizontal: Bool) -> CGSize {
+    private func calculateNonCornerCellSize(_ geometry: GeometryProxy, horizontal: Bool) -> CGSize {
         let padding = 10
         let availableWidth = geometry.size.width
         let availableHeight = geometry.size.height
@@ -95,7 +134,7 @@ struct TraditionalGameBoardView: View {
         }
     }
     
-    func calculateCornerCellSize(_ geometry: GeometryProxy) -> CGSize{
+    private func calculateCornerCellSize(_ geometry: GeometryProxy) -> CGSize{
         let padding = 10
         let availableWidth = geometry.size.width
         let availableHeight = geometry.size.height
@@ -108,15 +147,15 @@ struct TraditionalGameBoardView: View {
         return CGSize(width: width, height: height)
     }
     
-    
-    func generateCenters(rotationAngle: Int)->[Int: CGPoint]{
+    // Todo we need the centers to be saved and not recalculated from the beginning
+    private func generateCenters(rotationAngle: Int)->[Int: CGPoint]{
         
         let coordBase = geometry.frame(in: .global)
         let verticalSize: CGSize = calculateNonCornerCellSize(geometry, horizontal: false)
         let horizontalSize: CGSize = calculateNonCornerCellSize(geometry, horizontal: true)
         let cornerSize: CGSize = calculateCornerCellSize(geometry)
-        
-        var cellCenters: [Int: CGPoint] = [:] // Dictionary to store the centers of the cell views
+        // Todo make this a struct or some type
+        var cellCenters: [Int: CGPoint] = [:]
         
         func incrementBottomRight(_ increment: CGSize){
             if vertical {
@@ -197,37 +236,37 @@ struct TraditionalGameBoardView: View {
             addMidpoint()
             resetTopLeft()
         }
-        var updatedCenters: [Int: CGPoint] = [:] // Dictionary to store the updated cell centers
-
+        // Todo fill in with type from above
+        var updatedCenters: [Int: CGPoint] = [:]
         for (index, center) in cellCenters {
-                updatedCenters[index] = center
+            updatedCenters[index] = center
+        }
+        
+        // Apply rotation
+        switch rotationAngle {
+        case -270: // Rotate by 90 degrees
+            for (index, _) in cellCenters {
+                let newIndex = (index + 10) % 40
+                let newCenter = cellCenters[newIndex]
+                updatedCenters[index] = newCenter
             }
-            
-            // Apply rotation
-            switch rotationAngle {
-            case 90: // Rotate by 90 degrees
-                for (index, _) in cellCenters {
-                    let newIndex = (index + 10) % 39
-                    let newCenter = cellCenters[newIndex]
-                    updatedCenters[index] = newCenter
-                }
-            case 180: // Rotate by 180 degrees
-                for (index, _) in cellCenters {
-                    let newIndex = (index + 20) % 40
-                    let newCenter = cellCenters[newIndex]
-                    updatedCenters[index] = newCenter
-                }
-            case 270: // Rotate by 270 degrees
-                for (index, _) in cellCenters {
-                    let newIndex = (index + 30) % 39
-                    let newCenter = cellCenters[newIndex]
-                    updatedCenters[index] = newCenter
-                }
-            default:
-                break
+        case -180: // Rotate by 180 degrees
+            for (index, _) in cellCenters {
+                let newIndex = (index + 20) % 40
+                let newCenter = cellCenters[newIndex]
+                updatedCenters[index] = newCenter
             }
-            
-            return updatedCenters
+        case -90: // Rotate by 270 degrees
+            for (index, _) in cellCenters {
+                let newIndex = (index + 30) % 40
+                let newCenter = cellCenters[newIndex]
+                updatedCenters[index] = newCenter
+            }
+        default:
+            break
+        }
+        
+        return updatedCenters
     }
 }
 

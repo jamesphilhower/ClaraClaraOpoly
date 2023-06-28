@@ -100,7 +100,7 @@ struct SetupGameModalView: View {
                 Task {
 //                    print("button before task")
 //                    let firstPlayerIndex = await decideWhoGoesFirst(players: playersData.players)
-                    currentPlayerIndex = 1
+                    currentPlayerIndex = 0
 
                     //currentPlayerIndex = firstPlayerIndex
 
@@ -142,7 +142,7 @@ struct SetupGameModalView: View {
                     Task {
                         //                    print("button before task")
                         //                    let firstPlayerIndex = await decideWhoGoesFirst(players: playersData.players)
-                        currentPlayerIndex = 1
+                        currentPlayerIndex = 0
                         
                         //currentPlayerIndex = firstPlayerIndex
                         

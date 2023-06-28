@@ -64,8 +64,17 @@ struct PlayerTurnModalView: View {
         
         let currentPlayer = playersData.players[currentPlayerIndex]
         
-        let buttons: [String: PlayerTurnButton<Text>] = [
-            "Trade": PlayerTurnButton(
+        let buttons: [PlayerTurnButton<Text>] = [
+            PlayerTurnButton(
+                isEnabled: !hasRolled || currentPlayer.consecutiveTurnsInJail >= 3,
+                action: {
+                    currentPlayerAction = .roll
+                },
+                content: {
+                    Text("Roll")
+                }
+            ),
+            PlayerTurnButton(
                 isEnabled: true,
                 action: {
                     currentPlayerAction = .trade
@@ -74,7 +83,7 @@ struct PlayerTurnModalView: View {
                     Text("Trade")
                 }
             ),
-            "ManageProperties": PlayerTurnButton(
+            PlayerTurnButton(
                 isEnabled: currentPlayer.ownsProperties,
                 action: {
                     currentPlayerAction = .manageProperties
@@ -83,30 +92,10 @@ struct PlayerTurnModalView: View {
                     Text("Manage Properties")
                 }
             ),
-            "Roll": PlayerTurnButton(
-                isEnabled: !hasRolled || currentPlayer.consecutiveTurnsInJail >= 3,
-                action: {
-                    // Implement roll action logic using the provided player instance
-                    currentPlayerAction = .roll
-//                    hasRolled = true
-//                    if currentPlayer.inJail {
-//                        playersData.players[currentPlayerIndex].consecutiveTurnsInJail += 1
-//                        if currentPlayer.consecutiveTurnsInJail >= 3 {
-//                            playersData.players[currentPlayerIndex].goToJail()
-//                            endTurnAndShowPopup()
-//                        }
-//                    }
-                    
-                },
-                content: {
-                    Text("Roll")
-                }
-            ),
-            "PayToGetOutOfJail": PlayerTurnButton(
+            PlayerTurnButton(
                 isEnabled: currentPlayer.inJail,
                 action: {
                     currentPlayerAction = .payToGetOutOfJail
-                    // Reset consecutive jail turns and isPlayerInJail flag
                     playersData.players[currentPlayerIndex].consecutiveTurnsInJail = 0
                     playersData.players[currentPlayerIndex].inJail = false
                     playersData.players[currentPlayerIndex].payToGetOutOfJail()
@@ -115,7 +104,7 @@ struct PlayerTurnModalView: View {
                     Text("Pay to Get Out of Jail")
                 }
             ),
-            "UseGetOutOfJailFreeCard": PlayerTurnButton(
+            PlayerTurnButton(
                 isEnabled: currentPlayer.inJail && currentPlayer.getOutOfJailCards > 0,
                 action: {
                     currentPlayerAction = .useGetOutOfJailFreeCard
@@ -127,7 +116,7 @@ struct PlayerTurnModalView: View {
                     Text("Use Get Out of Jail Free Card")
                 }
             ),
-            "EndTurn": PlayerTurnButton(
+            PlayerTurnButton(
                 isEnabled: (currentPlayer.inJail && currentPlayer.consecutiveTurnsInJail < 3 && hasRolled) || (!currentPlayer.inJail && hasRolled),
                 action: {
                     hasRolled = false
@@ -140,16 +129,20 @@ struct PlayerTurnModalView: View {
                 }
             )
         ]
+
         
         if !hideAll {
 //            BaseModalView {
                 ZStack {
-                    VStack {
+                    VStack(spacing:-20) {
                         Text("Current Player: \(currentPlayer.name)")
                         
-                        ForEach(buttons.filter { $0.value.isEnabled }, id: \.key) { key, button in
-                            button
+                        ForEach(buttons.indices) { index in
+                            if buttons[index].isEnabled {
+                                buttons[index]
+                            }
                         }
+                        
                     }.disabled(currentPlayerAction != .none)
                     
                     switch currentPlayerAction {
@@ -165,32 +158,43 @@ struct PlayerTurnModalView: View {
                                 hideAll = true
 
                                 let rolls = await diceAnimation.startDiceAnimationWrapper(isTwoDice: true)
-                                hasRolled = true
                                 let r1 = rolls[0]
                                 let r2 = rolls[1]
                                 if r1 == r2 {
                                     print("DOUBLES")
-                                    hasRolled = false
                                     doublesInARow += 1
 
                                     if doublesInARow >= 3 {
                                         playersData.players[currentPlayerIndex].goToJail()
                                     }
+                                } else {
+                                    hasRolled = true
                                 }
                                 
 
                                 await currentPlayer.move(spaces: r1 + r2)
-
+                                
                                 print("done moving, now gonna wait a sec")
                                 do {
-                                    try  await Task.sleep(nanoseconds: 1_000_000_000)
+                                    try  await Task.sleep(nanoseconds: 500_000_000)
                                 }catch{
                                     print("oopsie tehre")
 
                                 }
-                                
-                                await currentPlayer.executeCards()
 
+                                
+                                await currentPlayer.handleLandingOnSpace(roll: r1 + r2)
+
+//
+//                                //await currentPlayer.executeCards()
+                                print("waiting to force draw a card")
+                                do {
+                                    try  await Task.sleep(nanoseconds: 1500_000_000)
+                                }catch{
+                                    print("oopsie tehre")
+
+                                }
+                                await currentPlayer.drawCard(Int.random(in: 0...10) < 5 ? "chance" : "chest")
                                
                                 hideAll = false
 
