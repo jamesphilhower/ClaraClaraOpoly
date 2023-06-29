@@ -5,6 +5,7 @@ struct CellView: View {
     
     @ObservedObject var property: BoardSpace
     var cellSize: CGSize
+    @Binding var rotationAngle: Double
     var index: Int
     
     var body: some View {
@@ -55,7 +56,7 @@ struct CellView: View {
             GeometryReader { geometry in
                 VStack(spacing: 0) {
                     VStack(spacing: 0) {
-                        PlayersOnLocation(index: index, cellSize: cellSize)
+                        PlayersOnLocation(index: index, cellSize: cellSize, rotationAngle: $rotationAngle)
                     }
                     .frame(width:  cellSize.width, height:  cellSize.height)
                 }
@@ -86,6 +87,7 @@ struct CellView: View {
     // todo will probably deprecate this... shouldn't have spent forever on it
     struct PlayersOnLocation: View {
         @EnvironmentObject var playersData: PlayersData
+
         // Calculate the player size based on the number of players
         private func calculatePlayerSize(cellSize: CGFloat) -> CGFloat {
             let playerSize = cellSize * 0.25 * 0.7
@@ -97,7 +99,7 @@ struct CellView: View {
             var xOffset:CGFloat = 0
             var yOffset:CGFloat = 0
             if totalPlayers == 1{
-                return CGSize(width: xOffset, height: yOffset)
+                return CGSize(width: xOffset, height: 7)
                 
             }
             let rowIndex = playerIndex / rowCapacity
@@ -106,8 +108,14 @@ struct CellView: View {
             if totalPlayers == 2 {
                 let spacing = 0.2 * ( cellHeight == cellWidth ? cellHeight * 0.7 : min(cellHeight, cellWidth) )
                 if colIndex == 1 {
-                    // undo VStack
-                    yOffset -= playerSize
+                    xOffset += spacing
+                } else {
+                    // shift left of center
+                    xOffset -= spacing
+                }
+            } else if totalPlayers == 3 || totalPlayers == 4 {
+                let spacing = 0.2 * ( cellHeight == cellWidth ? cellHeight * 0.7 : min(cellHeight, cellWidth) )
+                if colIndex == 1 {
                     // shift right of center
                     xOffset += spacing
                 } else {
@@ -117,55 +125,56 @@ struct CellView: View {
                 if rowIndex == 0 {
                     // shift vertically down
                     yOffset += spacing
-                }
-            } else if totalPlayers == 3 {
-                let spacing = 0.2 * ( cellHeight == cellWidth ? cellHeight * 0.7 : min(cellHeight, cellWidth) )
-                if colIndex == 1 {
-                    // undo VStack
-                    yOffset -= playerSize
-                    // shift right of center
-                    xOffset += spacing
                 } else {
-                    // shift left of center
-                    xOffset -= spacing
+                    yOffset -= spacing
                 }
             }
-            else if totalPlayers == 4 {
-                let horizontalSpacing = 0.2 * ( cellHeight == cellWidth ? cellHeight * 0.7 : min(cellHeight, cellWidth) )
-                if colIndex == 1 {
-                    // undo VStack
-                    yOffset -= playerSize
-                    // shift right of center
-                    xOffset += horizontalSpacing
-                } else {
-                    // shift left of center
-                    xOffset -= horizontalSpacing
-                }
-                yOffset += playerSize / 2
-                
-            }
+           
             return CGSize(width: xOffset, height: yOffset)
         }
         let index: Int
         
+        
         let cellSize: CGSize
+        @Binding var rotationAngle: Double
+
         
         var body: some View {
-            let playersOnLocation = playersData.players.filter {$0.location == index }
-            ForEach(playersOnLocation.indices, id: \.self) { playerIndex in
-                let  width = calculatePlayerSize(cellSize: max(cellSize.width, cellSize.height))
-                let height = calculatePlayerSize(cellSize: max(cellSize.width, cellSize.height))
-                let offset = calculatePlayerOffset(
-                    playerIndex,
-                    totalPlayers: playersOnLocation.count,
-                    playerSize: width, cellWidth: cellSize.width, cellHeight : cellSize.height)
-                
-                
-                Circle()
-                    .fill(playersData.players[playerIndex].color)
-                    .frame(width: width, height: height)
-                    .offset(x: offset.width, y: offset.height)
-                
+            ZStack {
+                let playersOnLocation = playersData.players.filter {$0.location == index }
+                ForEach(playersOnLocation.indices, id: \.self) { playerIndex in
+                    let  width = calculatePlayerSize(cellSize: max(cellSize.width, cellSize.height))
+
+                    let offset = calculatePlayerOffset(
+                        playerIndex,
+                        totalPlayers: playersOnLocation.count,
+                        playerSize: width, cellWidth: cellSize.width, cellHeight : cellSize.height)
+                    
+                    let skiOptions = ["figure.skiing.crosscountry","figure.elliptical","figure.skiing.downhill"]
+                    
+                    let stretchOptions =
+                    ["figure.cooldown", "figure.flexibility", "figure.dance"]
+                    
+                    let danceOptions = [
+                        "figure.boxing", "figure.dance", "figure.strengthtraining"]
+                    
+                    Image(systemName: "figure.run")
+                        .modifier(flipAndRotateModifier(for: index, rotationAngle: rotationAngle))
+                        .foregroundColor(playersData.players[playersOnLocation[playerIndex].id].color)
+                        .background(
+                            Circle()
+                                .fill(Color.white)
+                                .frame(width: 17)
+                                .overlay(
+                                    Circle()
+                                        .stroke(playersData.players[playersOnLocation[playerIndex].id].color, lineWidth: 2)
+                                )
+                        )
+
+                        .font(.system(size: 16))
+                        .offset(x: offset.width, y: offset.height)
+                    
+                }
             }
         }
     }

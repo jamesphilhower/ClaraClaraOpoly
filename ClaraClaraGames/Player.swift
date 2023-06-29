@@ -10,7 +10,10 @@ class Player: Identifiable, Equatable, ObservableObject, Hashable {
     // Todo do AI
     var isAI: Bool
     // Todo either let people pick, assign, or switch to / add symbols
-    var color: Color = .blue
+    var color: Color = Color(red: Double.random(in: 0...1),
+                             green: Double.random(in: 0...1),
+                             blue: Double.random(in: 0...1))
+    var iconName: String
 
 
     @Published var cardData: CardsData
@@ -20,7 +23,7 @@ class Player: Identifiable, Equatable, ObservableObject, Hashable {
     @Published var inJail: Bool
     @Published var ownsProperties: Bool
     
-    init(playersData: PlayersData, cards: CardsData, propertiesData: PropertiesData, id: Int, name: String, isAI: Bool) {
+    init(playersData: PlayersData, cards: CardsData, propertiesData: PropertiesData, id: Int, name: String, isAI: Bool, iconName: String) {
         self.playersData = playersData
         self.cardData = cards
         self.propertiesData = propertiesData
@@ -33,6 +36,7 @@ class Player: Identifiable, Equatable, ObservableObject, Hashable {
         self.location = 0
         self.inJail = false
         self.ownsProperties = true //Todo false
+        self.iconName = iconName
     }
     
     func drawCard(_ type: String) async {

@@ -49,10 +49,10 @@ struct GameBoardView: View {
                             }
                             
                         }
-                        .overlay(
-                            // 40 from 30 used in offset for money bills (this file, above) and 10 for padding (in TraditionalGameBoardView)
-                            PlayerTokensView(playersData: playersData, cellCenters: $cellCenters).offset(y: 40)
-                        )
+//                        .overlay(
+//                            // 40 from 30 used in offset for money bills (this file, above) and 10 for padding (in TraditionalGameBoardView)
+//                            PlayerTokensView(playersData: playersData, cellCenters: $cellCenters, rotationAngle: $rotationAngle).offset(y: 40)
+//                        )
                         .overlay(DiceView().offset(y: -100))
                         .shadow(radius: 1)
                         .cornerRadius(3)

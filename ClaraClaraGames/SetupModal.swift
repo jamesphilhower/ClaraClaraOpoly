@@ -6,8 +6,12 @@ struct SetupGameModalView: View {
     @Binding var playersCount: Int
     @Binding var gameBoard: String
     @Binding var playerNames: [String]
+    @Binding var playerIcons: [String]
     @Binding var currentPlayerIndex: Int
     @Binding var modalType: ModalType
+    @State private var playerNames: [String] = ["James", "Clara", "Bart", "Earl"]
+    @State private var playerIcons: [String] = ["figure.run", "figure.climbing", "figure.run", "figure.run"]
+
     @EnvironmentObject var playersData: PlayersData
     @EnvironmentObject var propertiesData: PropertiesData
     @EnvironmentObject var cards: CardsData
@@ -22,7 +26,7 @@ struct SetupGameModalView: View {
         for index in 0..<playersCount {
             let playerName = playerNames[index]
             let isAI = isAISelectionEnabled[index]
-            let player = Player(playersData: playersData, cards: cards, propertiesData: propertiesData, id: index, name: playerName, isAI: isAI)
+            let player = Player(playersData: playersData, cards: cards, propertiesData: propertiesData, id: index, name: playerName, isAI: isAI, iconName: playerIcons[index])
             players.append(player)
         }
         return players

@@ -16,7 +16,6 @@ struct GameView: View {
     
     @State private var playersCount: Int = 0
     @State private var gameBoard: String = "Traditional"
-    @State private var playerNames: [String] = ["James", "Clara", "Bart", "Earl"]
     
     @State private var diceRoll: Int = 0
     @State private var consecutiveDoubles: Int = 0
@@ -32,7 +31,7 @@ struct GameView: View {
     }
     
     func setupNewGame() {
-        playersCount = 2
+        playersCount = 4
         isShowingModal = true
         modalType = .setupGame
     }
@@ -83,8 +82,6 @@ struct GameView: View {
                             isShowingModal: $isShowingModal,
                             playersCount: $playersCount,
                             gameBoard: $gameBoard,
-                            playerNames: $playerNames,
-                            currentPlayerIndex: $players.currentPlayerIndex,
                             modalType: $modalType
                         )
                         
