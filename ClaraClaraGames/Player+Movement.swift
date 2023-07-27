@@ -50,23 +50,23 @@ extension Player {
             print("player in jail, not moving")
             return
         }
-        var totalDuration: Double = 9
-//
-//        switch spaces {
-//        case 0...4:
-//            totalDuration = 1
-//        case 5...10:
-//            totalDuration = 1.5
-//        case 11...20:
-//            totalDuration = 2
-//        case 20...30:
-//            totalDuration = 2.5
-//        case 30...40:
-//            totalDuration = 3
-//        default:
-//            totalDuration = 1
-//
-//        }
+        var totalDuration: Double
+
+        switch spaces {
+        case 0...4:
+            totalDuration = 1
+        case 5...10:
+            totalDuration = 1.5
+        case 11...20:
+            totalDuration = 2
+        case 20...30:
+            totalDuration = 2.5
+        case 30...40:
+            totalDuration = 3
+        default:
+            totalDuration = 1
+
+        }
         
         let sleepInterval = totalDuration / Double(spaces)
         

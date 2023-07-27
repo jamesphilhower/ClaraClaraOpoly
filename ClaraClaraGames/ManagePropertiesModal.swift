@@ -38,7 +38,6 @@ struct ManagePropertiesModal: View {
 struct PropertyCard: View {
     @EnvironmentObject var propertiesData: PropertiesData
     @ObservedObject var property: Property
-    // This will need to be observable ified like the property was
     @ObservedObject var currentPlayer: Player
     
     var body: some View {

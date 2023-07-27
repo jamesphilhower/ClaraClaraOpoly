@@ -5,8 +5,6 @@ struct SetupGameModalView: View {
     @Binding var isShowingModal: Bool
     @Binding var playersCount: Int
     @Binding var gameBoard: String
-    @Binding var playerNames: [String]
-    @Binding var playerIcons: [String]
     @Binding var currentPlayerIndex: Int
     @Binding var modalType: ModalType
     @State private var playerNames: [String] = ["James", "Clara", "Bart", "Earl"]

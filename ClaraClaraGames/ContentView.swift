@@ -42,46 +42,51 @@ struct GameView: View {
             WoodGrainBackground(maxRotation: 2.0, maxRandomness: 10)
                 .edgesIgnoringSafeArea(.all)
             
+
             GameBoardView(selectedGameBoard: gameBoard)
                 .edgesIgnoringSafeArea(.horizontal)
 
-            
-            VStack {
-                Spacer(minLength: 10)
-//                
-//                ScrollView(.horizontal) {
-//                    HStack(spacing: 0) {
-//                        ForEach(propertiesData.properties.reduce(into: [:]) { result, property in
-//                            result[property.group, default: []].append(property)
-//                        }.sorted(by: { $0.key < $1.key }), id: \.key) { group, groupProperties in
-//                            let playerOwnedProperties = groupProperties.filter { property in
-//                                property.owner == players.players[safe: players.currentPlayerIndex]
-//                            }
-//                            
-//                            ZStack {
-//                                ForEach(playerOwnedProperties.indices, id: \.self) { index in
-//                                    let property = playerOwnedProperties[index]
-//                                    PropertyCardView(property: property)
-//                                        .offset(x: CGFloat(index * 4), y: CGFloat(index * 4))
-//                                        
-//                                }
-//                            }
-//                            .onTapGesture {
-//                                tappedGroup = group
-//                            }
-//                            .padding(EdgeInsets(top: 0, leading: 0, bottom: CGFloat(playerOwnedProperties.count * 4), trailing: CGFloat(playerOwnedProperties.count * 4)))
-//                        }
-//                    }
-//                }
-//                .frame(minWidth: UIScreen.main.bounds.width, alignment: .leading)
 
+            // The padding on this scrollview also impacts the padding of the gameboard due to parent sizing and use of UIScreen
+                
+                ScrollView(.horizontal) {
+                    HStack(spacing: 0) {
+                        ForEach(propertiesData.properties.reduce(into: [:]) { result, property in
+                            result[property.group, default: []].append(property)
+                        }.sorted(by: { $0.key < $1.key }), id: \.key) { group, groupProperties in
+                            let playerOwnedProperties = groupProperties.filter { property in
+                                property.owner == players.players[safe: players.currentPlayerIndex]
+                            }
+                            
+                            ZStack {
+                                ForEach(playerOwnedProperties.indices, id: \.self) { index in
+                                    let property = playerOwnedProperties[index]
+                                    PropertyCardView(property: property)
+                                        .offset(x: CGFloat(index * 4), y: CGFloat(index * 4))
+                                        
+                                }
+                            }
+                            .onTapGesture {
+                                tappedGroup = group
+                            }
+                            .padding(EdgeInsets(top: 0, leading: 0, bottom: CGFloat(playerOwnedProperties.count * 4), trailing: CGFloat(playerOwnedProperties.count * 4)))
+                        }
+                    }.padding(.horizontal)
+                }
+                .frame(minWidth: UIScreen.main.bounds.width, alignment: .leading)
+                .padding()
+                .position(x:  UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height * 0.65)
+                
+   
+            VStack {
+                Spacer(minLength: 30)
                 if isShowingModal {
                     switch modalType {
                     case .setupGame:
                         SetupGameModalView(
                             isShowingModal: $isShowingModal,
                             playersCount: $playersCount,
-                            gameBoard: $gameBoard,
+                            gameBoard: $gameBoard, currentPlayerIndex: $players.currentPlayerIndex,
                             modalType: $modalType
                         )
                         
@@ -108,8 +113,8 @@ struct GameView: View {
 
                     }
                     
-                    GroupAlignmentView(tappedGroup: $tappedGroup, playerOwnedProperties: playerOwnedProperties)
-                }
+                GroupAlignmentView(tappedGroup: $tappedGroup, playerOwnedProperties: playerOwnedProperties)
+            }
         }
         .onAppear {
             print("GameView appeared")
@@ -141,38 +146,49 @@ struct GroupAlignmentView: View {
     
     var body: some View {
         ZStack {
-            ForEach(groupedProperties.keys.sorted(), id: \.self) { group in
-                VStack(spacing: 8) {
-                    ForEach(groupedProperties[group]!.indices, id: \.self) { index in
-                        let property = groupedProperties[group]![index]
-                        PropertyCardView(property: property)
-                            .scaleEffect(tappedGroup == group ? 1.1 : 1)
-                            .animation(.easeInOut)
-                            .onTapGesture {
-                                tappedGroup = property.group
-                            }
-                    }
-                }
-                .padding()
-                .background(Color.white)
-                .cornerRadius(10)
-                .shadow(radius: 3)
-                .opacity(tappedGroup == group ? 1 : 0)
-                .zIndex(tappedGroup == group ? 1 : 0)
-            }
+           
             
-            if let tappedGroup = tappedGroup {
+        Rectangle()
+            .fill(Color.clear)
+            .overlay(
                 Rectangle()
-                    .fill(Color.clear)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color.black.opacity(0.5))
-                    )
-                    .edgesIgnoringSafeArea(.all)
+                    .fill(Color.black.opacity(0.5))
+            )
+            .edgesIgnoringSafeArea(.all)
+            .onTapGesture {
+                self.tappedGroup = nil
+            }
+
+            if let group = tappedGroup as? String {
+
+                VStack{
+                    Spacer()
+                    ScrollView{
+                        VStack(spacing: 30) {
+                            ForEach(groupedProperties[group]!.indices, id: \.self) { index in
+                                let property = groupedProperties[group]![index]
+                                DetailedPropertyCardView(property: property)
+                                    .animation(.easeInOut)
+                                
+                            }
+                        }
+                    }
+                    .padding()
+                    .cornerRadius(10)
+                    .shadow(radius: 3)
                     .onTapGesture {
                         self.tappedGroup = nil
                     }
+                    Spacer()
+
+                }
+                
+                
             }
+            
+            
+                
+                
         }
     }
 }

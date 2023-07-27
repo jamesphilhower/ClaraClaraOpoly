@@ -8,8 +8,8 @@ class Railroad: Property {
             purchasePrice: 200,
             group: "rr",
             isMortgaged: isMortgaged,
-            mortgageValue: 0,
-            unMortgageCost: 0,
+            mortgageValue: 100,
+            unMortgageCost: 110,
             baseRent: 25,
             iconName: iconName,
             color: .black

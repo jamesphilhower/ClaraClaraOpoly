@@ -16,7 +16,7 @@ class DiceAnimationData: ObservableObject {
     func startDiceAnimationWrapper(isTwoDice: Bool = true) async -> [Int] {
         self.isTwoDice = isTwoDice
         let results = await startDiceAnimation()
-        return [19, 21]//results
+        return results
     }
     /// Todo prevent from starting two dice rolls at the same time
     @MainActor
